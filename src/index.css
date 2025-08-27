@@ -113,6 +113,7 @@
     --input: 215 25% 12%;
     --input-border: 215 25% 25%;
     --ring: 215 35% 45%;
+  }
 }
 
 @layer base {
