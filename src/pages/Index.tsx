@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { 
   Search, Settings, Moon, Sun, Wrench, Calculator, Palette, FileText, Clock, Globe, Star, 
   Ruler, Binary, Thermometer, Type, FileCode, Hash, BarChart3, Receipt, Coins, DollarSign, 
@@ -8,7 +8,7 @@ import {
   Smartphone, Monitor, Camera, FileText as FileIcon, Music, Video, Archive, Lock, Unlock,
   RotateCcw, Copy, Plus, Minus, Divide, Percent, Hash as HashIcon, Infinity, Zap as ZapIcon,
   ArrowLeft, Link, Image, Square, Play, Move, Edit3, RefreshCw, Bell, Coffee, Droplets, Shield,
-  Volume2, Box, Gauge, HardDrive, ChefHat, Footprints, Shirt, Fuel, PiggyBank
+  Volume2, Box, Gauge, HardDrive, ChefHat, Footprints, Shirt, Fuel, PiggyBank, X
 } from "lucide-react";
 
 // Import all existing tools
@@ -55,6 +55,9 @@ import { CSSBoxShadowGenerator } from "@/components/tools/CSSBoxShadowGenerator"
 import { BorderRadiusGenerator } from "@/components/tools/BorderRadiusGenerator";
 import { ToDoListManager } from "@/components/tools/ToDoListManager";
 import { RandomGenerator } from "@/components/tools/RandomGenerator";
+import { ToolCard } from "@/components/ui/tool-card";
+import { EnhancedSelect, SelectOption } from "@/components/ui/enhanced-select";
+import { Checkbox } from "@/components/ui/checkbox";
 
 // Tool definitions with categories - 100+ tools total
 const tools = [
@@ -234,7 +237,9 @@ const categories = [
 const Index = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedTool, setSelectedTool] = useState<string | null>(null);
-  const [selectedCategory, setSelectedCategory] = useState<string>('All');
+  const [selectedCategory, setSelectedCategory] = useState<string>('all');
+  const [sortBy, setSortBy] = useState<string>('name');
+  const [advancedSearch, setAdvancedSearch] = useState<boolean>(false);
   const [favorites, setFavorites] = useState<string[]>(() => {
     const saved = localStorage.getItem('rabwa-favorites');
     return saved ? JSON.parse(saved) : [];
@@ -244,14 +249,98 @@ const Index = () => {
     return saved === 'dark';
   });
 
+
+
   const filteredTools = useMemo(() => {
-    return tools.filter(tool => {
-      const matchesSearch = tool.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                           tool.description.toLowerCase().includes(searchTerm.toLowerCase());
-      const matchesCategory = selectedCategory === 'All' || tool.category === selectedCategory;
+    let filtered = tools.filter(tool => {
+      // Category filter - هذا هو الجزء المهم!
+      const matchesCategory = selectedCategory === 'all' || tool.category === selectedCategory;
+      
+      // If no search term, just filter by category
+      if (!searchTerm.trim()) {
+        return matchesCategory;
+      }
+      
+      // Smart search with multiple criteria
+      const searchLower = searchTerm.toLowerCase();
+      const nameLower = tool.name.toLowerCase();
+      const descLower = tool.description.toLowerCase();
+      const categoryLower = tool.category.toLowerCase();
+      
+      // Exact matches get highest priority
+      if (nameLower === searchLower || descLower === searchLower) {
+        return matchesCategory;
+      }
+      
+      // Starts with search term
+      if (nameLower.startsWith(searchLower) || descLower.startsWith(searchLower)) {
+        return matchesCategory;
+      }
+      
+      // Contains search term in name, description, or category
+      let matchesSearch = nameLower.includes(searchLower) ||
+                         descLower.includes(searchLower) ||
+                         categoryLower.includes(searchLower);
+      
+      // Advanced search: also search in keywords and related terms
+      if (advancedSearch && searchLower.length > 2) {
+        // Split search into words for better matching
+        const searchWords = searchLower.split(/\s+/).filter(word => word.length > 1);
+        
+        // Check if all search words are found in any field
+        const allWordsMatch = searchWords.every(word => 
+          nameLower.includes(word) ||
+          descLower.includes(word) ||
+          categoryLower.includes(word)
+        );
+        
+        if (allWordsMatch) {
+          matchesSearch = true;
+        }
+        
+        // Fuzzy search for similar words
+        const fuzzyMatch = searchWords.some(word => {
+          const wordLength = word.length;
+          const minLength = Math.max(3, Math.floor(wordLength * 0.7));
+          
+          return nameLower.split(/\s+/).some(nameWord => 
+            nameWord.length >= minLength && 
+            (nameWord.includes(word) || word.includes(nameWord))
+          );
+        });
+        
+        if (fuzzyMatch) {
+          matchesSearch = true;
+        }
+      }
+      
       return matchesSearch && matchesCategory;
     });
-  }, [searchTerm, selectedCategory]);
+
+    // Sort tools based on selection
+    filtered.sort((a, b) => {
+      switch (sortBy) {
+        case 'name':
+          return a.name.localeCompare(b.name);
+        case 'name-desc':
+          return b.name.localeCompare(a.name);
+        case 'category':
+          return a.category.localeCompare(b.category);
+        case 'popularity':
+          // Sort by favorites count (if available) or alphabetically
+          const aFavorites = favorites.includes(a.id) ? 1 : 0;
+          const bFavorites = favorites.includes(b.id) ? 1 : 0;
+          if (aFavorites !== bFavorites) {
+            return bFavorites - aFavorites;
+          }
+          return a.name.localeCompare(b.name);
+        default:
+          return 0;
+      }
+    });
+
+    return filtered;
+  }, [searchTerm, selectedCategory, sortBy, favorites, advancedSearch]);
 
   const toggleFavorite = (toolId: string) => {
     const newFavorites = favorites.includes(toolId) 
@@ -267,6 +356,28 @@ const Index = () => {
     localStorage.setItem('rabwa-theme', newTheme ? 'dark' : 'light');
     document.documentElement.classList.toggle('dark', newTheme);
   };
+
+  // Keyboard shortcuts for search
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      // Ctrl/Cmd + K to focus search
+      if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+        e.preventDefault();
+        const searchInput = document.querySelector('input[placeholder*="Search"]') as HTMLInputElement;
+        if (searchInput) {
+          searchInput.focus();
+        }
+      }
+      
+      // Escape to clear search
+      if (e.key === 'Escape' && searchTerm) {
+        setSearchTerm('');
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [searchTerm]);
 
   const selectedToolData = selectedTool ? tools.find(t => t.id === selectedTool) : null;
 
@@ -285,21 +396,29 @@ const Index = () => {
                 <h1 className="text-2xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
                   RabwaTools
                 </h1>
-                <p className="text-sm text-muted-foreground">100+ Professional Tools</p>
+                <p className="text-sm text-muted-foreground">145+ Professional Tools</p>
               </div>
-            </div>
+          </div>
 
-            {/* Search Bar */}
+          {/* Search Bar */}
             <div className="flex-1 max-w-md mx-8">
               <div className="relative">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
-                <input
-                  type="text"
-                  placeholder="Search tools..."
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
+            <input
+              type="text"
+                  placeholder="Quick search (⌘K to focus)..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
                   className="w-full pl-10 pr-4 py-2 bg-background border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
-                />
+            />
+                {searchTerm && (
+            <button
+                    onClick={() => setSearchTerm('')}
+                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+                  >
+                    <X className="w-4 h-4" />
+            </button>
+                )}
               </div>
             </div>
 
@@ -324,84 +443,250 @@ const Index = () => {
       <main className="container mx-auto px-4 py-8">
         {!selectedTool ? (
           <>
-            {/* Category Tabs */}
+            {/* Advanced Search Section */}
+            <div className="mb-8 bg-card border border-border rounded-lg p-6 shadow-sm">
+              <div className="flex flex-col lg:flex-row gap-6">
+                {/* Search Input */}
+                <div className="flex-1">
+                  <label className="block text-sm font-medium text-muted-foreground mb-2">
+                    Search Tools
+                  </label>
+                  <div className="relative">
+                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
+                    <input
+                      type="text"
+                      placeholder="Search by name, description, category, or keywords... (⌘K)"
+                      value={searchTerm}
+                      onChange={(e) => setSearchTerm(e.target.value)}
+                      className="w-full pl-10 pr-4 py-3 bg-background border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                    />
+                    {searchTerm && (
+              <button
+                        onClick={() => setSearchTerm('')}
+                        className="absolute right-3 top-1/2 transform -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+              >
+                        <X className="w-4 h-4" />
+              </button>
+                    )}
+                    
+                    {/* Smart Search Suggestions */}
+                    {searchTerm && searchTerm.length > 1 && (
+                      <div className="absolute top-full left-0 right-0 mt-1 bg-card border border-border rounded-lg shadow-lg z-50 max-h-60 overflow-y-auto">
+                        {tools
+                          .filter(tool => {
+                            const searchLower = searchTerm.toLowerCase();
+                            const nameLower = tool.name.toLowerCase();
+                            const descLower = tool.description.toLowerCase();
+                            const categoryLower = tool.category.toLowerCase();
+                            
+                            return nameLower.includes(searchLower) ||
+                                   descLower.includes(searchLower) ||
+                                   categoryLower.includes(searchLower);
+                          })
+                          .slice(0, 8)
+                          .map((tool) => (
+                            <button
+                              key={tool.id}
+                              onClick={() => {
+                                setSearchTerm(tool.name);
+                                setSelectedCategory(tool.category);
+                              }}
+                              className="w-full px-4 py-3 text-left hover:bg-muted transition-colors border-b border-border last:border-b-0"
+                            >
+              <div className="flex items-center gap-3">
+                                <tool.icon className="w-5 h-5 text-primary" />
+                                <div className="flex-1">
+                                  <div className="font-medium text-foreground">{tool.name}</div>
+                                  <div className="text-sm text-muted-foreground">{tool.category}</div>
+                                </div>
+                              </div>
+                            </button>
+                          ))}
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                {/* Search Filters */}
+                <div className="flex flex-col sm:flex-row gap-4">
+                  {/* Category Filter */}
+                  <div className="min-w-[200px]">
+                    <EnhancedSelect
+                      label="Category"
+                      options={[
+                        { value: 'all', label: 'All Categories', icon: Globe },
+                        ...categories.map(category => ({
+                          value: category.name,
+                          label: category.name,
+                          icon: category.icon,
+                          count: category.count
+                        }))
+                      ]}
+                      value={selectedCategory}
+                      onChange={setSelectedCategory}
+                      placeholder="Select category"
+                      size="md"
+                      variant="default"
+                    />
+                  </div>
+
+                  {/* Sort Options */}
+                  <div className="min-w-[180px]">
+                    <EnhancedSelect
+                      label="Sort By"
+                      options={[
+                        { value: 'name', label: 'Name (A-Z)', icon: FileText },
+                        { value: 'name-desc', label: 'Name (Z-A)', icon: FileText },
+                        { value: 'category', label: 'Category', icon: Palette },
+                        { value: 'popularity', label: 'Popularity', icon: Star }
+                      ]}
+                      value={sortBy}
+                      onChange={setSortBy}
+                      placeholder="Sort by"
+                      size="md"
+                      variant="default"
+                    />
+                  </div>
+
+                  {/* Advanced Search Toggle */}
+                  <div className="min-w-[200px]">
+                    <Checkbox
+                      checked={advancedSearch}
+                      onChange={setAdvancedSearch}
+                      label="Deep Search"
+                      description="Enable advanced search with fuzzy matching and word analysis"
+                      size="md"
+                      variant="default"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              {/* Search Stats */}
+              {searchTerm && (
+                <div className="mt-4 pt-4 border-t border-border">
+                  <div className="flex items-center justify-between text-sm text-muted-foreground">
+                    <div className="flex items-center gap-4">
+                      <span>
+                        Found {filteredTools.length} tool{filteredTools.length !== 1 ? 's' : ''} 
+                        {searchTerm && ` for "${searchTerm}"`}
+                      </span>
+                      {advancedSearch && (
+                        <span className="px-2 py-1 bg-primary/10 text-primary rounded-md text-xs">
+                          Deep Search Active
+                        </span>
+                      )}
+                    </div>
+                    <div className="flex items-center gap-2">
+              <button
+                        onClick={() => setAdvancedSearch(!advancedSearch)}
+                        className={`px-3 py-1 rounded-md text-xs transition-colors ${
+                          advancedSearch 
+                            ? 'bg-primary text-primary-foreground' 
+                            : 'bg-muted text-muted-foreground hover:bg-muted/80'
+                        }`}
+                      >
+                        {advancedSearch ? 'Deep Search ON' : 'Deep Search OFF'}
+                      </button>
+                      <button
+                        onClick={() => setSearchTerm('')}
+                        className="text-primary hover:text-primary/80 transition-colors"
+                      >
+                        Clear search
+              </button>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+            
+                                    {/* Enhanced Category Tabs */}
             <div className="mb-8">
-              <div className="flex flex-wrap gap-2 border-b border-border">
-                <button
-                  onClick={() => setSelectedCategory('All')}
-                  className={`px-4 py-2 rounded-t-lg font-medium transition-colors ${
-                    selectedCategory === 'All'
-                      ? 'bg-primary text-primary-foreground'
-                      : 'hover:bg-muted'
-                  }`}
-                >
-                  All Tools ({tools.length})
-                </button>
-                {categories.map((category) => (
+              <div className="bg-muted/30 rounded-lg p-4">
+                <div className="flex items-center justify-between mb-3">
+                  <h3 className="text-sm font-medium text-muted-foreground">
+                    Choose a category to filter tools:
+                  </h3>
+                  {selectedCategory !== 'all' && (
+                    <div className="flex items-center gap-2 text-xs">
+                      <div className="w-2 h-2 bg-primary rounded-full animate-pulse"></div>
+                      <span className="text-primary font-medium">Filtering by: {selectedCategory}</span>
+                    </div>
+                  )}
+                </div>
+                <div className="flex flex-wrap gap-2">
                   <button
-                    key={category.name}
-                    onClick={() => setSelectedCategory(category.name)}
-                    className={`px-4 py-2 rounded-t-lg font-medium transition-colors flex items-center gap-2 ${
-                      selectedCategory === category.name
-                        ? 'bg-primary text-primary-foreground'
-                        : 'hover:bg-muted'
+                    onClick={() => setSelectedCategory('all')}
+                    className={`px-4 py-2 rounded-lg font-medium transition-all duration-200 ${
+                      selectedCategory === 'all'
+                        ? 'bg-primary text-primary-foreground shadow-md'
+                        : 'bg-background hover:bg-muted border border-border'
                     }`}
                   >
-                    <category.icon className="w-4 h-4" />
-                    {category.name} ({category.count})
+                    All Tools ({tools.length})
                   </button>
-                ))}
+                  {categories.map((category) => (
+                    <button
+                      key={category.name}
+                      onClick={() => setSelectedCategory(category.name)}
+                      className={`px-4 py-2 rounded-lg font-medium transition-all duration-200 flex items-center gap-2 ${
+                        selectedCategory === category.name
+                          ? 'bg-primary text-primary-foreground shadow-md'
+                          : 'bg-background hover:bg-muted border border-border'
+                      }`}
+                    >
+                      <category.icon className="w-4 h-4" />
+                      {category.name} ({category.count})
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* Enhanced Tools Header */}
+            <div className="mb-6 p-4 bg-muted/20 rounded-lg border border-border">
+              <div className="flex items-center justify-between">
+                <div>
+                  <h2 className="text-2xl font-bold text-foreground">
+                    {selectedCategory === 'all' ? 'All Tools' : `${selectedCategory} Tools`}
+                  </h2>
+                  <p className="text-muted-foreground">
+                    Showing {filteredTools.length} tool{filteredTools.length !== 1 ? 's' : ''}
+                    {selectedCategory !== 'all' && ` out of ${tools.filter(t => t.category === selectedCategory).length} total in this category`}
+                  </p>
+                </div>
+                
+                {selectedCategory !== 'all' && (
+                  <div className="text-right">
+                    <div className="text-sm text-muted-foreground">Category Filter Active</div>
+                    <button
+                      onClick={() => setSelectedCategory('all')}
+                      className="text-primary hover:text-primary/80 text-sm font-medium"
+                    >
+                      ← Show All Categories
+                    </button>
+                  </div>
+                )}
               </div>
             </div>
 
             {/* Tools Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
               {filteredTools.map((tool) => (
-                <div
+                <ToolCard
                   key={tool.id}
-                  className="group relative bg-card border border-border rounded-lg p-6 hover:shadow-lg transition-all duration-200 cursor-pointer hover:scale-105"
-                  onClick={() => setSelectedTool(tool.id)}
-                >
-                  {/* Favorite Button */}
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      toggleFavorite(tool.id);
-                    }}
-                    className={`absolute top-3 right-3 p-1 rounded-full transition-colors ${
-                      favorites.includes(tool.id)
-                        ? 'text-yellow-500 hover:text-yellow-600'
-                        : 'text-muted-foreground hover:text-primary'
-                    }`}
-                  >
-                    <Star className={`w-4 h-4 ${favorites.includes(tool.id) ? 'fill-current' : ''}`} />
-                  </button>
-
-                  {/* Tool Icon */}
-                  <div className="w-12 h-12 bg-gradient-to-br from-primary/20 to-secondary/20 rounded-lg flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                    <tool.icon className="w-6 h-6 text-primary" />
-                  </div>
-
-                  {/* Tool Info */}
-                  <h3 className="font-semibold text-lg mb-2 group-hover:text-primary transition-colors">
-                    {tool.name}
-                  </h3>
-                  <p className="text-muted-foreground text-sm leading-relaxed">
-                    {tool.description}
-                  </p>
-
-                  {/* Category Badge */}
-                  <div className="mt-4">
-                    <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${
-                      categories.find(c => c.name === tool.category)?.color || 'text-gray-600'
-                    } bg-muted`}>
-                      {tool.category}
-                    </span>
-                  </div>
-
-                  {/* Hover Effect */}
-                  <div className="absolute inset-0 bg-gradient-to-r from-primary/5 to-secondary/5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
-                </div>
+                  tool={{
+                    id: tool.id,
+                    name: tool.name, // Keep English name
+                    description: tool.description, // Keep English description
+                    category: tool.category, // Keep English category
+                    icon: tool.icon
+                  }}
+                  isFavorite={favorites.includes(tool.id)}
+                  onToggleFavorite={toggleFavorite}
+                  onClick={setSelectedTool}
+                  className="h-80"
+                />
               ))}
             </div>
 
@@ -410,9 +695,30 @@ const Index = () => {
               <div className="text-center py-16">
                 <Search className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
                 <h3 className="text-xl font-semibold mb-2">No tools found</h3>
-                <p className="text-muted-foreground">
-                  Try adjusting your search terms or category filter
+                <p className="text-muted-foreground mb-4">
+                  {selectedCategory !== 'all' 
+                    ? `No tools found in "${selectedCategory}" category matching "${searchTerm}"`
+                    : `No tools found matching "${searchTerm}"`
+                  }
                 </p>
+                <div className="flex gap-2 justify-center">
+                  {searchTerm && (
+                    <button
+                      onClick={() => setSearchTerm('')}
+                      className="px-4 py-2 bg-muted hover:bg-muted/80 rounded-lg transition-colors"
+                    >
+                      Clear Search
+                    </button>
+                  )}
+                  {selectedCategory !== 'all' && (
+                    <button
+                      onClick={() => setSelectedCategory('all')}
+                      className="px-4 py-2 bg-primary text-primary-foreground hover:bg-primary/90 rounded-lg transition-colors"
+                    >
+                      Show All Categories
+                    </button>
+                  )}
+                </div>
               </div>
             )}
           </>
@@ -429,8 +735,8 @@ const Index = () => {
                   <ArrowLeft className="w-5 h-5" />
                 </button>
                 <div>
-                  <h1 className="text-3xl font-bold">{selectedToolData?.name}</h1>
-                  <p className="text-muted-foreground">{selectedToolData?.description}</p>
+                  <h1 className="text-3xl font-bold">{selectedToolData ? selectedToolData.name : ''}</h1>
+                  <p className="text-muted-foreground">{selectedToolData ? selectedToolData.description : ''}</p>
                 </div>
               </div>
               <div className="flex items-center gap-2">
