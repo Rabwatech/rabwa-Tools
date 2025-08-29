@@ -58,6 +58,8 @@ import { RandomGenerator } from "@/components/tools/RandomGenerator";
 import { ToolCard } from "@/components/ui/tool-card";
 import { EnhancedSelect, SelectOption } from "@/components/ui/enhanced-select";
 import { Checkbox } from "@/components/ui/checkbox";
+import { Button } from "@/components/ui/button";
+import { Navbar } from "@/components/ui/navbar";
 
 // Tool definitions with categories - 100+ tools total
 const tools = [
@@ -251,6 +253,7 @@ const Index = () => {
 
 
 
+
   const filteredTools = useMemo(() => {
     let filtered = tools.filter(tool => {
       // Category filter - هذا هو الجزء المهم!
@@ -383,64 +386,11 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Header */}
-      <header className="sticky top-0 z-50 bg-card/95 backdrop-blur-sm border-b border-border">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            {/* Logo */}
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-gradient-to-br from-primary to-secondary rounded-lg flex items-center justify-center">
-                <Wrench className="w-6 h-6 text-white" />
-              </div>
-              <div>
-                <h1 className="text-2xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-                  RabwaTools
-                </h1>
-                <p className="text-sm text-muted-foreground">145+ Professional Tools</p>
-              </div>
-          </div>
-
-          {/* Search Bar */}
-            <div className="flex-1 max-w-md mx-8">
-              <div className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
-            <input
-              type="text"
-                  placeholder="Quick search (⌘K to focus)..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2 bg-background border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
-            />
-                {searchTerm && (
-            <button
-                    onClick={() => setSearchTerm('')}
-                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
-                  >
-                    <X className="w-4 h-4" />
-            </button>
-                )}
-              </div>
-            </div>
-
-            {/* Theme Toggle & Settings */}
-            <div className="flex items-center gap-2">
-              <button
-                onClick={toggleTheme}
-                className="p-2 rounded-lg hover:bg-muted transition-colors"
-                title={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
-              >
-                {isDark ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
-              </button>
-              <button className="p-2 rounded-lg hover:bg-muted transition-colors">
-                <Settings className="w-5 h-5" />
-              </button>
-            </div>
-          </div>
-        </div>
-      </header>
+      {/* Navigation */}
+      <Navbar currentPage="tools" />
 
       {/* Main Content */}
-      <main className="container mx-auto px-4 py-8">
+      <main className="container mx-auto px-4 py-8 pt-32">
         {!selectedTool ? (
           <>
             {/* Advanced Search Section */}
@@ -594,12 +544,12 @@ const Index = () => {
                       >
                         Clear search
               </button>
-                    </div>
-                  </div>
-                </div>
+            </div>
+            </div>
+          </div>
               )}
             </div>
-            
+
                                     {/* Enhanced Category Tabs */}
             <div className="mb-8">
               <div className="bg-muted/30 rounded-lg p-4">
@@ -641,8 +591,8 @@ const Index = () => {
                   ))}
                 </div>
               </div>
-            </div>
-
+                  </div>
+                  
             {/* Enhanced Tools Header */}
             <div className="mb-6 p-4 bg-muted/20 rounded-lg border border-border">
               <div className="flex items-center justify-between">
