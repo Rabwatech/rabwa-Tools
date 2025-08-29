@@ -16,7 +16,6 @@ import {
   Zap,
   Shield,
   Users,
-  TrendingUp,
   Search,
   Play,
   Target,
@@ -26,8 +25,6 @@ import {
   Moon,
   Wifi,
   CheckCircle,
-  Globe2,
-  Heart,
   Gift,
   Award,
   Rocket,
@@ -206,7 +203,7 @@ const Landing = () => {
   };
 
   return (
-    <div ref={containerRef} className="min-h-screen bg-gradient-to-br from-[#F8F9FA] via-[#E9ECEF] to-[#DEE2E6] overflow-hidden">
+    <div ref={containerRef} className="min-h-screen bg-gradient-to-br from-background via-muted to-muted/50 dark:from-background dark:via-muted/20 dark:to-muted/10 overflow-hidden">
       {/* Navigation */}
       <Navbar currentPage="home" />
       
@@ -284,7 +281,7 @@ const Landing = () => {
       >
         <motion.button
           onClick={scrollToTop}
-          className="w-16 h-16 bg-gradient-to-r from-[#4A638D] to-[#1ABC9C] rounded-full shadow-2xl border-2 border-white/20 backdrop-blur-xl flex items-center justify-center text-white hover:shadow-[#4A638D]/25 transition-all duration-300"
+          className="w-16 h-16 bg-gradient-to-r from-primary to-secondary rounded-full shadow-2xl border-2 border-border/20 backdrop-blur-xl flex items-center justify-center text-primary-foreground hover:shadow-primary/25 transition-all duration-300"
           whileHover={{ scale: 1.1, y: -5 }}
           whileTap={{ scale: 0.9 }}
         >
@@ -305,30 +302,30 @@ const Landing = () => {
       <section ref={heroRef} className="hero-section relative min-h-screen flex items-center justify-center overflow-hidden">
         {/* Grid Background */}
         <div
-          className="absolute inset-0 opacity-20"
+          className="absolute inset-0 opacity-20 dark:opacity-10"
           style={{
             backgroundSize: '40px 40px',
             backgroundImage: `
-              linear-gradient(to right, #4A638D 1px, transparent 1px),
-              linear-gradient(to bottom, #4A638D 1px, transparent 1px)
+              linear-gradient(to right, hsl(var(--primary)) 1px, transparent 1px),
+              linear-gradient(to bottom, hsl(var(--primary)) 1px, transparent 1px)
             `
           }}
         />
         
         {/* Green background matching grid size */}
         <div
-          className="absolute inset-0 opacity-10"
+          className="absolute inset-0 opacity-10 dark:opacity-5"
           style={{
             backgroundSize: '40px 40px',
             backgroundImage: `
-              linear-gradient(to right, #1ABC9C 1px, transparent 1px),
-              linear-gradient(to bottom, #1ABC9C 1px, transparent 1px)
+              linear-gradient(to right, hsl(var(--secondary)) 1px, transparent 1px),
+              linear-gradient(to bottom, hsl(var(--secondary)) 1px, transparent 1px)
             `
           }}
         />
         
         {/* Gradient Mesh - التدرج اللوني */}
-        <div className="absolute inset-0 bg-gradient-to-br from-[#4A638D]/10 via-[#1ABC9C]/10 to-[#D691A4]/10" />
+        <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-secondary/10 to-accent/10" />
 
         {/* Hero Content */}
         <div className="relative z-10 text-center px-4 max-w-7xl mx-auto">
@@ -337,17 +334,17 @@ const Landing = () => {
             initial={{ y: 50, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="inline-flex items-center gap-3 px-8 py-4 bg-white/20 backdrop-blur-xl border border-white/30 rounded-full text-[#4A638D] font-semibold mb-12 shadow-2xl"
+            className="inline-flex items-center gap-3 px-8 py-4 bg-card/20 backdrop-blur-xl border border-border/30 rounded-full text-primary font-semibold mb-12 shadow-2xl"
           >
-            <Sparkles className="w-6 h-6 text-[#1ABC9C]" />
+            <Sparkles className="w-6 h-6 text-secondary" />
             Professional Tools Collection
           </motion.div>
 
           {/* Main Title */}
           <motion.h1
-            className="hero-title text-7xl md:text-9xl font-black mb-12 bg-gradient-to-r from-[#4A638D] via-[#1ABC9C] to-[#D691A4] bg-clip-text text-transparent leading-tight"
+            className="hero-title text-7xl md:text-9xl font-black mb-12 bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent leading-tight"
             style={{
-              textShadow: '0 0 80px rgba(74, 99, 141, 0.3)'
+              textShadow: '0 0 80px hsl(var(--primary) / 0.3)'
             }}
           >
             RabwaTools
@@ -355,10 +352,10 @@ const Landing = () => {
 
           {/* Animated Tagline */}
           <motion.p
-            className="hero-subtitle text-3xl md:text-4xl text-[#2C3E50] mb-12 font-medium max-w-5xl mx-auto leading-relaxed"
+            className="hero-subtitle text-3xl md:text-4xl text-foreground mb-12 font-medium max-w-5xl mx-auto leading-relaxed"
           >
             Your ultimate toolkit with{' '}
-            <span className="font-bold text-[#4A638D]">
+            <span className="font-bold text-primary">
               {counterValue}+ professional tools
             </span>{' '}
             for developers, designers, and everyday users.
@@ -376,7 +373,7 @@ const Landing = () => {
               onMouseEnter={() => setIsHovering(true)}
               onMouseLeave={() => setIsHovering(false)}
             >
-              <Button className="text-2xl px-12 py-8 bg-gradient-to-r from-[#4A638D] to-[#1ABC9C] hover:from-[#1ABC9C] hover:to-[#4A638D] text-white border-0 shadow-2xl hover:shadow-[#4A638D]/25 transition-all duration-300 group rounded-full">
+              <Button className="text-2xl px-12 py-8 bg-gradient-to-r from-primary to-secondary hover:from-secondary hover:to-primary text-primary-foreground border-0 shadow-2xl hover:shadow-primary/25 transition-all duration-300 group rounded-full">
                 <Search className="w-7 h-7 mr-4 group-hover:rotate-12 transition-transform" />
                 Explore All Tools
                 <ArrowRight className="w-7 h-7 ml-4 group-hover:translate-x-2 transition-transform" />
@@ -390,7 +387,7 @@ const Landing = () => {
               onMouseEnter={() => setIsHovering(true)}
               onMouseLeave={() => setIsHovering(false)}
             >
-              <Button variant="outline" className="text-2xl px-12 py-8 border-2 border-[#CBA79D] text-[#2C3E50] hover:bg-[#CBA79D] hover:text-white shadow-xl hover:shadow-[#CBA79D]/25 transition-all duration-300 rounded-full">
+              <Button variant="outline" className="text-2xl px-12 py-8 border-2 border-accent text-foreground hover:bg-accent hover:text-accent-foreground shadow-xl hover:shadow-accent/25 transition-all duration-300 rounded-full">
                 <Play className="w-7 h-7 mr-4" />
                 Watch Demo
               </Button>
@@ -564,236 +561,9 @@ const Landing = () => {
         </div>
       </section>
 
-      {/* TESTIMONIALS SECTION - Social Proof! */}
-      <section className="py-32 relative overflow-hidden">
-        <div className="container mx-auto px-4">
-          <motion.div
-            className="text-center mb-20"
-            initial={{ opacity: 0, y: 50 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-          >
-            <h2 className="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-[#4A638D] to-[#1ABC9C] bg-clip-text text-transparent">
-              Loved by Developers Worldwide
-            </h2>
-            <p className="text-xl text-[#2C3E50] max-w-3xl mx-auto">
-              Join thousands of satisfied users who trust RabwaTools
-            </p>
-          </motion.div>
 
-          {/* Animated Counter */}
-          <motion.div
-            className="text-center mb-16"
-            initial={{ opacity: 0, scale: 0.5 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 1, type: "spring" }}
-            viewport={{ once: true }}
-          >
-            <div className="inline-flex items-center gap-4 px-8 py-6 bg-gradient-to-r from-[#4A638D]/10 to-[#1ABC9C]/10 rounded-2xl border border-white/20 backdrop-blur-xl">
-              <Globe2 className="w-12 h-12 text-[#1ABC9C]" />
-              <div className="text-left">
-                <div className="text-4xl font-bold text-[#2C3E50]">1M+</div>
-                <div className="text-lg text-[#2C3E50]/70">Tools used daily</div>
-              </div>
-            </div>
-          </motion.div>
 
-          {/* Floating Reviews */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
-            {[
-              {
-                name: "Sarah Chen",
-                role: "Frontend Developer",
-                company: "TechCorp",
-                avatar: "👩‍💻",
-                content: "RabwaTools has become my go-to for quick calculations and conversions. The interface is beautiful and everything works instantly!",
-                rating: 5
-              },
-              {
-                name: "Ahmed Hassan",
-                role: "UI/UX Designer",
-                company: "DesignStudio",
-                avatar: "👨‍🎨",
-                content: "The color tools are incredible! I use them daily for creating perfect color schemes. This is exactly what I needed.",
-                rating: 5
-              },
-              {
-                name: "Maria Rodriguez",
-                role: "Product Manager",
-                company: "StartupXYZ",
-                avatar: "👩‍💼",
-                content: "As a PM, I need quick access to various tools. RabwaTools provides everything in one place. Game changer!",
-                rating: 5
-              }
-            ].map((review, index) => (
-              <motion.div
-                key={review.name}
-                className="animate-on-scroll"
-                initial={{ opacity: 0, y: 50, rotateY: -15 }}
-                whileInView={{ opacity: 1, y: 0, rotateY: 0 }}
-                transition={{ duration: 0.8, delay: index * 0.2 }}
-                viewport={{ once: true }}
-                whileHover={{ 
-                  y: -10, 
-                  rotateY: 5,
-                  boxShadow: "0 25px 50px rgba(74, 99, 141, 0.3)"
-                }}
-              >
-                <Card className="h-full bg-white/80 backdrop-blur-xl border border-white/30 shadow-xl hover:shadow-2xl transition-all duration-500 overflow-hidden">
-                  <CardHeader className="pb-4">
-                    <div className="flex items-center gap-4 mb-4">
-                      <div className="text-4xl">{review.avatar}</div>
-                      <div>
-                        <CardTitle className="text-lg text-[#2C3E50]">{review.name}</CardTitle>
-                        <CardDescription className="text-[#2C3E50]/70">
-                          {review.role} at {review.company}
-                        </CardDescription>
-                      </div>
-                    </div>
-                    <div className="flex gap-1">
-                      {Array.from({ length: review.rating }).map((_, i) => (
-                        <Star key={i} className="w-4 h-4 fill-[#FFD700] text-[#FFD700]" />
-                      ))}
-                    </div>
-                  </CardHeader>
-                  <CardContent>
-                    <CardDescription className="text-[#2C3E50]/80 leading-relaxed italic">
-                      "{review.content}"
-                    </CardDescription>
-                  </CardContent>
-                </Card>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
 
-      {/* PRICING/VALUE SECTION - Show the Value! */}
-      <section className="py-32 bg-gradient-to-br from-[#CBA79D]/10 to-[#D691A4]/10 relative">
-        <div className="container mx-auto px-4 text-center">
-          <motion.div
-            className="max-w-5xl mx-auto"
-            initial={{ opacity: 0, y: 50 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-          >
-            <h2 className="text-5xl md:text-6xl font-bold mb-8 bg-gradient-to-r from-[#4A638D] to-[#1ABC9C] bg-clip-text text-transparent">
-              Why Pay When You Can Get It Free?
-            </h2>
-            <p className="text-2xl text-[#2C3E50] mb-16 leading-relaxed">
-              Compare RabwaTools with other premium tool websites
-            </p>
-
-            {/* Comparison Table */}
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-16">
-              {[
-                {
-                  name: "Other Tool Sites",
-                  price: "$29/month",
-                  features: ["Limited tools", "Ads everywhere", "Data collection", "Slow performance", "Registration required"],
-                  color: "from-red-500 to-red-600"
-                },
-                {
-                  name: "RabwaTools",
-                  price: "FREE",
-                  features: ["180+ tools", "Zero ads", "100% private", "Lightning fast", "No registration"],
-                  color: "from-[#4A638D] to-[#1ABC9C]",
-                  featured: true
-                },
-                {
-                  name: "Premium Alternatives",
-                  price: "$99/month",
-                  features: ["Complex tools", "Steep learning curve", "Enterprise focused", "Overkill for most", "Expensive"],
-                  color: "from-purple-500 to-purple-600"
-                }
-              ].map((plan, index) => (
-                <motion.div
-                  key={plan.name}
-                  className="animate-on-scroll"
-                  initial={{ opacity: 0, y: 50 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: index * 0.1 }}
-                  viewport={{ once: true }}
-                >
-                  <Card className={`h-full relative overflow-hidden ${plan.featured ? 'scale-105 ring-4 ring-[#1ABC9C]/30' : ''}`}>
-                    {plan.featured && (
-                      <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
-                        <Badge className="bg-gradient-to-r from-[#1ABC9C] to-[#4A638D] text-white border-0 px-6 py-2 text-lg">
-                          🏆 RECOMMENDED
-                        </Badge>
-                      </div>
-                    )}
-                    <CardHeader className="text-center pb-6">
-                      <CardTitle className={`text-2xl font-bold mb-4 ${plan.featured ? 'text-[#4A638D]' : 'text-[#2C3E50]'}`}>
-                        {plan.name}
-                      </CardTitle>
-                      <div className={`text-4xl font-black bg-gradient-to-r ${plan.color} bg-clip-text text-transparent`}>
-                        {plan.price}
-                      </div>
-                    </CardHeader>
-                    <CardContent className="text-left">
-                      <ul className="space-y-3">
-                        {plan.features.map((feature, i) => (
-                          <li key={i} className="flex items-center gap-3">
-                            <div className={`w-5 h-5 rounded-full flex items-center justify-center ${plan.featured ? 'bg-[#1ABC9C]' : 'bg-gray-300'}`}>
-                              {plan.featured ? (
-                                <CheckCircle className="w-3 h-3 text-white" />
-                              ) : (
-                                <div className="w-2 h-2 bg-white rounded-full" />
-                              )}
-                            </div>
-                            <span className={`text-sm ${plan.featured ? 'text-[#2C3E50] font-medium' : 'text-[#2C3E50]/70'}`}>
-                              {feature}
-                            </span>
-                          </li>
-                        ))}
-                      </ul>
-                    </CardContent>
-                  </Card>
-                </motion.div>
-              ))}
-            </div>
-
-            {/* Value Proposition */}
-            <motion.div
-              className="bg-gradient-to-r from-[#4A638D]/10 to-[#1ABC9C]/10 rounded-2xl p-8 border border-white/20 backdrop-blur-xl"
-              initial={{ opacity: 0, scale: 0.9 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.8, delay: 0.3 }}
-              viewport={{ once: true }}
-            >
-              <h3 className="text-3xl font-bold text-[#2C3E50] mb-4">
-                💰 Save $348+ per year with RabwaTools!
-              </h3>
-              <p className="text-xl text-[#2C3E50]/80 mb-6">
-                Get premium-quality tools without the premium price tag
-              </p>
-              <div className="flex flex-wrap justify-center gap-6 text-center">
-                {[
-                  { label: 'Monthly Savings', value: '$29', icon: Gift },
-                  { label: 'Yearly Savings', value: '$348', icon: TrendingUp },
-                  { label: 'Lifetime Value', value: 'Priceless', icon: Heart }
-                ].map((item, i) => (
-                  <motion.div
-                    key={item.label}
-                    className="flex flex-col items-center"
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5, delay: 0.5 + i * 0.1 }}
-                    viewport={{ once: true }}
-                  >
-                    <item.icon className="w-8 h-8 text-[#1ABC9C] mb-2" />
-                    <div className="text-2xl font-bold text-[#4A638D]">{item.value}</div>
-                    <div className="text-sm text-[#2C3E50]/70">{item.label}</div>
-                  </motion.div>
-                ))}
-              </div>
-            </motion.div>
-          </motion.div>
-        </div>
-      </section>
 
       {/* CTA SECTION - Conversion Focused! */}
       <section className="py-32 bg-gradient-to-r from-[#4A638D]/10 via-[#1ABC9C]/10 to-[#D691A4]/10 relative">

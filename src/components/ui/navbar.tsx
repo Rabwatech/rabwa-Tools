@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { motion, useScroll } from 'framer-motion';
 import { Wrench } from 'lucide-react';
 import { Button } from './button';
+import { ThemeToggle } from './theme-toggle';
 
 interface NavbarProps {
   currentPage?: 'home' | 'tools' | 'features' | 'about';
@@ -49,16 +50,16 @@ export const Navbar: React.FC<NavbarProps> = ({ currentPage = 'home' }) => {
       initial={{ y: -100, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.8, ease: "easeOut" }}
-      className="fixed top-0 left-0 right-0 z-50 bg-transparent backdrop-blur-2xl border-b border-white/30 shadow-2xl"
+      className="fixed top-0 left-0 right-0 z-50 bg-background/80 dark:bg-background/90 backdrop-blur-2xl border-b border-border/30 shadow-2xl"
     >
       {/* Animated Background Pattern */}
-      <div className="absolute inset-0 opacity-5">
-        <div className="absolute inset-0 bg-gradient-to-r from-[#4A638D] via-[#1ABC9C] to-[#D691A4]"></div>
+      <div className="absolute inset-0 opacity-5 dark:opacity-10">
+        <div className="absolute inset-0 bg-gradient-to-r from-primary via-secondary to-accent"></div>
       </div>
       
       {/* Scroll Progress Bar */}
       <motion.div
-        className="absolute bottom-0 left-0 right-0 h-1.5 bg-gradient-to-r from-[#4A638D] via-[#1ABC9C] to-[#D691A4] origin-left"
+        className="absolute bottom-0 left-0 right-0 h-1.5 bg-gradient-to-r from-primary via-secondary to-accent origin-left"
         style={{ scaleX: scrollYProgress }}
       />
       
@@ -73,13 +74,13 @@ export const Navbar: React.FC<NavbarProps> = ({ currentPage = 'home' }) => {
             onMouseLeave={() => setIsHovering(false)}
           >
             <motion.div 
-              className="w-14 h-14 bg-gradient-to-br from-[#4A638D] via-[#1ABC9C] to-[#D691A4] rounded-2xl flex items-center justify-center shadow-2xl border border-white/20"
+              className="w-14 h-14 bg-gradient-to-br from-primary via-secondary to-accent rounded-2xl flex items-center justify-center shadow-2xl border border-border/20"
               animate={{ 
                 rotate: 360,
                 boxShadow: [
-                  "0 0 20px rgba(74, 99, 141, 0.3)",
-                  "0 0 40px rgba(26, 188, 156, 0.4)",
-                  "0 0 20px rgba(74, 99, 141, 0.3)"
+                  "0 0 20px hsl(var(--primary) / 0.3)",
+                  "0 0 40px hsl(var(--secondary) / 0.4)",
+                  "0 0 20px hsl(var(--primary) / 0.3)"
                 ]
               }}
               transition={{ 
@@ -87,13 +88,13 @@ export const Navbar: React.FC<NavbarProps> = ({ currentPage = 'home' }) => {
                 boxShadow: { duration: 3, repeat: Infinity, ease: "easeInOut" }
               }}
             >
-              <Wrench className="w-8 h-8 text-white" />
+              <Wrench className="w-8 h-8 text-primary-foreground" />
             </motion.div>
             <div>
-              <h1 className="text-3xl font-black bg-gradient-to-r from-[#4A638D] via-[#1ABC9C] to-[#D691A4] bg-clip-text text-transparent">
+              <h1 className="text-3xl font-black bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
                 RabwaTools
               </h1>
-              <p className="text-sm font-semibold text-[#2C3E50] bg-gradient-to-r from-[#4A638D] to-[#1ABC9C] bg-clip-text text-transparent">
+              <p className="text-sm font-semibold text-muted-foreground bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
                 Professional Tools Collection
               </p>
             </div>
@@ -107,8 +108,8 @@ export const Navbar: React.FC<NavbarProps> = ({ currentPage = 'home' }) => {
                 href={item.href}
                 className={`font-semibold transition-all duration-300 relative group text-lg ${
                   currentPage === item.page 
-                    ? 'text-[#4A638D]' 
-                    : 'text-[#2C3E50] hover:text-[#4A638D]'
+                    ? 'text-primary' 
+                    : 'text-foreground hover:text-primary'
                 }`}
                 whileHover={{ y: -3, scale: 1.05 }}
                 onMouseEnter={() => setIsHovering(true)}
@@ -116,7 +117,7 @@ export const Navbar: React.FC<NavbarProps> = ({ currentPage = 'home' }) => {
               >
                 {item.name}
                 <motion.div
-                  className="absolute -bottom-2 left-0 right-0 h-1 bg-gradient-to-r from-[#4A638D] via-[#1ABC9C] to-[#D691A4] rounded-full"
+                  className="absolute -bottom-2 left-0 right-0 h-1 bg-gradient-to-r from-primary via-secondary to-accent rounded-full"
                   initial={{ scaleX: 0, opacity: 0 }}
                   whileHover={{ scaleX: 1, opacity: 1 }}
                   transition={{ duration: 0.4, ease: "easeOut" }}
@@ -124,6 +125,18 @@ export const Navbar: React.FC<NavbarProps> = ({ currentPage = 'home' }) => {
               </motion.a>
             ))}
           </nav>
+
+          {/* Theme Toggle */}
+          <div className="flex items-center gap-4">
+            <ThemeToggle />
+            
+            {/* Mobile Menu Button */}
+            <button className="md:hidden p-2 rounded-lg hover:bg-muted transition-colors">
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+              </svg>
+            </button>
+          </div>
 
           {/* CTA Button */}
           <motion.div
@@ -133,11 +146,11 @@ export const Navbar: React.FC<NavbarProps> = ({ currentPage = 'home' }) => {
             onMouseLeave={() => setIsHovering(false)}
           >
             <a href={getButtonHref()}>
-              <Button className="bg-gradient-to-r from-[#4A638D] via-[#1ABC9C] to-[#D691A4] hover:from-[#D691A4] hover:via-[#1ABC9C] hover:to-[#4A638D] text-white border-0 shadow-2xl hover:shadow-[#4A638D]/30 transition-all duration-500 rounded-full px-8 py-3 text-lg font-semibold">
+              <Button className="bg-gradient-to-r from-primary via-secondary to-accent hover:from-accent hover:via-secondary hover:to-primary text-primary-foreground border-0 shadow-2xl hover:shadow-primary/30 transition-all duration-500 rounded-full px-8 py-3 text-lg font-semibold">
                 <Wrench className="w-5 h-5 mr-3 group-hover:rotate-12 transition-transform" />
                 {getButtonText()}
                 <motion.div
-                  className="ml-2 w-2 h-2 bg-white rounded-full"
+                  className="ml-2 w-2 h-2 bg-primary-foreground rounded-full"
                   animate={{ scale: [1, 1.2, 1] }}
                   transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
                 />
