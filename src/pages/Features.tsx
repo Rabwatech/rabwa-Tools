@@ -179,7 +179,7 @@ const Features = () => {
                 viewport={{ once: true }}
                 whileHover={{ y: -10, scale: 1.02 }}
               >
-                <Card className="group h-full bg-card/60 dark:bg-card/80 backdrop-blur-xl border border-border/30 shadow-xl hover:shadow-2xl transition-all duration-500 overflow-hidden">
+                <Card className="group h-full bg-card/60 dark:bg-card/80 backdrop-blur-xl border border-border/30 shadow-xl hover:shadow-2xl transition-all duration-500 overflow-hidden feature-card">
                   <CardHeader className="text-center pb-4">
                     <motion.div
                       className="w-20 h-20 mx-auto mb-6 rounded-2xl flex items-center justify-center shadow-lg"
@@ -238,7 +238,7 @@ const Features = () => {
             {stats.map((stat, index) => (
               <motion.div
                 key={stat.label}
-                className="text-center"
+                className="text-center stats-card p-6 rounded-xl"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
@@ -285,7 +285,7 @@ const Features = () => {
                 viewport={{ once: true }}
                 whileHover={{ y: -5, scale: 1.02 }}
               >
-                <Card className="h-full bg-card/70 dark:bg-card/80 backdrop-blur-xl border border-border/40 shadow-xl hover:shadow-2xl transition-all duration-500">
+                <Card className="h-full bg-card/70 dark:bg-card/80 backdrop-blur-xl border border-border/40 shadow-xl hover:shadow-2xl transition-all duration-500 tech-card">
                   <CardHeader className="text-center pb-4">
                     <div className="text-4xl mb-4">{tech.icon}</div>
                     <CardTitle className="text-xl font-bold text-foreground mb-2">

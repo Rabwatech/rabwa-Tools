@@ -84,45 +84,55 @@
   }
 
   .dark {
-    /* Dark mode adaptations */
-    --primary: 215 35% 45%;
+    /* Dark mode adaptations - Enhanced Card Colors */
+    --primary: 215 35% 55%;
     --primary-foreground: 0 0% 98%;
-    --primary-hover: 215 35% 50%;
+    --primary-hover: 215 35% 60%;
     
-    --secondary: 168 76% 47%;
+    --secondary: 168 76% 52%;
     --secondary-foreground: 0 0% 98%;
-    --secondary-hover: 168 76% 52%;
+    --secondary-hover: 168 76% 57%;
     
-    --accent: 16 28% 74%;
+    --accent: 16 28% 79%;
     --accent-foreground: 0 0% 15%;
     
-    --highlight: 343 36% 76%;
+    --highlight: 343 36% 81%;
     --highlight-foreground: 0 0% 15%;
     
-    --background: 215 25% 8%;
-    --foreground: 0 0% 95%;
+    --background: 220 25% 6%;
+    --foreground: 0 0% 98%;
     
-    --card: 215 25% 10%;
-    --card-foreground: 0 0% 95%;
-    --card-hover: 215 25% 12%;
+    /* Enhanced Card Colors for Dark Mode */
+    --card: 220 25% 12%;
+    --card-foreground: 0 0% 98%;
+    --card-hover: 220 25% 16%;
     
-    --muted: 215 25% 15%;
-    --muted-foreground: 215 15% 70%;
+    --muted: 220 25% 18%;
+    --muted-foreground: 220 15% 75%;
     
-    --border: 215 25% 20%;
-    --input: 215 25% 12%;
-    --input-border: 215 25% 25%;
-    --ring: 215 35% 45%;
+    --border: 220 25% 22%;
+    --input: 220 25% 14%;
+    --input-border: 220 25% 28%;
+    --ring: 215 35% 55%;
     
-    /* Sidebar dark mode */
-    --sidebar-background: 215 25% 12%;
-    --sidebar-foreground: 0 0% 95%;
-    --sidebar-primary: 215 35% 45%;
+    /* Sidebar dark mode - Enhanced */
+    --sidebar-background: 220 25% 14%;
+    --sidebar-foreground: 0 0% 98%;
+    --sidebar-primary: 215 35% 55%;
     --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 215 25% 18%;
-    --sidebar-accent-foreground: 0 0% 95%;
-    --sidebar-border: 215 25% 25%;
-    --sidebar-ring: 215 35% 45%;
+    --sidebar-accent: 220 25% 20%;
+    --sidebar-accent-foreground: 0 0% 98%;
+    --sidebar-border: 220 25% 28%;
+    --sidebar-ring: 215 35% 55%;
+    
+    /* Enhanced Card Colors for Dark Mode */
+    --card-elevated: 220 25% 15%;
+    --card-elevated-hover: 220 25% 18%;
+    --card-accent: 220 25% 14%;
+    --card-accent-hover: 220 25% 17%;
+    --card-border-subtle: 220 25% 25%;
+    --card-shadow: 0 4px 6px -1px hsl(220 25% 12% / 0.3);
+    --card-shadow-hover: 0 10px 15px -3px hsl(220 25% 12% / 0.4);
   }
 }
 
@@ -138,7 +148,7 @@
 }
 
 @layer components {
-  /* Tool Card Styles */
+  /* Tool Card Styles - Enhanced for Dark Mode */
   .tool-card {
     @apply bg-card border border-border rounded-xl p-6 hover:shadow-lg hover:bg-card-hover transition-all duration-300 cursor-pointer;
     box-shadow: var(--shadow-md);
@@ -147,6 +157,19 @@
   .tool-card:hover {
     transform: translateY(-2px);
     box-shadow: var(--shadow-lg);
+  }
+  
+  /* Dark Mode Enhanced Cards */
+  .dark .tool-card {
+    background: hsl(220 25% 12%);
+    border-color: hsl(220 25% 22%);
+    box-shadow: 0 4px 6px -1px hsl(220 25% 12% / 0.3), 0 2px 4px -1px hsl(220 25% 12% / 0.1);
+  }
+  
+  .dark .tool-card:hover {
+    background: hsl(220 25% 16%);
+    box-shadow: 0 10px 15px -3px hsl(220 25% 12% / 0.4), 0 4px 6px -2px hsl(220 25% 12% / 0.2);
+    border-color: hsl(220 25% 25%);
   }
   
   /* Hero Gradient Background */
@@ -216,6 +239,57 @@
   
   .status-error {
     @apply text-destructive bg-destructive/10 border border-destructive/20 rounded-md px-3 py-1 text-sm font-medium;
+  }
+  
+  /* Enhanced Feature Cards for Dark Mode */
+  .dark .feature-card {
+    background: linear-gradient(145deg, hsl(220 25% 12%), hsl(220 25% 14%));
+    border: 1px solid hsl(220 25% 22%);
+    box-shadow: 
+      0 4px 6px -1px hsl(220 25% 8% / 0.4),
+      0 2px 4px -1px hsl(220 25% 8% / 0.2);
+  }
+  
+  .dark .feature-card:hover {
+    background: linear-gradient(145deg, hsl(220 25% 16%), hsl(220 25% 18%));
+    border-color: hsl(220 25% 28%);
+    box-shadow: 
+      0 10px 15px -3px hsl(220 25% 8% / 0.5),
+      0 4px 6px -2px hsl(220 25% 8% / 0.3);
+  }
+  
+  /* Enhanced Stats Cards for Dark Mode */
+  .dark .stats-card {
+    background: hsl(220 25% 14%);
+    border: 1px solid hsl(220 25% 25%);
+    box-shadow: 
+      0 4px 6px -1px hsl(220 25% 10% / 0.3),
+      inset 0 1px 0 hsl(220 25% 20%);
+  }
+  
+  .dark .stats-card:hover {
+    background: hsl(220 25% 18%);
+    border-color: hsl(220 25% 30%);
+    box-shadow: 
+      0 8px 12px -2px hsl(220 25% 10% / 0.4),
+      inset 0 1px 0 hsl(220 25% 25%);
+  }
+  
+  /* Enhanced Tech Cards for Dark Mode */
+  .dark .tech-card {
+    background: linear-gradient(135deg, hsl(220 25% 13%), hsl(220 25% 15%));
+    border: 1px solid hsl(220 25% 23%);
+    box-shadow: 
+      0 4px 6px -1px hsl(220 25% 9% / 0.4),
+      0 1px 3px hsl(220 25% 9% / 0.2);
+  }
+  
+  .dark .tech-card:hover {
+    background: linear-gradient(135deg, hsl(220 25% 17%), hsl(220 25% 19%));
+    border-color: hsl(220 25% 27%);
+    box-shadow: 
+      0 10px 16px -4px hsl(220 25% 9% / 0.5),
+      0 2px 6px hsl(220 25% 9% / 0.3);
   }
 }
 
