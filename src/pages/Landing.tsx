@@ -107,14 +107,14 @@ const Landing = () => {
     );
 
     // Floating elements animation
-    gsap.to('.floating-icon', {
-      y: -20,
-      duration: 3,
-      repeat: -1,
-      yoyo: true,
-      ease: 'power2.inOut',
-      stagger: 0.2
-    });
+    // gsap.to('.floating-icon', {
+    //   y: -20,
+    //   duration: 3,
+    //   repeat: -1,
+    //   yoyo: true,
+    //   ease: 'power2.inOut',
+    //   stagger: 0.2
+    // });
 
     // Scroll-triggered animations
     gsap.utils.toArray('.animate-on-scroll').forEach((element: any) => {
@@ -136,16 +136,16 @@ const Landing = () => {
     });
 
     // Parallax effect for background elements
-    gsap.to('.parallax-bg', {
-      yPercent: -50,
-      ease: 'none',
-      scrollTrigger: {
-        trigger: '.hero-section',
-        start: 'top bottom',
-        end: 'bottom top',
-        scrub: true
-      }
-    });
+    // gsap.to('.parallax-bg', {
+    //   yPercent: -50,
+    //   ease: 'none',
+    //   scrollTrigger: {
+    //     trigger: '.hero-section',
+    //     start: 'top bottom',
+    //     end: 'bottom top',
+    //     scrub: true
+    //   }
+    // });
 
     setIsLoaded(true);
   }, []);
@@ -334,17 +334,17 @@ const Landing = () => {
             initial={{ y: 50, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="inline-flex items-center gap-3 px-8 py-4 bg-card/20 backdrop-blur-xl border border-border/30 rounded-full text-primary font-semibold mb-12 shadow-2xl"
+            className="inline-flex items-center gap-2 px-6 py-3 bg-card/20 backdrop-blur-xl border border-border/30 rounded-full text-primary font-semibold mb-8 shadow-xl"
           >
-            <Sparkles className="w-6 h-6 text-secondary" />
+            <Sparkles className="w-5 h-5 text-secondary" />
             Professional Tools Collection
           </motion.div>
 
           {/* Main Title */}
           <motion.h1
-            className="hero-title text-7xl md:text-9xl font-black mb-12 bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent leading-tight"
+            className="hero-title text-5xl md:text-7xl font-black mb-8 bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent leading-tight"
             style={{
-              textShadow: '0 0 80px hsl(var(--primary) / 0.3)'
+              textShadow: '0 0 60px hsl(var(--primary) / 0.3)'
             }}
           >
             RabwaTools
@@ -352,7 +352,7 @@ const Landing = () => {
 
           {/* Animated Tagline */}
           <motion.p
-            className="hero-subtitle text-3xl md:text-4xl text-foreground mb-12 font-medium max-w-5xl mx-auto leading-relaxed"
+            className="hero-subtitle text-xl md:text-2xl text-foreground mb-8 font-medium max-w-4xl mx-auto leading-relaxed"
           >
             Your ultimate toolkit with{' '}
             <span className="font-bold text-primary">
@@ -363,7 +363,7 @@ const Landing = () => {
 
           {/* CTA Buttons */}
           <motion.div
-            className="hero-cta flex flex-col sm:flex-row gap-8 justify-center mb-20"
+            className="hero-cta flex flex-col sm:flex-row gap-6 justify-center mb-16"
           >
             <motion.a
               href="/tools"
@@ -373,10 +373,10 @@ const Landing = () => {
               onMouseEnter={() => setIsHovering(true)}
               onMouseLeave={() => setIsHovering(false)}
             >
-              <Button className="text-2xl px-12 py-8 bg-gradient-to-r from-primary to-secondary hover:from-secondary hover:to-primary text-primary-foreground border-0 shadow-2xl hover:shadow-primary/25 transition-all duration-300 group rounded-full">
-                <Search className="w-7 h-7 mr-4 group-hover:rotate-12 transition-transform" />
+              <Button className="text-lg px-8 py-6 bg-gradient-to-r from-primary to-secondary hover:from-secondary hover:to-primary text-primary-foreground border-0 shadow-xl hover:shadow-primary/25 transition-all duration-300 group rounded-full">
+                <Search className="w-5 h-5 mr-3 group-hover:rotate-12 transition-transform" />
                 Explore All Tools
-                <ArrowRight className="w-7 h-7 ml-4 group-hover:translate-x-2 transition-transform" />
+                <ArrowRight className="w-5 h-5 ml-3 group-hover:translate-x-2 transition-transform" />
               </Button>
             </motion.a>
             
@@ -387,8 +387,8 @@ const Landing = () => {
               onMouseEnter={() => setIsHovering(true)}
               onMouseLeave={() => setIsHovering(false)}
             >
-              <Button variant="outline" className="text-2xl px-12 py-8 border-2 border-accent text-foreground hover:bg-accent hover:text-accent-foreground shadow-xl hover:shadow-accent/25 transition-all duration-300 rounded-full">
-                <Play className="w-7 h-7 mr-4" />
+              <Button variant="outline" className="text-lg px-8 py-6 border-2 border-accent text-foreground hover:bg-accent hover:text-accent-foreground shadow-lg hover:shadow-accent/25 transition-all duration-300 rounded-full">
+                <Play className="w-5 h-5 mr-3" />
                 Watch Demo
               </Button>
             </motion.div>
@@ -399,7 +399,7 @@ const Landing = () => {
             initial={{ y: 50, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.8, delay: 0.8 }}
-            className="flex flex-wrap justify-center gap-12 text-center"
+            className="flex flex-wrap justify-center gap-8 text-center"
           >
             {[
               { label: 'Tools', value: '180+', icon: Wrench, color: '#4A638D' },
@@ -415,11 +415,11 @@ const Landing = () => {
                 transition={{ duration: 0.5, delay: 1 + i * 0.1 }}
                 whileHover={{ scale: 1.1, y: -5 }}
               >
-                <div className="w-20 h-20 bg-white/20 backdrop-blur-xl rounded-full flex items-center justify-center mb-4 shadow-lg border border-white/30">
-                  <stat.icon className="w-10 h-10" style={{ color: stat.color }} />
+                <div className="w-16 h-16 bg-white/20 backdrop-blur-xl rounded-full flex items-center justify-center mb-3 shadow-lg border border-white/30">
+                  <stat.icon className="w-8 h-8" style={{ color: stat.color }} />
                 </div>
-                <div className="text-3xl font-bold text-[#2C3E50] mb-2">{stat.value}</div>
-                <div className="text-base text-[#2C3E50]/70 font-medium">{stat.label}</div>
+                <div className="text-2xl font-bold text-[#2C3E50] mb-1">{stat.value}</div>
+                <div className="text-sm text-[#2C3E50]/70 font-medium">{stat.label}</div>
               </motion.div>
             ))}
           </motion.div>
@@ -454,7 +454,7 @@ const Landing = () => {
             <h2 className="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-[#4A638D] to-[#1ABC9C] bg-clip-text text-transparent">
               Why Choose RabwaTools?
             </h2>
-            <p className="text-xl text-[#2C3E50] max-w-3xl mx-auto">
+            <p className="text-xl text-[#2C3E50] dark:text-gray-300 max-w-3xl mx-auto">
               Built with cutting-edge technology and user experience in mind
             </p>
           </motion.div>
@@ -470,7 +470,7 @@ const Landing = () => {
                 transition={{ duration: 0.6, delay: index * 0.1 }}
                 viewport={{ once: true }}
               >
-                <Card className="group h-full bg-white/60 backdrop-blur-xl border border-white/30 shadow-xl hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 overflow-hidden">
+                <Card className="group h-full bg-white/70 dark:bg-gray-800/70 backdrop-blur-xl border border-white/40 dark:border-gray-700/40 shadow-xl hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 overflow-hidden">
                   <CardHeader className="text-center pb-4">
                     <motion.div
                       className="w-20 h-20 mx-auto mb-6 rounded-2xl flex items-center justify-center shadow-lg"
@@ -480,12 +480,12 @@ const Landing = () => {
                     >
                       <feature.icon className="w-10 h-10 text-white" />
                     </motion.div>
-                    <CardTitle className="text-2xl font-bold text-[#2C3E50] mb-2">
+                    <CardTitle className="text-2xl font-bold text-[#2C3E50] dark:text-white mb-2">
                       {feature.title}
                     </CardTitle>
                   </CardHeader>
                   <CardContent className="text-center">
-                    <CardDescription className="text-lg text-[#2C3E50]/80 leading-relaxed">
+                    <CardDescription className="text-lg text-[#2C3E50]/80 dark:text-gray-300 leading-relaxed">
                       {feature.description}
                     </CardDescription>
                   </CardContent>
@@ -509,7 +509,7 @@ const Landing = () => {
             <h2 className="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-[#4A638D] to-[#1ABC9C] bg-clip-text text-transparent">
               Explore Tool Categories
             </h2>
-            <p className="text-xl text-[#2C3E50] max-w-3xl mx-auto">
+            <p className="text-xl text-[#2C3E50] dark:text-gray-300 max-w-3xl mx-auto">
               Organized into logical categories for easy discovery
             </p>
           </motion.div>
@@ -525,7 +525,7 @@ const Landing = () => {
                 transition={{ duration: 0.6, delay: index * 0.1 }}
                 viewport={{ once: true }}
               >
-                <Card className="group h-full bg-white/70 backdrop-blur-xl border border-white/40 shadow-xl hover:shadow-2xl transition-all duration-500 hover:-translate-y-3 cursor-pointer overflow-hidden">
+                <Card className="group h-full bg-white/70 dark:bg-gray-800/70 backdrop-blur-xl border border-white/40 dark:border-gray-700/40 shadow-xl hover:shadow-2xl transition-all duration-500 hover:-translate-y-3 cursor-pointer overflow-hidden">
                   <CardHeader className="text-center pb-4">
                     <motion.div
                       className="w-24 h-24 mx-auto mb-6 rounded-3xl flex items-center justify-center shadow-2xl"
@@ -539,10 +539,10 @@ const Landing = () => {
                     >
                       <category.icon className="w-12 h-12 text-white" />
                     </motion.div>
-                    <CardTitle className="text-xl font-bold text-[#2C3E50] mb-2">
+                    <CardTitle className="text-xl font-bold text-[#2C3E50] dark:text-white mb-2">
                       {category.name}
                     </CardTitle>
-                    <CardDescription className="text-[#2C3E50]/70">
+                    <CardDescription className="text-[#2C3E50]/70 dark:text-gray-300">
                       {category.description}
                     </CardDescription>
                   </CardHeader>
@@ -578,7 +578,7 @@ const Landing = () => {
             <h2 className="text-5xl md:text-6xl font-bold mb-8 bg-gradient-to-r from-[#4A638D] to-[#1ABC9C] bg-clip-text text-transparent">
               Ready to Get Started?
             </h2>
-            <p className="text-2xl text-[#2C3E50] mb-12 leading-relaxed">
+            <p className="text-2xl text-[#2C3E50] dark:text-gray-300 mb-12 leading-relaxed">
               Join <span className="font-bold text-[#4A638D]">500K+ users</span> who trust RabwaTools for their daily needs
             </p>
             

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, useScroll } from 'framer-motion';
-import { Wrench } from 'lucide-react';
+import { Wrench, Menu, X } from 'lucide-react';
 import { Button } from './button';
 import { ThemeToggle } from './theme-toggle';
 
@@ -10,40 +10,15 @@ interface NavbarProps {
 
 export const Navbar: React.FC<NavbarProps> = ({ currentPage = 'home' }) => {
   const [isHovering, setIsHovering] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { scrollYProgress } = useScroll();
 
   const navigationItems = [
     { name: 'Home', href: '/', page: 'home' },
-    { name: 'Features', href: '/#features', page: 'features' },
+    { name: 'Features', href: '/features', page: 'features' },
     { name: 'Tools', href: '/tools', page: 'tools' },
     { name: 'About', href: '/#about', page: 'about' }
   ];
-
-  const getButtonText = () => {
-    switch (currentPage) {
-      case 'tools':
-        return 'Back to Home';
-      case 'features':
-        return 'Explore Tools';
-      case 'about':
-        return 'Get Started';
-      default:
-        return 'Get Started';
-    }
-  };
-
-  const getButtonHref = () => {
-    switch (currentPage) {
-      case 'tools':
-        return '/';
-      case 'features':
-        return '/tools';
-      case 'about':
-        return '/tools';
-      default:
-        return '/tools';
-    }
-  };
 
   return (
     <motion.nav 
@@ -63,18 +38,18 @@ export const Navbar: React.FC<NavbarProps> = ({ currentPage = 'home' }) => {
         style={{ scaleX: scrollYProgress }}
       />
       
-      <div className="container mx-auto px-6 py-6">
+      <div className="container mx-auto px-4 sm:px-6 py-4 sm:py-6">
         <div className="flex items-center justify-between">
           {/* Animated Logo */}
           <motion.div 
-            className="flex items-center gap-4"
+            className="flex items-center gap-2 sm:gap-4"
             whileHover={{ scale: 1.05 }}
             transition={{ type: "spring" as const, stiffness: 400 }}
             onMouseEnter={() => setIsHovering(true)}
             onMouseLeave={() => setIsHovering(false)}
           >
             <motion.div 
-              className="w-14 h-14 bg-gradient-to-br from-primary via-secondary to-accent rounded-2xl flex items-center justify-center shadow-2xl border border-border/20"
+              className="w-10 h-10 sm:w-14 sm:h-14 bg-gradient-to-br from-primary via-secondary to-accent rounded-2xl flex items-center justify-center shadow-2xl border border-border/20"
               animate={{ 
                 rotate: 360,
                 boxShadow: [
@@ -88,20 +63,25 @@ export const Navbar: React.FC<NavbarProps> = ({ currentPage = 'home' }) => {
                 boxShadow: { duration: 3, repeat: Infinity, ease: "easeInOut" }
               }}
             >
-              <Wrench className="w-8 h-8 text-primary-foreground" />
+              <Wrench className="w-5 h-5 sm:w-8 sm:h-8 text-primary-foreground" />
             </motion.div>
-            <div>
-              <h1 className="text-3xl font-black bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
+            <div className="hidden sm:block">
+              <h1 className="text-2xl sm:text-3xl font-black bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
                 RabwaTools
               </h1>
-              <p className="text-sm font-semibold text-muted-foreground bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+              <p className="text-xs sm:text-sm font-semibold text-muted-foreground bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
                 Professional Tools Collection
               </p>
             </div>
+            <div className="sm:hidden">
+              <h1 className="text-lg font-black bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
+                RabwaTools
+              </h1>
+            </div>
           </motion.div>
 
-          {/* Navigation Links */}
-          <nav className="hidden md:flex items-center gap-10">
+          {/* Desktop Navigation Links */}
+          <nav className="hidden lg:flex items-center gap-10">
             {navigationItems.map((item) => (
               <motion.a
                 key={item.name}
@@ -126,38 +106,43 @@ export const Navbar: React.FC<NavbarProps> = ({ currentPage = 'home' }) => {
             ))}
           </nav>
 
-          {/* Theme Toggle */}
-          <div className="flex items-center gap-4">
+          {/* Right Side Controls */}
+          <div className="flex items-center gap-2 sm:gap-4">
+            {/* Theme Toggle */}
             <ThemeToggle />
             
             {/* Mobile Menu Button */}
-            <button className="md:hidden p-2 rounded-lg hover:bg-muted transition-colors">
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-              </svg>
+            <button 
+              className="lg:hidden p-2 rounded-lg bg-primary text-primary-foreground hover:bg-primary/90 transition-colors"
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              type="button"
+            >
+              {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
             </button>
           </div>
-
-          {/* CTA Button */}
-          <motion.div
-            whileHover={{ scale: 1.05, y: -2 }}
-            whileTap={{ scale: 0.95 }}
-            onMouseEnter={() => setIsHovering(true)}
-            onMouseLeave={() => setIsHovering(false)}
-          >
-            <a href={getButtonHref()}>
-              <Button className="bg-gradient-to-r from-primary via-secondary to-accent hover:from-accent hover:via-secondary hover:to-primary text-primary-foreground border-0 shadow-2xl hover:shadow-primary/30 transition-all duration-500 rounded-full px-8 py-3 text-lg font-semibold">
-                <Wrench className="w-5 h-5 mr-3 group-hover:rotate-12 transition-transform" />
-                {getButtonText()}
-                <motion.div
-                  className="ml-2 w-2 h-2 bg-primary-foreground rounded-full"
-                  animate={{ scale: [1, 1.2, 1] }}
-                  transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-                />
-              </Button>
-            </a>
-          </motion.div>
         </div>
+
+        {/* Mobile Menu - Brand New */}
+        {mobileMenuOpen && (
+          <div className="lg:hidden mt-4 pt-4 border-t border-border/30">
+            <div className="bg-card rounded-lg shadow-lg p-4 space-y-2">
+              {navigationItems.map((item) => (
+                <a
+                  key={item.name}
+                  href={item.href}
+                  className={`block px-4 py-3 rounded-lg font-semibold transition-colors ${
+                    currentPage === item.page 
+                      ? 'bg-primary text-primary-foreground' 
+                      : 'text-foreground hover:bg-muted'
+                  }`}
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  {item.name}
+                </a>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
     </motion.nav>
   );
