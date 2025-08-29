@@ -160,10 +160,10 @@ const Features = () => {
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
           >
-            <h2 className="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-[#4A638D] to-[#1ABC9C] bg-clip-text text-transparent">
+            <h2 className="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
               Core Features
             </h2>
-            <p className="text-xl text-[#2C3E50] max-w-3xl mx-auto">
+            <p className="text-xl text-foreground max-w-3xl mx-auto">
               Discover what makes RabwaTools the ultimate choice for professionals and enthusiasts
             </p>
           </motion.div>
@@ -179,7 +179,7 @@ const Features = () => {
                 viewport={{ once: true }}
                 whileHover={{ y: -10, scale: 1.02 }}
               >
-                <Card className="group h-full bg-white/60 backdrop-blur-xl border border-white/30 shadow-xl hover:shadow-2xl transition-all duration-500 overflow-hidden">
+                <Card className="group h-full bg-card/60 dark:bg-card/80 backdrop-blur-xl border border-border/30 shadow-xl hover:shadow-2xl transition-all duration-500 overflow-hidden">
                   <CardHeader className="text-center pb-4">
                     <motion.div
                       className="w-20 h-20 mx-auto mb-6 rounded-2xl flex items-center justify-center shadow-lg"
@@ -189,20 +189,20 @@ const Features = () => {
                     >
                       <feature.icon className="w-10 h-10 text-white" />
                     </motion.div>
-                    <CardTitle className="text-2xl font-bold text-[#2C3E50] mb-2">
+                    <CardTitle className="text-2xl font-bold text-foreground mb-2">
                       {feature.title}
                     </CardTitle>
                   </CardHeader>
                   <CardContent className="text-center">
-                    <CardDescription className="text-lg text-[#2C3E50]/80 leading-relaxed mb-6">
+                    <CardDescription className="text-lg text-muted-foreground leading-relaxed mb-6">
                       {feature.description}
                     </CardDescription>
                     
                     {/* Benefits List */}
                     <div className="space-y-2">
                       {feature.benefits.map((benefit, i) => (
-                        <div key={i} className="flex items-center gap-2 text-sm text-[#2C3E50]/70">
-                          <CheckCircle className="w-4 h-4 text-[#1ABC9C]" />
+                        <div key={i} className="flex items-center gap-2 text-sm text-muted-foreground">
+                          <CheckCircle className="w-4 h-4 text-secondary" />
                           {benefit}
                         </div>
                       ))}
@@ -216,7 +216,7 @@ const Features = () => {
       </section>
 
       {/* STATS SECTION */}
-      <section className="py-32 bg-gradient-to-br from-[#4A638D]/5 to-[#1ABC9C]/5 relative">
+      <section className="py-32 bg-gradient-to-br from-primary/5 to-secondary/5 dark:from-primary/10 dark:to-secondary/10 relative">
         <div className="container mx-auto px-4">
           <motion.div
             className="text-center mb-20"
@@ -225,10 +225,10 @@ const Features = () => {
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
           >
-            <h2 className="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-[#4A638D] to-[#1ABC9C] bg-clip-text text-transparent">
+            <h2 className="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
               Trusted by Millions
             </h2>
-            <p className="text-xl text-[#2C3E50] max-w-3xl mx-auto">
+            <p className="text-xl text-foreground max-w-3xl mx-auto">
               Join a global community of satisfied users who trust RabwaTools
             </p>
           </motion.div>
@@ -245,11 +245,11 @@ const Features = () => {
                 viewport={{ once: true }}
                 whileHover={{ scale: 1.05, y: -5 }}
               >
-                <div className="w-20 h-20 bg-white/20 backdrop-blur-xl rounded-full flex items-center justify-center mb-4 shadow-lg border border-white/30 mx-auto">
+                <div className="w-20 h-20 bg-card/20 backdrop-blur-xl rounded-full flex items-center justify-center mb-4 shadow-lg border border-border/30 mx-auto">
                   <stat.icon className="w-10 h-10" style={{ color: stat.color }} />
                 </div>
-                <div className="text-3xl font-bold text-[#2C3E50] mb-2">{stat.value}</div>
-                <div className="text-base text-[#2C3E50]/70 font-medium">{stat.label}</div>
+                <div className="text-3xl font-bold text-foreground mb-2">{stat.value}</div>
+                <div className="text-base text-muted-foreground font-medium">{stat.label}</div>
               </motion.div>
             ))}
           </div>
@@ -266,10 +266,10 @@ const Features = () => {
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
           >
-            <h2 className="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-[#4A638D] to-[#1ABC9C] bg-clip-text text-transparent">
+            <h2 className="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
               Built with Modern Tech
             </h2>
-            <p className="text-xl text-[#2C3E50] max-w-3xl mx-auto">
+            <p className="text-xl text-foreground max-w-3xl mx-auto">
               Leveraging the latest technologies for optimal performance and developer experience
             </p>
           </motion.div>
@@ -285,15 +285,15 @@ const Features = () => {
                 viewport={{ once: true }}
                 whileHover={{ y: -5, scale: 1.02 }}
               >
-                <Card className="h-full bg-white/70 backdrop-blur-xl border border-white/40 shadow-xl hover:shadow-2xl transition-all duration-500">
+                <Card className="h-full bg-card/70 dark:bg-card/80 backdrop-blur-xl border border-border/40 shadow-xl hover:shadow-2xl transition-all duration-500">
                   <CardHeader className="text-center pb-4">
                     <div className="text-4xl mb-4">{tech.icon}</div>
-                    <CardTitle className="text-xl font-bold text-[#2C3E50] mb-2">
+                    <CardTitle className="text-xl font-bold text-foreground mb-2">
                       {tech.name}
                     </CardTitle>
                   </CardHeader>
                   <CardContent className="text-center">
-                    <CardDescription className="text-[#2C3E50]/70">
+                    <CardDescription className="text-muted-foreground">
                       {tech.description}
                     </CardDescription>
                   </CardContent>
@@ -305,7 +305,7 @@ const Features = () => {
       </section>
 
       {/* CTA SECTION */}
-      <section className="py-32 bg-gradient-to-r from-[#4A638D]/10 via-[#1ABC9C]/10 to-[#D691A4]/10 relative">
+      <section className="py-32 bg-gradient-to-r from-primary/10 via-secondary/10 to-accent/10 relative">
         <div className="container mx-auto px-4 text-center">
           <motion.div
             className="max-w-4xl mx-auto"
@@ -314,10 +314,10 @@ const Features = () => {
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
           >
-            <h2 className="text-5xl md:text-6xl font-bold mb-8 bg-gradient-to-r from-[#4A638D] to-[#1ABC9C] bg-clip-text text-transparent">
+            <h2 className="text-5xl md:text-6xl font-bold mb-8 bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
               Ready to Experience Excellence?
             </h2>
-            <p className="text-2xl text-[#2C3E50] mb-12 leading-relaxed">
+            <p className="text-2xl text-foreground mb-12 leading-relaxed">
               Join thousands of users who have already discovered the power of RabwaTools
             </p>
             
@@ -327,7 +327,7 @@ const Features = () => {
                 whileHover={{ scale: 1.05, y: -2 }}
                 whileTap={{ scale: 0.95 }}
               >
-                <Button className="text-xl px-12 py-8 bg-gradient-to-r from-[#4A638D] to-[#1ABC9C] hover:from-[#1ABC9C] hover:to-[#4A638D] text-white border-0 shadow-2xl hover:shadow-[#4A638D]/25 transition-all duration-300 group rounded-full">
+                <Button className="text-xl px-12 py-8 bg-gradient-to-r from-primary to-secondary hover:from-secondary hover:to-primary text-primary-foreground border-0 shadow-2xl hover:shadow-primary/25 transition-all duration-300 group rounded-full">
                   <Rocket className="w-7 h-7 mr-3 group-hover:rotate-12 transition-transform" />
                   Start Using Tools
                   <ArrowRight className="w-7 h-7 ml-3 group-hover:translate-x-2 transition-transform" />
@@ -339,7 +339,7 @@ const Features = () => {
                 whileHover={{ scale: 1.05, y: -2 }}
                 whileTap={{ scale: 0.95 }}
               >
-                <Button variant="outline" className="text-xl px-12 py-8 border-2 border-[#CBA79D] text-[#2C3E50] hover:bg-[#CBA79D] hover:text-white shadow-xl hover:shadow-[#CBA79D]/25 transition-all duration-300 rounded-full">
+                <Button variant="outline" className="text-xl px-12 py-8 border-2 border-accent text-foreground hover:bg-accent hover:text-accent-foreground shadow-xl hover:shadow-accent/25 transition-all duration-300 rounded-full">
                   <Heart className="w-7 h-7 mr-3" />
                   Learn More
                 </Button>
@@ -350,7 +350,7 @@ const Features = () => {
       </section>
 
       {/* Footer */}
-      <footer className="py-16 bg-gradient-to-r from-[#2C3E50] to-[#4A638D] text-white">
+      <footer className="py-16 bg-gradient-to-r from-muted to-primary text-primary-foreground">
         <div className="container mx-auto px-4 text-center">
           <motion.div
             className="flex items-center justify-center gap-4 mb-8"
@@ -359,14 +359,14 @@ const Features = () => {
             transition={{ duration: 0.6 }}
             viewport={{ once: true }}
           >
-            <div className="w-12 h-12 bg-gradient-to-br from-[#1ABC9C] to-[#D691A4] rounded-xl flex items-center justify-center shadow-lg">
-              <Star className="w-7 h-7 text-white" />
+            <div className="w-12 h-12 bg-gradient-to-br from-secondary to-accent rounded-xl flex items-center justify-center shadow-lg">
+              <Star className="w-7 h-7 text-primary-foreground" />
             </div>
             <span className="text-3xl font-bold">RabwaTools</span>
           </motion.div>
           
           <motion.p
-            className="text-lg text-white/80 mb-8 max-w-2xl mx-auto"
+            className="text-lg text-primary-foreground/80 mb-8 max-w-2xl mx-auto"
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             transition={{ duration: 0.6, delay: 0.2 }}
@@ -376,7 +376,7 @@ const Features = () => {
           </motion.p>
           
           <motion.div
-            className="flex items-center justify-center gap-8 text-sm text-white/60"
+            className="flex items-center justify-center gap-8 text-sm text-primary-foreground/60"
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             transition={{ duration: 0.6, delay: 0.4 }}
