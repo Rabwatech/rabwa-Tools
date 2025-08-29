@@ -4,11 +4,12 @@
 @tailwind components;
 @tailwind utilities;
 
-/* RabwaTools Design System - All colors in HSL format */
+/* RABWA Design System - All colors in HSL format */
 
+/* RABWA Brand Colors */
 @layer base {
   :root {
-    /* RabwaTools Brand Colors */
+    /* RABWA Brand Colors */
     --primary: 215 35% 40%;           /* #4A638D - dark blue */
     --primary-foreground: 0 0% 98%;
     --primary-hover: 215 35% 35%;

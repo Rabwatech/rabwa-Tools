@@ -60,6 +60,8 @@ import { EnhancedSelect, SelectOption } from "@/components/ui/enhanced-select";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
 import { Navbar } from "@/components/ui/navbar";
+import { Footer } from "@/components/ui/footer";
+import { motion } from "framer-motion";
 
 // Tool definitions with categories - 100+ tools total
 const tools = [
@@ -385,17 +387,61 @@ const Index = () => {
   const selectedToolData = selectedTool ? tools.find(t => t.id === selectedTool) : null;
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-gradient-to-br from-background via-muted/20 to-muted/50 dark:from-background dark:via-muted/10 dark:to-muted/20">
       {/* Navigation */}
       <Navbar currentPage="tools" />
-
+      
       {/* Main Content */}
-      <main className="container mx-auto px-4 py-8 pt-32">
+      <main className="container mx-auto px-4 py-8">
+        {/* Hero Section */}
+        <div className="text-center mb-12">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="mb-8"
+          >
+            <h1 className="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
+              Professional Tools Collection
+            </h1>
+            <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
+              Discover our comprehensive collection of professional tools designed for developers, designers, and everyday users. 
+              Everything you need, all in one place.
+            </p>
+          </motion.div>
+
+          {/* Stats */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-2xl mx-auto mb-8"
+          >
+            <div className="bg-card/50 backdrop-blur-sm border border-border/30 rounded-xl p-4">
+              <div className="text-2xl font-bold text-primary">{tools.length}+</div>
+              <div className="text-sm text-muted-foreground">Professional Tools</div>
+            </div>
+            <div className="bg-card/50 backdrop-blur-sm border border-border/30 rounded-xl p-4">
+              <div className="text-2xl font-bold text-secondary">{categories.length}</div>
+              <div className="text-sm text-muted-foreground">Categories</div>
+            </div>
+            <div className="bg-card/50 backdrop-blur-sm border border-border/30 rounded-xl p-4">
+              <div className="text-2xl font-bold text-accent">100%</div>
+              <div className="text-sm text-muted-foreground">Free to Use</div>
+            </div>
+          </motion.div>
+        </div>
+
         {!selectedTool ? (
           <>
-            {/* Advanced Search Section */}
-            <div className="mb-8 bg-card border border-border rounded-lg p-6 shadow-sm">
-              <div className="flex flex-col lg:flex-row gap-6">
+            {/* Search and Filters Section */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+              className="bg-card/50 backdrop-blur-sm border border-border/30 rounded-2xl p-6 mb-8 shadow-lg relative z-[100]"
+            >
+              <div className="flex flex-col lg:flex-row gap-6 items-start lg:items-end">
                 {/* Search Input */}
                 <div className="flex-1">
                   <label className="block text-sm font-medium text-muted-foreground mb-2">
@@ -408,20 +454,20 @@ const Index = () => {
                       placeholder="Search by name, description, category, or keywords... (⌘K)"
                       value={searchTerm}
                       onChange={(e) => setSearchTerm(e.target.value)}
-                      className="w-full pl-10 pr-4 py-3 bg-background border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                      className="w-full pl-10 pr-4 py-3 bg-background/50 border border-border/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all duration-300"
                     />
                     {searchTerm && (
-              <button
+                      <button
                         onClick={() => setSearchTerm('')}
                         className="absolute right-3 top-1/2 transform -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
-              >
+                      >
                         <X className="w-4 h-4" />
-              </button>
+                      </button>
                     )}
                     
                     {/* Smart Search Suggestions */}
                     {searchTerm && searchTerm.length > 1 && (
-                      <div className="absolute top-full left-0 right-0 mt-1 bg-card border border-border rounded-lg shadow-lg z-50 max-h-60 overflow-y-auto">
+                      <div className="absolute top-full left-0 right-0 mt-1 bg-card/90 backdrop-blur-sm border border-border/30 rounded-lg shadow-xl z-[60] max-h-60 overflow-y-auto">
                         {tools
                           .filter(tool => {
                             const searchLower = searchTerm.toLowerCase();
@@ -441,9 +487,9 @@ const Index = () => {
                                 setSearchTerm(tool.name);
                                 setSelectedCategory(tool.category);
                               }}
-                              className="w-full px-4 py-3 text-left hover:bg-muted transition-colors border-b border-border last:border-b-0"
+                              className="w-full px-4 py-3 text-left hover:bg-muted/50 transition-colors border-b border-border/30 last:border-b-0"
                             >
-              <div className="flex items-center gap-3">
+                              <div className="flex items-center gap-3">
                                 <tool.icon className="w-5 h-5 text-primary" />
                                 <div className="flex-1">
                                   <div className="font-medium text-foreground">{tool.name}</div>
@@ -497,139 +543,137 @@ const Index = () => {
                       variant="default"
                     />
                   </div>
-
-                  {/* Advanced Search Toggle */}
-                  <div className="min-w-[200px]">
-                    <Checkbox
-                      checked={advancedSearch}
-                      onChange={setAdvancedSearch}
-                      label="Deep Search"
-                      description="Enable advanced search with fuzzy matching and word analysis"
-                      size="md"
-                      variant="default"
-                    />
-                  </div>
                 </div>
               </div>
+            </motion.div>
 
-              {/* Search Stats */}
-              {searchTerm && (
-                <div className="mt-4 pt-4 border-t border-border">
-                  <div className="flex items-center justify-between text-sm text-muted-foreground">
-                    <div className="flex items-center gap-4">
-                      <span>
-                        Found {filteredTools.length} tool{filteredTools.length !== 1 ? 's' : ''} 
-                        {searchTerm && ` for "${searchTerm}"`}
-                      </span>
-                      {advancedSearch && (
-                        <span className="px-2 py-1 bg-primary/10 text-primary rounded-md text-xs">
-                          Deep Search Active
-                        </span>
-                      )}
-                    </div>
-                    <div className="flex items-center gap-2">
-              <button
-                        onClick={() => setAdvancedSearch(!advancedSearch)}
-                        className={`px-3 py-1 rounded-md text-xs transition-colors ${
-                          advancedSearch 
-                            ? 'bg-primary text-primary-foreground' 
-                            : 'bg-muted text-muted-foreground hover:bg-muted/80'
-                        }`}
-                      >
-                        {advancedSearch ? 'Deep Search ON' : 'Deep Search OFF'}
-                      </button>
-                      <button
-                        onClick={() => setSearchTerm('')}
-                        className="text-primary hover:text-primary/80 transition-colors"
-                      >
-                        Clear search
-              </button>
-            </div>
-            </div>
-          </div>
-              )}
-            </div>
-
-                                    {/* Enhanced Category Tabs */}
-            <div className="mb-8">
-              <div className="bg-muted/30 rounded-lg p-4">
-                <div className="flex items-center justify-between mb-3">
-                  <h3 className="text-sm font-medium text-muted-foreground">
-                    Choose a category to filter tools:
-                  </h3>
-                  {selectedCategory !== 'all' && (
-                    <div className="flex items-center gap-2 text-xs">
-                      <div className="w-2 h-2 bg-primary rounded-full animate-pulse"></div>
-                      <span className="text-primary font-medium">Filtering by: {selectedCategory}</span>
-                    </div>
-                  )}
-                </div>
-                <div className="flex flex-wrap gap-2">
+            {/* Results Header */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.4 }}
+              className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8 p-6 bg-card/30 backdrop-blur-sm border border-border/20 rounded-xl"
+            >
+              <div>
+                <h2 className="text-2xl font-bold text-foreground">
+                  {selectedCategory === 'all' ? 'All Tools' : `${selectedCategory} Tools`}
+                </h2>
+                <p className="text-muted-foreground">
+                  Showing {filteredTools.length} tool{filteredTools.length !== 1 ? 's' : ''}
+                  {selectedCategory !== 'all' && ` out of ${tools.filter(t => t.category === selectedCategory).length} total in this category`}
+                </p>
+              </div>
+              
+              {selectedCategory !== 'all' && (
+                <div className="text-right">
+                  <div className="text-sm text-muted-foreground">Category Filter Active</div>
                   <button
                     onClick={() => setSelectedCategory('all')}
-                    className={`px-4 py-2 rounded-lg font-medium transition-all duration-200 ${
+                    className="text-primary hover:text-primary/80 text-sm font-medium"
+                  >
+                    ← Show All Categories
+                  </button>
+                </div>
+              )}
+            </motion.div>
+
+            {/* Category Tabs */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.45 }}
+              className="mb-8"
+            >
+              <div className="bg-card/30 backdrop-blur-sm border border-border/20 rounded-xl p-4">
+                <div className="flex items-center justify-between mb-4">
+                  <h3 className="text-lg font-semibold text-foreground">Browse by Category</h3>
+                  <span className="text-sm text-muted-foreground">
+                    {tools.length} tools available
+                  </span>
+                </div>
+                
+                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3">
+                  {/* All Categories Tab */}
+                  <button
+                    onClick={() => setSelectedCategory('all')}
+                    className={`group relative p-4 rounded-xl border-2 transition-all duration-300 text-center hover:scale-105 ${
                       selectedCategory === 'all'
-                        ? 'bg-primary text-primary-foreground shadow-md'
-                        : 'bg-background hover:bg-muted border border-border'
+                        ? 'border-primary bg-primary/10 shadow-lg shadow-primary/20'
+                        : 'border-border/30 bg-card/50 hover:border-primary/50 hover:bg-primary/5'
                     }`}
                   >
-                    All Tools ({tools.length})
+                    <div className="w-8 h-8 mx-auto mb-2 rounded-lg bg-gradient-to-br from-primary to-secondary flex items-center justify-center">
+                      <Globe className="w-4 h-4 text-primary-foreground" />
+                    </div>
+                    <div className="text-sm font-medium text-foreground">All Categories</div>
+                    <div className="text-xs text-muted-foreground">{tools.length}+</div>
+                    
+                    {/* Active Indicator */}
+                    {selectedCategory === 'all' && (
+                      <motion.div
+                        className="absolute -top-1 -right-1 w-3 h-3 bg-primary rounded-full"
+                        initial={{ scale: 0 }}
+                        animate={{ scale: 1 }}
+                        transition={{ duration: 0.3 }}
+                      />
+                    )}
                   </button>
-                  {categories.map((category) => (
-                    <button
+
+                  {/* Category Tabs */}
+                  {categories.map((category, index) => (
+                    <motion.button
                       key={category.name}
                       onClick={() => setSelectedCategory(category.name)}
-                      className={`px-4 py-2 rounded-lg font-medium transition-all duration-200 flex items-center gap-2 ${
+                      className={`group relative p-4 rounded-xl border-2 transition-all duration-300 text-center hover:scale-105 ${
                         selectedCategory === category.name
-                          ? 'bg-primary text-primary-foreground shadow-md'
-                          : 'bg-background hover:bg-muted border border-border'
+                          ? 'border-primary bg-primary/10 shadow-lg shadow-primary/20'
+                          : 'border-border/30 bg-card/50 hover:border-primary/50 hover:bg-primary/5'
                       }`}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.4, delay: 0.5 + (index * 0.05) }}
                     >
-                      <category.icon className="w-4 h-4" />
-                      {category.name} ({category.count})
-                    </button>
+                      <div 
+                        className="w-8 h-8 mx-auto mb-2 rounded-lg flex items-center justify-center"
+                        style={{ backgroundColor: category.color + '20' }}
+                      >
+                        <category.icon className="w-4 h-4" style={{ color: category.color }} />
+                      </div>
+                      <div className="text-sm font-medium text-foreground group-hover:text-primary transition-colors">
+                        {category.name}
+                      </div>
+                      <div className="text-xs text-muted-foreground">{category.count}</div>
+                      
+                      {/* Active Indicator */}
+                      {selectedCategory === category.name && (
+                        <motion.div
+                          className="absolute -top-1 -right-1 w-3 h-3 bg-primary rounded-full"
+                          initial={{ scale: 0 }}
+                          animate={{ scale: 1 }}
+                          transition={{ duration: 0.3 }}
+                        />
+                      )}
+                    </motion.button>
                   ))}
                 </div>
               </div>
-                  </div>
-                  
-            {/* Enhanced Tools Header */}
-            <div className="mb-6 p-4 bg-muted/20 rounded-lg border border-border">
-              <div className="flex items-center justify-between">
-                <div>
-                  <h2 className="text-2xl font-bold text-foreground">
-                    {selectedCategory === 'all' ? 'All Tools' : `${selectedCategory} Tools`}
-                  </h2>
-                  <p className="text-muted-foreground">
-                    Showing {filteredTools.length} tool{filteredTools.length !== 1 ? 's' : ''}
-                    {selectedCategory !== 'all' && ` out of ${tools.filter(t => t.category === selectedCategory).length} total in this category`}
-                  </p>
-                </div>
-                
-                {selectedCategory !== 'all' && (
-                  <div className="text-right">
-                    <div className="text-sm text-muted-foreground">Category Filter Active</div>
-                    <button
-                      onClick={() => setSelectedCategory('all')}
-                      className="text-primary hover:text-primary/80 text-sm font-medium"
-                    >
-                      ← Show All Categories
-                    </button>
-                  </div>
-                )}
-              </div>
-            </div>
+            </motion.div>
 
             {/* Tools Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.5 }}
+              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
+            >
               {filteredTools.map((tool) => (
                 <ToolCard
                   key={tool.id}
                   tool={{
                     id: tool.id,
-                    name: tool.name, // Keep English name
-                    description: tool.description, // Keep English description
-                    category: tool.category, // Keep English category
+                    name: tool.name,
+                    description: tool.description,
+                    category: tool.category,
                     icon: tool.icon
                   }}
                   isFavorite={favorites.includes(tool.id)}
@@ -638,11 +682,16 @@ const Index = () => {
                   className="h-80"
                 />
               ))}
-            </div>
+            </motion.div>
 
             {/* No Results */}
             {filteredTools.length === 0 && (
-              <div className="text-center py-16">
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6 }}
+                className="text-center py-16 bg-card/30 backdrop-blur-sm border border-border/20 rounded-2xl"
+              >
                 <Search className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
                 <h3 className="text-xl font-semibold mb-2">No tools found</h3>
                 <p className="text-muted-foreground mb-4">
@@ -669,18 +718,23 @@ const Index = () => {
                     </button>
                   )}
                 </div>
-              </div>
+              </motion.div>
             )}
           </>
         ) : (
           /* Tool Interface */
-          <div className="space-y-6">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="space-y-6"
+          >
             {/* Tool Header */}
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between bg-card/50 backdrop-blur-sm border border-border/30 rounded-xl p-6">
               <div className="flex items-center gap-4">
                 <button
                   onClick={() => setSelectedTool(null)}
-                  className="p-2 rounded-lg hover:bg-muted transition-colors"
+                  className="p-2 rounded-lg hover:bg-muted/50 transition-colors"
                 >
                   <ArrowLeft className="w-5 h-5" />
                 </button>
@@ -704,12 +758,15 @@ const Index = () => {
             </div>
 
             {/* Tool Component */}
-            <div className="bg-card border border-border rounded-lg p-6">
+            <div className="bg-card/50 backdrop-blur-sm border border-border/30 rounded-xl p-6 shadow-lg">
               {selectedToolData?.component && <selectedToolData.component />}
             </div>
-          </div>
+          </motion.div>
         )}
       </main>
+
+      {/* Footer */}
+      <Footer />
     </div>
   );
 };

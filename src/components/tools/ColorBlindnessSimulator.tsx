@@ -338,7 +338,7 @@ export const ColorBlindnessSimulator = () => {
                 Download Simulated Image
               </Button>
               <Button 
-                onClick={() => copyToClipboard(`Color blindness simulation (${colorBlindnessTypes.find(t => t.value === colorBlindnessType)?.label}) generated with RabwaTools`)}
+                onClick={() => copyToClipboard(`Color blindness simulation (${colorBlindnessTypes.find(t => t.value === colorBlindnessType)?.label}) generated with RABWA Tools`)}
                 variant="outline"
               >
                 <Copy className="w-4 h-4 mr-2" />

@@ -9,6 +9,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Navbar } from '@/components/ui/navbar';
+import { Footer } from '@/components/ui/footer';
 
 const Features = () => {
   const [isHovering, setIsHovering] = useState(false);
@@ -109,7 +110,23 @@ const Features = () => {
             className="inline-flex items-center gap-3 px-8 py-4 bg-card/20 backdrop-blur-xl border border-border/30 rounded-full text-primary font-semibold mb-8 shadow-2xl"
           >
             <Sparkles className="w-6 h-6 text-secondary" />
-            Why Choose RabwaTools?
+            Why Choose RABWA Tools?
+          </motion.div>
+
+          {/* RABWA Logo */}
+          <motion.div
+            initial={{ scale: 0, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ duration: 0.8, delay: 0.4, type: "spring", stiffness: 200 }}
+            className="mb-8 flex justify-center"
+          >
+            <div className="w-24 h-24 sm:w-32 sm:h-32 bg-white/20 backdrop-blur-xl rounded-full flex items-center justify-center shadow-2xl border border-white/30 p-4">
+              <img 
+                src="/rabwa-logo.png" 
+                alt="RABWA Logo" 
+                className="w-full h-full object-contain"
+              />
+            </div>
           </motion.div>
 
           {/* Main Title */}
@@ -164,7 +181,7 @@ const Features = () => {
               Core Features
             </h2>
             <p className="text-xl text-foreground max-w-3xl mx-auto">
-              Discover what makes RabwaTools the ultimate choice for professionals and enthusiasts
+              Discover what makes RABWA Tools the ultimate choice for professionals and enthusiasts
             </p>
           </motion.div>
 
@@ -229,7 +246,7 @@ const Features = () => {
               Trusted by Millions
             </h2>
             <p className="text-xl text-foreground max-w-3xl mx-auto">
-              Join a global community of satisfied users who trust RabwaTools
+              Join a global community of satisfied users who trust RABWA Tools
             </p>
           </motion.div>
 
@@ -318,7 +335,7 @@ const Features = () => {
               Ready to Experience Excellence?
             </h2>
             <p className="text-2xl text-foreground mb-12 leading-relaxed">
-              Join thousands of users who have already discovered the power of RabwaTools
+              Join thousands of users who have already discovered the power of RABWA Tools
             </p>
             
             <div className="flex flex-col sm:flex-row gap-6 justify-center">
@@ -350,48 +367,7 @@ const Features = () => {
       </section>
 
       {/* Footer */}
-      <footer className="py-16 bg-gradient-to-r from-muted to-primary text-primary-foreground">
-        <div className="container mx-auto px-4 text-center">
-          <motion.div
-            className="flex items-center justify-center gap-4 mb-8"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-          >
-            <div className="w-12 h-12 bg-gradient-to-br from-secondary to-accent rounded-xl flex items-center justify-center shadow-lg">
-              <Star className="w-7 h-7 text-primary-foreground" />
-            </div>
-            <span className="text-3xl font-bold">RabwaTools</span>
-          </motion.div>
-          
-          <motion.p
-            className="text-lg text-primary-foreground/80 mb-8 max-w-2xl mx-auto"
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            viewport={{ once: true }}
-          >
-            Built with ❤️ for the community. Experience excellence in every tool.
-          </motion.p>
-          
-          <motion.div
-            className="flex items-center justify-center gap-8 text-sm text-primary-foreground/60"
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            transition={{ duration: 0.6, delay: 0.4 }}
-            viewport={{ once: true }}
-          >
-            <span>© 2024 RabwaTools</span>
-            <span>•</span>
-            <span>Privacy Policy</span>
-            <span>•</span>
-            <span>Terms of Service</span>
-            <span>•</span>
-            <span>Contact Us</span>
-          </motion.div>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 };

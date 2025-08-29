@@ -37,6 +37,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Navbar } from '@/components/ui/navbar';
+import { Footer } from '@/components/ui/footer';
 
 // Register GSAP plugins
 gsap.registerPlugin(ScrollTrigger);
@@ -217,30 +218,23 @@ const Landing = () => {
         >
           <div className="text-center">
             <motion.div
-              className="w-32 h-32 bg-white/20 backdrop-blur-xl rounded-3xl flex items-center justify-center mb-8 shadow-2xl border border-white/30"
-              animate={{ 
-                rotate: 360,
-                scale: [1, 1.1, 1],
-                boxShadow: [
-                  "0 0 0 rgba(74, 99, 141, 0.4)",
-                  "0 0 20px rgba(74, 99, 141, 0.6)",
-                  "0 0 0 rgba(74, 99, 141, 0.4)"
-                ]
-              }}
-              transition={{ 
-                rotate: { duration: 2, repeat: Infinity, ease: "linear" },
-                scale: { duration: 2, repeat: Infinity, ease: "easeInOut" },
-                boxShadow: { duration: 2, repeat: Infinity, ease: "easeInOut" }
-              }}
+              className="w-full flex justify-center items-center mb-8"
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 1, ease: "easeOut" }}
             >
-              <Wrench className="w-16 h-16 text-white" />
+              <img 
+                src="/rabwa-logo.png" 
+                alt="RABWA Logo" 
+                className="w-20 h-20 object-contain filter brightness-0 invert"
+              />
             </motion.div>
             <motion.h1
               className="text-4xl font-black text-white mb-4"
               animate={{ opacity: [0.5, 1, 0.5] }}
               transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
             >
-              RabwaTools
+              RABWA Tools
             </motion.h1>
             <motion.div
               className="w-64 h-2 bg-white/30 rounded-full overflow-hidden"
@@ -340,6 +334,22 @@ const Landing = () => {
             Professional Tools Collection
           </motion.div>
 
+          {/* RABWA Logo */}
+          <motion.div
+            initial={{ scale: 0, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ duration: 0.8, delay: 0.4, type: "spring", stiffness: 200 }}
+            className="mb-8 flex justify-center"
+          >
+            <div className="w-24 h-24 sm:w-32 sm:h-32 bg-white/20 backdrop-blur-xl rounded-full flex items-center justify-center shadow-2xl border border-white/30 p-4">
+              <img 
+                src="/rabwa-logo.png" 
+                alt="RABWA Logo" 
+                className="w-full h-full object-contain"
+              />
+            </div>
+          </motion.div>
+
           {/* Main Title */}
           <motion.h1
             className="hero-title text-5xl md:text-7xl font-black mb-8 bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent leading-tight"
@@ -347,7 +357,7 @@ const Landing = () => {
               textShadow: '0 0 60px hsl(var(--primary) / 0.3)'
             }}
           >
-            RabwaTools
+            RABWA Tools
           </motion.h1>
 
           {/* Animated Tagline */}
@@ -387,10 +397,7 @@ const Landing = () => {
               onMouseEnter={() => setIsHovering(true)}
               onMouseLeave={() => setIsHovering(false)}
             >
-              <Button variant="outline" className="text-lg px-8 py-6 border-2 border-accent text-foreground hover:bg-accent hover:text-accent-foreground shadow-lg hover:shadow-accent/25 transition-all duration-300 rounded-full">
-                <Play className="w-5 h-5 mr-3" />
-                Watch Demo
-              </Button>
+              
             </motion.div>
           </motion.div>
 
@@ -451,9 +458,15 @@ const Landing = () => {
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
           >
-            <h2 className="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-[#4A638D] to-[#1ABC9C] bg-clip-text text-transparent">
-              Why Choose RabwaTools?
-            </h2>
+            <motion.h2
+              initial={{ y: 100, opacity: 0 }}
+              whileInView={{ y: 0, opacity: 1 }}
+              transition={{ duration: 1, delay: 0.2 }}
+              viewport={{ once: true }}
+              className="text-4xl md:text-6xl font-black mb-8 bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent text-center"
+            >
+              Why Choose RABWA Tools?
+            </motion.h2>
             <p className="text-xl text-[#2C3E50] dark:text-gray-300 max-w-3xl mx-auto">
               Built with cutting-edge technology and user experience in mind
             </p>
@@ -579,7 +592,7 @@ const Landing = () => {
               Ready to Get Started?
             </h2>
             <p className="text-2xl text-[#2C3E50] dark:text-gray-300 mb-12 leading-relaxed">
-              Join <span className="font-bold text-[#4A638D]">500K+ users</span> who trust RabwaTools for their daily needs
+              Join <span className="font-bold text-[#4A638D]">500K+ users</span> who trust RABWA Tools for their daily needs
             </p>
             
             <div className="flex flex-col sm:flex-row gap-6 justify-center mb-12">
@@ -605,10 +618,7 @@ const Landing = () => {
                 onMouseEnter={() => setIsHovering(true)}
                 onMouseLeave={() => setIsHovering(false)}
               >
-                                 <Button variant="outline" className="text-xl px-12 py-8 border-2 border-[#CBA79D] text-[#2C3E50] hover:bg-[#CBA79D] hover:text-white shadow-xl hover:shadow-[#CBA79D]/25 transition-all duration-300 rounded-full">
-                   <Users className="w-7 h-7 mr-3" />
-                   Join Community
-                 </Button>
+                                 
               </motion.div>
             </div>
 
@@ -638,48 +648,7 @@ const Landing = () => {
       </section>
 
       {/* Footer */}
-      <footer className="py-16 bg-gradient-to-r from-[#2C3E50] to-[#4A638D] text-white">
-        <div className="container mx-auto px-4 text-center">
-          <motion.div
-            className="flex items-center justify-center gap-4 mb-8"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-          >
-            <div className="w-12 h-12 bg-gradient-to-br from-[#1ABC9C] to-[#D691A4] rounded-xl flex items-center justify-center shadow-lg">
-              <Wrench className="w-7 h-7 text-white" />
-            </div>
-            <span className="text-3xl font-bold">RabwaTools</span>
-          </motion.div>
-          
-          <motion.p
-            className="text-lg text-white/80 mb-8 max-w-2xl mx-auto"
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            viewport={{ once: true }}
-          >
-            Professional tools for everyone. Built with ❤️ for the community.
-          </motion.p>
-          
-          <motion.div
-            className="flex items-center justify-center gap-8 text-sm text-white/60"
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            transition={{ duration: 0.6, delay: 0.4 }}
-            viewport={{ once: true }}
-          >
-            <span>© 2024 RabwaTools</span>
-            <span>•</span>
-            <span>Privacy Policy</span>
-            <span>•</span>
-            <span>Terms of Service</span>
-            <span>•</span>
-            <span>Contact Us</span>
-          </motion.div>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 };

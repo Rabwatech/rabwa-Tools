@@ -40,34 +40,18 @@ export const Navbar: React.FC<NavbarProps> = ({ currentPage = 'home' }) => {
       
       <div className="container mx-auto px-4 sm:px-6 py-4 sm:py-6">
         <div className="flex items-center justify-between">
-          {/* Animated Logo */}
-          <motion.div 
-            className="flex items-center gap-2 sm:gap-4"
-            whileHover={{ scale: 1.05 }}
-            transition={{ type: "spring" as const, stiffness: 400 }}
-            onMouseEnter={() => setIsHovering(true)}
-            onMouseLeave={() => setIsHovering(false)}
-          >
-            <motion.div 
-              className="w-10 h-10 sm:w-14 sm:h-14 bg-gradient-to-br from-primary via-secondary to-accent rounded-2xl flex items-center justify-center shadow-2xl border border-border/20"
-              animate={{ 
-                rotate: 360,
-                boxShadow: [
-                  "0 0 20px hsl(var(--primary) / 0.3)",
-                  "0 0 40px hsl(var(--secondary) / 0.4)",
-                  "0 0 20px hsl(var(--primary) / 0.3)"
-                ]
-              }}
-              transition={{ 
-                rotate: { duration: 20, repeat: Infinity, ease: "linear" },
-                boxShadow: { duration: 3, repeat: Infinity, ease: "easeInOut" }
-              }}
-            >
-              <Wrench className="w-5 h-5 sm:w-8 sm:h-8 text-primary-foreground" />
-            </motion.div>
+          {/* Logo */}
+          <div className="flex items-center gap-2 sm:gap-4">
+            <div className="w-10 h-10 sm:w-14 sm:h-14 flex items-center justify-center">
+              <img 
+                src="/rabwa-logo-new.png" 
+                alt="RABWA Logo" 
+                className="w-6 h-6 sm:w-10 sm:h-10 object-contain"
+              />
+            </div>
             <div className="hidden sm:block">
               <h1 className="text-2xl sm:text-3xl font-black bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
-                RabwaTools
+                RABWA Tools
               </h1>
               <p className="text-xs sm:text-sm font-semibold text-muted-foreground bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
                 Professional Tools Collection
@@ -75,10 +59,10 @@ export const Navbar: React.FC<NavbarProps> = ({ currentPage = 'home' }) => {
             </div>
             <div className="sm:hidden">
               <h1 className="text-lg font-black bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
-                RabwaTools
+                RABWA Tools
               </h1>
             </div>
-          </motion.div>
+          </div>
 
           {/* Desktop Navigation Links */}
           <nav className="hidden lg:flex items-center gap-10">
