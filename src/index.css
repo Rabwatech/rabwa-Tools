@@ -4,6 +4,44 @@
 @tailwind components;
 @tailwind utilities;
 
+/* RTL Support */
+[dir="rtl"] {
+  text-align: right;
+}
+
+[dir="rtl"] .text-left {
+  text-align: right !important;
+}
+
+[dir="rtl"] .text-right {
+  text-align: left !important;
+}
+
+[dir="rtl"] .ml-auto {
+  margin-right: auto !important;
+  margin-left: 0 !important;
+}
+
+[dir="rtl"] .mr-auto {
+  margin-left: auto !important;
+  margin-right: 0 !important;
+}
+
+/* Language transition animations */
+.language-transition {
+  transition: all 0.3s ease-in-out;
+}
+
+/* Force re-render on language change */
+.language-change {
+  animation: languageChange 0.1s ease-in-out;
+}
+
+@keyframes languageChange {
+  0% { opacity: 0.99; }
+  100% { opacity: 1; }
+}
+
 /* RABWA Design System - All colors in HSL format */
 
 /* RABWA Brand Colors */

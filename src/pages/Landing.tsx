@@ -38,6 +38,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Badge } from '@/components/ui/badge';
 import { Navbar } from '@/components/ui/navbar';
 import { Footer } from '@/components/ui/footer';
+import { useLanguage } from '@/hooks/use-language';
+import Cookies from 'js-cookie';
 
 // Register GSAP plugins
 gsap.registerPlugin(ScrollTrigger);
@@ -48,10 +50,31 @@ const Landing = () => {
   const [currentCategory, setCurrentCategory] = useState(0);
   const [isHovering, setIsHovering] = useState(false);
   const [showPreloader, setShowPreloader] = useState(true);
+  const { t, language } = useLanguage();
   
   const containerRef = useRef<HTMLDivElement>(null);
   const heroRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll();
+  
+  // Sync language with cookies on page load
+  useEffect(() => {
+    // Check cookies first, then localStorage backup
+    let savedLanguage = Cookies.get('rabwa-language');
+    
+    if (!savedLanguage) {
+      // Fallback to localStorage backup
+      savedLanguage = localStorage.getItem('rabwa-language-backup');
+    }
+    
+    if (savedLanguage && (savedLanguage === 'ar' || savedLanguage === 'en')) {
+      const lang = savedLanguage;
+      const dir = lang === 'ar' ? 'rtl' : 'ltr';
+      
+      document.documentElement.dir = dir;
+      document.documentElement.lang = lang;
+      document.body.style.direction = dir;
+    }
+  }, []);
   
   // Preloader effect
   useEffect(() => {
@@ -169,22 +192,22 @@ const Landing = () => {
   }, []);
 
   const categories = [
-    { icon: FileText, name: "Text & Writing", count: 23, color: "#4A638D", description: "Text processing & analysis" },
-    { icon: Globe, name: "Conversion", count: 20, color: "#1ABC9C", description: "Unit & format conversion" },
-    { icon: Calculator, name: "Financial", count: 20, color: "#CBA79D", description: "Business calculations" },
-    { icon: Palette, name: "Color & Design", count: 21, color: "#D691A4", description: "Creative tools" },
-    { icon: CheckSquare, name: "Productivity", count: 20, color: "#2C3E50", description: "Time management" },
-    { icon: FileIcon, name: "File Tools", count: 21, color: "#4A638D", description: "File processing" },
-    { icon: Shuffle, name: "Miscellaneous", count: 20, color: "#1ABC9C", description: "Utility tools" }
+    { icon: FileText, name: t('landing.categories.textWriting'), count: 23, color: "#4A638D", description: t('landing.categories.textWritingDesc') },
+    { icon: Globe, name: t('landing.categories.conversion'), count: 20, color: "#1ABC9C", description: t('landing.categories.conversionDesc') },
+    { icon: Calculator, name: t('landing.categories.financial'), count: 20, color: "#CBA79D", description: t('landing.categories.financialDesc') },
+    { icon: Palette, name: t('landing.categories.colorDesign'), count: 21, color: "#D691A4", description: t('landing.categories.colorDesignDesc') },
+    { icon: CheckSquare, name: t('landing.categories.productivity'), count: 20, color: "#2C3E50", description: t('landing.categories.productivityDesc') },
+    { icon: FileIcon, name: t('landing.categories.fileTools'), count: 21, color: "#4A638D", description: t('landing.categories.fileToolsDesc') },
+    { icon: Shuffle, name: t('landing.categories.miscellaneous'), count: 20, color: "#1ABC9C", description: t('landing.categories.miscellaneousDesc') }
   ];
 
   const features = [
-    { icon: Lock, title: "Privacy First", description: "Data never leaves your browser", color: "#4A638D" },
-    { icon: Zap, title: "Lightning Fast", description: "Instant processing, zero delays", color: "#1ABC9C" },
-    { icon: Smartphone, title: "Universal Access", description: "Works on any device, anywhere", color: "#CBA79D" },
-    { icon: CheckCircle, title: "No Registration", description: "Start using immediately", color: "#D691A4" },
-    { icon: Moon, title: "Dark/Light Mode", description: "Beautiful themes", color: "#2C3E50" },
-    { icon: Wifi, title: "Offline Ready", description: "Works without internet", color: "#4A638D" }
+    { icon: Lock, title: t('landing.features.privacyFirst'), description: t('landing.features.privacyFirstDesc'), color: "#4A638D" },
+    { icon: Zap, title: t('landing.features.lightningFast'), description: t('landing.features.lightningFastDesc'), color: "#1ABC9C" },
+    { icon: Smartphone, title: t('landing.features.universalAccess'), description: t('landing.features.universalAccessDesc'), color: "#CBA79D" },
+    { icon: CheckCircle, title: t('landing.features.noRegistration'), description: t('landing.features.noRegistrationDesc'), color: "#D691A4" },
+    { icon: Moon, title: t('landing.features.darkLightMode'), description: t('landing.features.darkLightModeDesc'), color: "#2C3E50" },
+    { icon: Wifi, title: t('landing.features.offlineReady'), description: t('landing.features.offlineReadyDesc'), color: "#4A638D" }
   ];
 
   // Magnetic effect for buttons
@@ -234,7 +257,7 @@ const Landing = () => {
               animate={{ opacity: [0.5, 1, 0.5] }}
               transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
             >
-              RABWA Tools
+              {t('landing.title')}
             </motion.h1>
             <motion.div
               className="w-64 h-2 bg-white/30 rounded-full overflow-hidden"
@@ -254,7 +277,7 @@ const Landing = () => {
               animate={{ opacity: [0.5, 1, 0.5] }}
               transition={{ duration: 2, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
             >
-              Loading legendary experience...
+              {t('landing.loading')}
             </motion.p>
           </div>
         </motion.div>
@@ -331,7 +354,7 @@ const Landing = () => {
             className="inline-flex items-center gap-2 px-6 py-3 bg-card/20 backdrop-blur-xl border border-border/30 rounded-full text-primary font-semibold mb-8 shadow-xl"
           >
             <Sparkles className="w-5 h-5 text-secondary" />
-            Professional Tools Collection
+            {t('landing.badge')}
           </motion.div>
 
           {/* RABWA Logo */}
@@ -357,18 +380,18 @@ const Landing = () => {
               textShadow: '0 0 60px hsl(var(--primary) / 0.3)'
             }}
           >
-            RABWA Tools
+            {t('landing.title')}
           </motion.h1>
 
           {/* Animated Tagline */}
           <motion.p
             className="hero-subtitle text-xl md:text-2xl text-foreground mb-8 font-medium max-w-4xl mx-auto leading-relaxed"
           >
-            Your ultimate toolkit with{' '}
+            {t('landing.subtitle')}{' '}
             <span className="font-bold text-primary">
-              {counterValue}+ professional tools
+              {counterValue}+ {t('landing.toolsCount')}
             </span>{' '}
-            for developers, designers, and everyday users.
+            {t('landing.subtitleEnd')}
           </motion.p>
 
           {/* CTA Buttons */}
@@ -385,7 +408,7 @@ const Landing = () => {
             >
               <Button className="text-lg px-8 py-6 bg-gradient-to-r from-primary to-secondary hover:from-secondary hover:to-primary text-primary-foreground border-0 shadow-xl hover:shadow-primary/25 transition-all duration-300 group rounded-full">
                 <Search className="w-5 h-5 mr-3 group-hover:rotate-12 transition-transform" />
-                Explore All Tools
+                {t('landing.exploreTools')}
                 <ArrowRight className="w-5 h-5 ml-3 group-hover:translate-x-2 transition-transform" />
               </Button>
             </motion.a>
@@ -409,10 +432,10 @@ const Landing = () => {
             className="flex flex-wrap justify-center gap-8 text-center"
           >
             {[
-              { label: 'Tools', value: '180+', icon: Wrench, color: '#4A638D' },
-              { label: 'Categories', value: '8', icon: Globe, color: '#1ABC9C' },
-              { label: 'Free', value: '100%', icon: Gift, color: '#CBA79D' },
-              { label: 'Privacy', value: 'First', icon: Shield, color: '#D691A4' }
+              { label: t('landing.stats.tools'), value: '180+', icon: Wrench, color: '#4A638D' },
+              { label: t('landing.stats.categories'), value: '8', icon: Globe, color: '#1ABC9C' },
+              { label: t('landing.stats.free'), value: '100%', icon: Gift, color: '#CBA79D' },
+              { label: t('landing.stats.privacy'), value: t('landing.stats.privacy'), icon: Shield, color: '#D691A4' }
             ].map((stat, i) => (
               <motion.div
                 key={stat.label}
@@ -465,10 +488,10 @@ const Landing = () => {
               viewport={{ once: true }}
               className="text-4xl md:text-6xl font-black mb-8 bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent text-center"
             >
-              Why Choose RABWA Tools?
+              {t('landing.whyChoose')}
             </motion.h2>
             <p className="text-xl text-[#2C3E50] dark:text-gray-300 max-w-3xl mx-auto">
-              Built with cutting-edge technology and user experience in mind
+              {t('landing.whyChooseSubtitle')}
             </p>
           </motion.div>
 
@@ -520,10 +543,10 @@ const Landing = () => {
             viewport={{ once: true }}
           >
             <h2 className="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-[#4A638D] to-[#1ABC9C] bg-clip-text text-transparent">
-              Explore Tool Categories
+              {t('landing.categories.title')}
             </h2>
             <p className="text-xl text-[#2C3E50] dark:text-gray-300 max-w-3xl mx-auto">
-              Organized into logical categories for easy discovery
+              {t('landing.categories.subtitle')}
             </p>
           </motion.div>
 
@@ -564,7 +587,7 @@ const Landing = () => {
                       variant="secondary" 
                       className="text-sm px-4 py-2 bg-gradient-to-r from-[#4A638D] to-[#1ABC9C] text-white border-0"
                     >
-                      {category.count} tools
+                      {category.count} {t('common.tools')}
                     </Badge>
                   </CardContent>
                 </Card>
@@ -589,10 +612,10 @@ const Landing = () => {
             viewport={{ once: true }}
           >
             <h2 className="text-5xl md:text-6xl font-bold mb-8 bg-gradient-to-r from-[#4A638D] to-[#1ABC9C] bg-clip-text text-transparent">
-              Ready to Get Started?
+              {t('landing.readyToStart')}
             </h2>
             <p className="text-2xl text-[#2C3E50] dark:text-gray-300 mb-12 leading-relaxed">
-              Join <span className="font-bold text-[#4A638D]">500K+ users</span> who trust RABWA Tools for their daily needs
+              {t('landing.readyToStartSubtitle')} <span className="font-bold text-[#4A638D]">500K+ {t('landing.usersCount')}</span> {t('landing.whoTrust')}
             </p>
             
             <div className="flex flex-col sm:flex-row gap-6 justify-center mb-12">
@@ -606,7 +629,7 @@ const Landing = () => {
               >
                                  <Button className="text-xl px-12 py-8 bg-gradient-to-r from-[#4A638D] to-[#1ABC9C] hover:from-[#1ABC9C] hover:to-[#4A638D] text-white border-0 shadow-2xl hover:shadow-[#4A638D]/25 transition-all duration-300 group rounded-full">
                    <Rocket className="w-7 h-7 mr-3 group-hover:rotate-12 transition-transform" />
-                   Start Using Tools
+                   {t('landing.startUsingTools')}
                    <ArrowRight className="w-7 h-7 ml-3 group-hover:translate-x-2 transition-transform" />
                  </Button>
               </motion.a>
@@ -625,10 +648,10 @@ const Landing = () => {
             {/* Trust Indicators */}
             <div className="flex flex-wrap justify-center gap-8 text-center">
               {[
-                { icon: Star, label: '4.9/5 Rating', color: '#FFD700' },
-                { icon: Users, label: '500K+ Users', color: '#4A638D' },
-                { icon: Shield, label: '100% Secure', color: '#1ABC9C' },
-                { icon: Award, label: 'Best Tools 2024', color: '#D691A4' }
+                { icon: Star, label: t('landing.trustIndicators.rating'), color: '#FFD700' },
+                { icon: Users, label: t('landing.trustIndicators.users'), color: '#4A638D' },
+                { icon: Shield, label: t('landing.trustIndicators.secure'), color: '#1ABC9C' },
+                { icon: Award, label: t('landing.trustIndicators.bestTools'), color: '#D691A4' }
               ].map((item, i) => (
                 <motion.div
                   key={item.label}

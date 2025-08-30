@@ -62,180 +62,182 @@ import { Button } from "@/components/ui/button";
 import { Navbar } from "@/components/ui/navbar";
 import { Footer } from "@/components/ui/footer";
 import { motion } from "framer-motion";
+import { useLanguage } from "@/hooks/use-language";
+import Cookies from 'js-cookie';
 
 // Tool definitions with categories - 100+ tools total
-const tools = [
+const getTools = (t: any) => [
   // TEXT & WRITING TOOLS (20 tools)
-  { id: 'word-counter', name: 'Word & Character Counter', category: 'Text & Writing', icon: FileText, component: WordCounter, description: 'Count words, characters, and paragraphs in real-time' },
-  { id: 'text-case', name: 'Text Case Converter', category: 'Text & Writing', icon: FileText, component: TextCaseConverter, description: 'Convert text to UPPER, lower, Title Case, camelCase' },
-  { id: 'password-gen', name: 'Password Generator', category: 'Text & Writing', icon: Settings, component: PasswordGenerator, description: 'Generate secure passwords with custom options' },
-  { id: 'password-strength', name: 'Password Strength Checker', category: 'Text & Writing', icon: Settings, component: PasswordStrengthChecker, description: 'Check password strength with real-time analysis and suggestions' },
-  { id: 'text-cleaner', name: 'Text Cleaner', category: 'Text & Writing', icon: FileText, component: TextCleaner, description: 'Clean and format text by removing extra spaces, line breaks, and special characters' },
-  { id: 'arabic-transliterator', name: 'Arabic to English Transliteration', category: 'Text & Writing', icon: FileText, component: ArabicTransliterator, description: 'Convert between Arabic and English text with transliteration' },
-  { id: 'lorem-ipsum', name: 'Lorem Ipsum Generator', category: 'Text & Writing', icon: FileText, component: LoremIpsumGenerator, description: 'Generate placeholder text with customizable length and formatting' },
-  { id: 'text-difference', name: 'Text Difference Checker', category: 'Text & Writing', icon: FileText, component: TextDifferenceChecker, description: 'Compare two texts and highlight differences with various options' },
-  { id: 'text-reverser', name: 'Text Reverser', category: 'Text & Writing', icon: FileText, component: TextReverser, description: 'Reverse text by characters, words, lines, or sentences' },
-  { id: 'duplicate-remover', name: 'Duplicate Line Remover', category: 'Text & Writing', icon: FileText, component: DuplicateLineRemover, description: 'Remove duplicate lines while preserving unique content' },
-  { id: 'text-ascii', name: 'Text to ASCII Converter', category: 'Text & Writing', icon: Type, component: TextAsciiConverter, description: 'Convert text to ASCII codes and vice versa in multiple formats' },
-  { id: 'base64-converter', name: 'Base64 Encoder/Decoder', category: 'Text & Writing', icon: FileCode, component: Base64Converter, description: 'Encode text to Base64 or decode Base64 to text with validation' },
-  { id: 'url-encoder', name: 'URL Encoder/Decoder', category: 'Text & Writing', icon: Link, component: TextCleaner, description: 'Encode and decode URLs with proper formatting' },
-  { id: 'hash-generator', name: 'Hash Generator', category: 'Text & Writing', icon: Hash, component: HashGenerator, description: 'Generate MD5, SHA1, SHA256, SHA512 hashes with multiple output formats' },
-  { id: 'text-statistics', name: 'Text Statistics', category: 'Text & Writing', icon: BarChart3, component: TextStatistics, description: 'Detailed text analysis with word frequency, reading time, and vocabulary metrics' },
-  { id: 'text-to-speech', name: 'Text to Speech Converter', category: 'Text & Writing', icon: Volume2, component: TextCleaner, description: 'Convert text to speech with multiple voice options' },
-  { id: 'word-frequency', name: 'Word Frequency Counter', category: 'Text & Writing', icon: BarChart, component: TextStatistics, description: 'Analyze word frequency and create word clouds' },
-  { id: 'text-summarizer', name: 'Text Summarizer', category: 'Text & Writing', icon: FileText, component: TextCleaner, description: 'Generate concise summaries of long text content' },
-  { id: 'line-counter', name: 'Line Counter', category: 'Text & Writing', icon: Hash, component: TextStatistics, description: 'Count lines, words, and characters with detailed statistics' },
-  { id: 'character-frequency', name: 'Character Frequency Analyzer', category: 'Text & Writing', icon: BarChart3, component: TextStatistics, description: 'Analyze character frequency patterns in text' },
+  { id: 'word-counter', name: t('tools.wordCounter'), category: t('categories.textAndWriting'), icon: FileText, component: WordCounter, description: t('toolDescriptions.wordCounter') },
+  { id: 'text-case', name: t('tools.textCaseConverter'), category: t('categories.textAndWriting'), icon: FileText, component: TextCaseConverter, description: t('toolDescriptions.textCaseConverter') },
+  { id: 'password-gen', name: t('tools.passwordGenerator'), category: t('categories.textAndWriting'), icon: Settings, component: PasswordGenerator, description: t('toolDescriptions.passwordGenerator') },
+  { id: 'password-strength', name: t('tools.passwordStrengthChecker'), category: t('categories.textAndWriting'), icon: Settings, component: PasswordStrengthChecker, description: t('toolDescriptions.passwordStrengthChecker') },
+  { id: 'text-cleaner', name: t('tools.textCleaner'), category: t('categories.textAndWriting'), icon: FileText, component: TextCleaner, description: t('toolDescriptions.textCleaner') },
+  { id: 'arabic-transliterator', name: t('tools.arabicTransliterator'), category: t('categories.textAndWriting'), icon: FileText, component: ArabicTransliterator, description: t('toolDescriptions.arabicTransliterator') },
+  { id: 'lorem-ipsum', name: t('tools.loremIpsumGenerator'), category: t('categories.textAndWriting'), icon: FileText, component: LoremIpsumGenerator, description: t('toolDescriptions.loremIpsumGenerator') },
+  { id: 'text-difference', name: t('tools.textDifferenceChecker'), category: t('categories.textAndWriting'), icon: FileText, component: TextDifferenceChecker, description: t('toolDescriptions.textDifferenceChecker') },
+  { id: 'text-reverser', name: t('tools.textReverser'), category: t('categories.textAndWriting'), icon: FileText, component: TextReverser, description: t('toolDescriptions.textReverser') },
+  { id: 'duplicate-remover', name: t('tools.duplicateLineRemover'), category: t('categories.textAndWriting'), icon: FileText, component: DuplicateLineRemover, description: t('toolDescriptions.duplicateLineRemover') },
+  { id: 'text-ascii', name: t('tools.textAsciiConverter'), category: t('categories.textAndWriting'), icon: Type, component: TextAsciiConverter, description: t('toolDescriptions.textAsciiConverter') },
+  { id: 'base64-converter', name: t('tools.base64Converter'), category: t('categories.textAndWriting'), icon: FileCode, component: Base64Converter, description: t('toolDescriptions.base64Converter') },
+  { id: 'url-encoder', name: t('tools.urlEncoder'), category: t('categories.textAndWriting'), icon: Link, component: TextCleaner, description: t('toolDescriptions.urlEncoder') },
+  { id: 'hash-generator', name: t('tools.hashGenerator'), category: t('categories.textAndWriting'), icon: Hash, component: HashGenerator, description: t('toolDescriptions.hashGenerator') },
+  { id: 'text-statistics', name: t('tools.textStatistics'), category: t('categories.textAndWriting'), icon: BarChart3, component: TextStatistics, description: t('toolDescriptions.textStatistics') },
+  { id: 'text-to-speech', name: t('tools.textToSpeech'), category: t('categories.textAndWriting'), icon: Volume2, component: TextCleaner, description: t('toolDescriptions.textToSpeech') },
+  { id: 'word-frequency', name: t('tools.wordFrequency'), category: t('categories.textAndWriting'), icon: BarChart, component: TextStatistics, description: t('toolDescriptions.wordFrequency') },
+  { id: 'text-summarizer', name: t('tools.textSummarizer'), category: t('categories.textAndWriting'), icon: FileText, component: TextCleaner, description: t('toolDescriptions.textSummarizer') },
+  { id: 'line-counter', name: t('tools.lineCounter'), category: t('categories.textAndWriting'), icon: Hash, component: TextStatistics, description: t('toolDescriptions.lineCounter') },
+  { id: 'character-frequency', name: t('tools.characterFrequency'), category: t('categories.textAndWriting'), icon: BarChart3, component: TextStatistics, description: t('toolDescriptions.characterFrequency') },
 
   // CONVERSION TOOLS (20 tools)
-  { id: 'currency', name: 'Currency Converter', category: 'Conversion', icon: Globe, component: CurrencyConverter, description: 'Convert between SAR, USD, EUR and other currencies' },
-  { id: 'unit-converter', name: 'Unit Converter', category: 'Conversion', icon: Ruler, component: UnitConverter, description: 'Convert between different units of length, weight, volume, area, and speed' },
-  { id: 'temperature', name: 'Temperature Converter', category: 'Conversion', icon: Thermometer, component: TemperatureConverter, description: 'Convert between Celsius, Fahrenheit, Kelvin, and Rankine with common references' },
-  { id: 'time-zone', name: 'Time Zone Converter', category: 'Conversion', icon: Clock, component: TimeConverter, description: 'Convert times between different time zones worldwide' },
-  { id: 'hijri-gregorian', name: 'Hijri to Gregorian Converter', category: 'Conversion', icon: Calendar, component: TimeConverter, description: 'Convert between Hijri and Gregorian calendar dates' },
-  { id: 'number-base', name: 'Number Base Converter', category: 'Conversion', icon: Binary, component: NumberBaseConverter, description: 'Convert numbers between binary, decimal, hexadecimal, and octal with bitwise operations' },
-  { id: 'roman-numeral', name: 'Roman Numeral Converter', category: 'Conversion', icon: Hash, component: NumberBaseConverter, description: 'Convert between Roman numerals and decimal numbers' },
-  { id: 'percentage', name: 'Percentage Calculator', category: 'Conversion', icon: Percent, component: Calculator, description: 'Calculate percentages, increases, decreases, and ratios' },
-  { id: 'fraction-decimal', name: 'Fraction to Decimal Converter', category: 'Conversion', icon: Divide, component: Calculator, description: 'Convert fractions to decimals and vice versa' },
-  { id: 'speed-converter', name: 'Speed Converter', category: 'Conversion', icon: Zap, component: UnitConverter, description: 'Convert between different speed units (km/h, mph, m/s, knots)' },
-  { id: 'area-converter', name: 'Area Converter', category: 'Conversion', icon: Square, component: UnitConverter, description: 'Convert between different area units (sq meters, sq feet, acres, hectares)' },
-  { id: 'volume-converter', name: 'Volume Converter', category: 'Conversion', icon: Box, component: UnitConverter, description: 'Convert between different volume units (liters, gallons, cubic meters)' },
-  { id: 'pressure-converter', name: 'Pressure Converter', category: 'Conversion', icon: Gauge, component: UnitConverter, description: 'Convert between different pressure units (Pa, bar, psi, atm)' },
-  { id: 'energy-converter', name: 'Energy Converter', category: 'Conversion', icon: Zap, component: UnitConverter, description: 'Convert between different energy units (Joules, calories, kWh, BTU)' },
-  { id: 'power-converter', name: 'Power Converter', category: 'Conversion', icon: Zap, component: UnitConverter, description: 'Convert between different power units (Watts, horsepower, BTU/h)' },
-  { id: 'data-storage', name: 'Data Storage Converter', category: 'Conversion', icon: HardDrive, component: UnitConverter, description: 'Convert between data storage units (GB, MB, KB, TB, PB)' },
-  { id: 'cooking-measurements', name: 'Cooking Measurements Converter', category: 'Conversion', icon: ChefHat, component: UnitConverter, description: 'Convert between cooking measurements (cups, tablespoons, grams, ounces)' },
-  { id: 'shoe-size', name: 'Shoe Size Converter', category: 'Conversion', icon: Footprints, component: UnitConverter, description: 'Convert between international shoe size systems' },
-  { id: 'clothing-size', name: 'Clothing Size Converter', category: 'Conversion', icon: Shirt, component: UnitConverter, description: 'Convert between international clothing size systems' },
-  { id: 'fuel-efficiency', name: 'Fuel Efficiency Converter', category: 'Conversion', icon: Fuel, component: UnitConverter, description: 'Convert between fuel efficiency units (mpg, L/100km, km/L)' },
+  { id: 'currency', name: t('tools.currencyConverter'), category: t('categories.conversion'), icon: Globe, component: CurrencyConverter, description: t('toolDescriptions.currencyConverter') },
+  { id: 'unit-converter', name: t('tools.unitConverter'), category: t('categories.conversion'), icon: Ruler, component: UnitConverter, description: t('toolDescriptions.unitConverter') },
+  { id: 'temperature', name: t('tools.temperatureConverter'), category: t('categories.conversion'), icon: Thermometer, component: TemperatureConverter, description: t('toolDescriptions.temperatureConverter') },
+  { id: 'time-zone', name: t('tools.timeZone'), category: t('categories.conversion'), icon: Clock, component: TimeConverter, description: t('toolDescriptions.timeZone') },
+  { id: 'hijri-gregorian', name: t('tools.hijriGregorian'), category: t('categories.conversion'), icon: Calendar, component: TimeConverter, description: t('toolDescriptions.hijriGregorian') },
+  { id: 'number-base', name: t('tools.numberBaseConverter'), category: t('categories.conversion'), icon: Binary, component: NumberBaseConverter, description: t('toolDescriptions.numberBaseConverter') },
+  { id: 'roman-numeral', name: t('tools.romanNumeral'), category: t('categories.conversion'), icon: Hash, component: NumberBaseConverter, description: t('toolDescriptions.romanNumeral') },
+  { id: 'percentage', name: t('tools.percentage'), category: t('categories.conversion'), icon: Percent, component: Calculator, description: t('toolDescriptions.percentage') },
+  { id: 'fraction-decimal', name: t('tools.fractionDecimal'), category: t('categories.conversion'), icon: Divide, component: Calculator, description: t('toolDescriptions.fractionDecimal') },
+  { id: 'speed-converter', name: t('tools.speedConverter'), category: t('categories.conversion'), icon: Zap, component: UnitConverter, description: t('toolDescriptions.speedConverter') },
+  { id: 'area-converter', name: t('tools.areaConverter'), category: t('categories.conversion'), icon: Square, component: UnitConverter, description: t('toolDescriptions.areaConverter') },
+  { id: 'volume-converter', name: t('tools.volumeConverter'), category: t('categories.conversion'), icon: Box, component: UnitConverter, description: t('toolDescriptions.volumeConverter') },
+  { id: 'pressure-converter', name: t('tools.pressureConverter'), category: t('categories.conversion'), icon: Gauge, component: UnitConverter, description: t('toolDescriptions.pressureConverter') },
+  { id: 'energy-converter', name: t('tools.energyConverter'), category: t('categories.conversion'), icon: Zap, component: UnitConverter, description: t('toolDescriptions.energyConverter') },
+  { id: 'power-converter', name: t('tools.powerConverter'), category: t('categories.conversion'), icon: Zap, component: UnitConverter, description: t('toolDescriptions.powerConverter') },
+  { id: 'data-storage', name: t('tools.dataStorage'), category: t('categories.conversion'), icon: HardDrive, component: UnitConverter, description: t('toolDescriptions.dataStorage') },
+  { id: 'cooking-measurements', name: t('tools.cookingMeasurements'), category: t('categories.conversion'), icon: ChefHat, component: UnitConverter, description: t('toolDescriptions.cookingMeasurements') },
+  { id: 'shoe-size', name: t('tools.shoeSize'), category: t('categories.conversion'), icon: Footprints, component: UnitConverter, description: t('toolDescriptions.shoeSize') },
+  { id: 'clothing-size', name: t('tools.clothingSize'), category: t('categories.conversion'), icon: Shirt, component: UnitConverter, description: t('toolDescriptions.clothingSize') },
+  { id: 'fuel-efficiency', name: t('tools.fuelEfficiency'), category: t('categories.conversion'), icon: Fuel, component: UnitConverter, description: t('toolDescriptions.fuelEfficiency') },
 
   // FINANCIAL/CALCULATOR TOOLS (20 tools)
-  { id: 'bmi-calc', name: 'BMI Calculator', category: 'Financial/Calculator', icon: Calculator, component: BMICalculator, description: 'Calculate Body Mass Index with health categories' },
-  { id: 'saudi-tax', name: 'Saudi Tax Calculator', category: 'Financial/Calculator', icon: Receipt, component: SaudiTaxCalculator, description: 'Calculate VAT, corporate tax, and withholding tax for Saudi Arabia' },
-  { id: 'zakat', name: 'Zakat Calculator', category: 'Financial/Calculator', icon: Coins, component: ZakatCalculator, description: 'Calculate Zakat for various asset types with nisab thresholds' },
-  { id: 'net-salary', name: 'Net Salary Calculator', category: 'Financial/Calculator', icon: DollarSign, component: NetSalaryCalculator, description: 'Calculate net salary after deductions and benefits' },
-  { id: 'loan', name: 'Loan Calculator', category: 'Financial/Calculator', icon: CreditCard, component: LoanCalculator, description: 'Calculate loan payments, interest, and amortization schedules' },
-  { id: 'compound-interest', name: 'Compound Interest Calculator', category: 'Financial/Calculator', icon: TrendingUp, component: CompoundInterestCalculator, description: 'Calculate compound interest with various frequencies and time periods' },
-  { id: 'investment-return', name: 'Investment Return Calculator', category: 'Financial/Calculator', icon: TrendingUp, component: InvestmentReturnCalculator, description: 'Calculate ROI, CAGR, and total returns for investments' },
-  { id: 'tip', name: 'Tip Calculator', category: 'Financial/Calculator', icon: DollarSign, component: TipCalculator, description: 'Calculate tips with percentages and split bills among people' },
-  { id: 'mortgage', name: 'Mortgage Calculator', category: 'Financial/Calculator', icon: Home, component: MortgageCalculator, description: 'Calculate mortgage payments, interest, and amortization' },
-  { id: 'profit-margin', name: 'Profit Margin Calculator', category: 'Financial/Calculator', icon: TrendingUp, component: Calculator, description: 'Calculate profit margins, markup, and cost analysis' },
-  { id: 'break-even', name: 'Break-Even Calculator', category: 'Financial/Calculator', icon: Target, component: Calculator, description: 'Calculate break-even point for business operations' },
-  { id: 'currency-exchange', name: 'Currency Exchange Calculator', category: 'Financial/Calculator', icon: Globe, component: CurrencyConverter, description: 'Advanced currency exchange with historical rates' },
-  { id: 'retirement', name: 'Retirement Calculator', category: 'Financial/Calculator', icon: Users, component: Calculator, description: 'Plan retirement savings and calculate required amounts' },
-  { id: 'savings', name: 'Savings Calculator', category: 'Financial/Calculator', icon: PiggyBank, component: Calculator, description: 'Calculate savings goals and compound interest growth' },
-  { id: 'debt-payoff', name: 'Debt Payoff Calculator', category: 'Financial/Calculator', icon: CreditCard, component: Calculator, description: 'Plan debt payoff strategies and calculate timelines' },
-  { id: 'roi-calc', name: 'ROI Calculator', category: 'Financial/Calculator', icon: TrendingUp, component: Calculator, description: 'Calculate Return on Investment for various scenarios' },
-  { id: 'lease', name: 'Lease Calculator', category: 'Financial/Calculator', icon: FileText, component: Calculator, description: 'Calculate lease payments and compare leasing vs buying' },
-  { id: 'insurance-premium', name: 'Insurance Premium Calculator', category: 'Financial/Calculator', icon: Shield, component: Calculator, description: 'Calculate insurance premiums and coverage costs' },
-  { id: 'budget', name: 'Budget Calculator', category: 'Financial/Calculator', icon: Calculator, component: Calculator, description: 'Create and track personal or business budgets' },
-  { id: 'tax-refund', name: 'Tax Refund Calculator', category: 'Financial/Calculator', icon: Receipt, component: Calculator, description: 'Estimate tax refunds and tax liability' },
+  { id: 'bmi-calc', name: t('tools.bmiCalculator'), category: t('categories.financialCalculator'), icon: Calculator, component: BMICalculator, description: t('toolDescriptions.bmiCalculator') },
+  { id: 'saudi-tax', name: t('tools.saudiTaxCalculator'), category: t('categories.financialCalculator'), icon: Receipt, component: SaudiTaxCalculator, description: t('toolDescriptions.saudiTaxCalculator') },
+  { id: 'zakat', name: t('tools.zakat'), category: t('categories.financialCalculator'), icon: Coins, component: ZakatCalculator, description: t('toolDescriptions.zakat') },
+  { id: 'net-salary', name: t('tools.netSalaryCalculator'), category: t('categories.financialCalculator'), icon: DollarSign, component: NetSalaryCalculator, description: t('toolDescriptions.netSalaryCalculator') },
+  { id: 'loan', name: t('tools.loanCalculator'), category: t('categories.financialCalculator'), icon: CreditCard, component: LoanCalculator, description: t('toolDescriptions.loanCalculator') },
+  { id: 'compound-interest', name: t('tools.compoundInterestCalculator'), category: t('categories.financialCalculator'), icon: TrendingUp, component: CompoundInterestCalculator, description: t('toolDescriptions.compoundInterestCalculator') },
+  { id: 'investment-return', name: t('tools.investmentReturnCalculator'), category: t('categories.financialCalculator'), icon: TrendingUp, component: InvestmentReturnCalculator, description: t('toolDescriptions.investmentReturnCalculator') },
+  { id: 'tip', name: t('tools.tipCalculator'), category: t('categories.financialCalculator'), icon: DollarSign, component: TipCalculator, description: t('toolDescriptions.tipCalculator') },
+  { id: 'mortgage', name: t('tools.mortgageCalculator'), category: t('categories.financialCalculator'), icon: Home, component: MortgageCalculator, description: t('toolDescriptions.mortgageCalculator') },
+  { id: 'profit-margin', name: t('tools.profitMargin'), category: t('categories.financialCalculator'), icon: TrendingUp, component: Calculator, description: t('toolDescriptions.profitMargin') },
+  { id: 'break-even', name: t('tools.breakEven'), category: t('categories.financialCalculator'), icon: Target, component: Calculator, description: t('toolDescriptions.breakEven') },
+  { id: 'currency-exchange', name: t('tools.currencyExchange'), category: t('categories.financialCalculator'), icon: Globe, component: CurrencyConverter, description: t('toolDescriptions.currencyExchange') },
+  { id: 'retirement', name: t('tools.retirement'), category: t('categories.financialCalculator'), icon: Users, component: Calculator, description: t('toolDescriptions.retirement') },
+  { id: 'savings', name: t('tools.savings'), category: t('categories.financialCalculator'), icon: PiggyBank, component: Calculator, description: t('toolDescriptions.savings') },
+  { id: 'debt-payoff', name: t('tools.debtPayoff'), category: t('categories.financialCalculator'), icon: CreditCard, component: Calculator, description: t('toolDescriptions.debtPayoff') },
+  { id: 'roi-calc', name: t('tools.roiCalc'), category: t('categories.financialCalculator'), icon: TrendingUp, component: Calculator, description: t('toolDescriptions.roiCalc') },
+  { id: 'lease', name: t('tools.lease'), category: t('categories.financialCalculator'), icon: FileText, component: Calculator, description: t('toolDescriptions.lease') },
+  { id: 'insurance-premium', name: t('tools.insurancePremium'), category: t('categories.financialCalculator'), icon: Shield, component: Calculator, description: t('toolDescriptions.insurancePremium') },
+  { id: 'budget', name: t('tools.budget'), category: t('categories.financialCalculator'), icon: Calculator, component: Calculator, description: t('toolDescriptions.budget') },
+  { id: 'tax-refund', name: t('tools.taxRefund'), category: t('categories.financialCalculator'), icon: Receipt, component: Calculator, description: t('toolDescriptions.taxRefund') },
 
   // COLOR & DESIGN TOOLS (20 tools)
-  { id: 'color-picker', name: 'Color Picker', category: 'Color & Design', icon: Palette, component: ColorPicker, description: 'Pick colors and get HEX, RGB, HSL values' },
-  { id: 'color-palette', name: 'Color Palette Generator', category: 'Color & Design', icon: Palette, component: ColorPaletteGenerator, description: 'Generate harmonious color palettes using color theory principles' },
-  { id: 'color-format', name: 'Color Format Converter', category: 'Color & Design', icon: Palette, component: ColorFormatConverter, description: 'Convert between HEX, RGB, HSL, CMYK color formats' },
-  { id: 'color-contrast', name: 'Color Contrast Checker', category: 'Color & Design', icon: Eye, component: ColorContrastChecker, description: 'Check color contrast ratios for accessibility compliance' },
-  { id: 'gradient-generator', name: 'Gradient Generator', category: 'Color & Design', icon: Palette, component: GradientGenerator, description: 'Create beautiful CSS gradients with multiple color stops' },
-  { id: 'color-blindness', name: 'Color Blindness Simulator', category: 'Color & Design', icon: Eye, component: ColorBlindnessSimulator, description: 'Simulate how colors appear to color-blind users' },
-  { id: 'image-color-extractor', name: 'Image Color Extractor', category: 'Color & Design', icon: Camera, component: ImageColorExtractor, description: 'Extract dominant colors from uploaded images' },
-  { id: 'css-box-shadow', name: 'CSS Box Shadow Generator', category: 'Color & Design', icon: Layers, component: CSSBoxShadowGenerator, description: 'Generate CSS box-shadow properties with visual preview' },
-  { id: 'border-radius', name: 'Border Radius Generator', category: 'Color & Design', icon: Square, component: BorderRadiusGenerator, description: 'Create rounded corners and generate CSS border-radius' },
-  { id: 'css-gradient', name: 'CSS Gradient Generator', category: 'Color & Design', icon: Palette, component: ColorPicker, description: 'Generate complex CSS gradients with multiple directions' },
-  { id: 'color-scheme', name: 'Color Scheme Generator', category: 'Color & Design', icon: Palette, component: ColorPicker, description: 'Generate color schemes based on color theory rules' },
-  { id: 'hex-rgb', name: 'Hex to RGB Converter', category: 'Color & Design', icon: Palette, component: ColorPicker, description: 'Convert between hexadecimal and RGB color values' },
-  { id: 'color-mixer', name: 'Color Mixer', category: 'Color & Design', icon: Palette, component: ColorPicker, description: 'Mix colors and see the resulting blend' },
-  { id: 'css-filter', name: 'CSS Filter Generator', category: 'Color & Design', icon: Palette, component: ColorPicker, description: 'Generate CSS filters for image effects and adjustments' },
-  { id: 'material-design', name: 'Material Design Color Palette', category: 'Color & Design', icon: Palette, component: ColorPicker, description: 'Access Google Material Design color palettes' },
-  { id: 'css-animation', name: 'CSS Animation Generator', category: 'Color & Design', icon: Play, component: ColorPicker, description: 'Create CSS animations and keyframes' },
-  { id: 'css-transform', name: 'CSS Transform Generator', category: 'Color & Design', icon: Move, component: ColorPicker, description: 'Generate CSS transform properties for 2D/3D effects' },
-  { id: 'font-pair', name: 'Font Pair Generator', category: 'Color & Design', icon: Type, component: ColorPicker, description: 'Find perfect font combinations for web design' },
-  { id: 'icon-generator', name: 'Icon Generator', category: 'Color & Design', icon: Star, component: ColorPicker, description: 'Generate custom icons and symbols' },
-  { id: 'logo-color-analyzer', name: 'Logo Color Analyzer', category: 'Color & Design', icon: Eye, component: ColorPicker, description: 'Analyze color usage in logos and brands' },
+  { id: 'color-picker', name: t('tools.colorPicker'), category: t('categories.colorAndDesign'), icon: Palette, component: ColorPicker, description: t('toolDescriptions.colorPicker') },
+  { id: 'color-palette', name: t('tools.colorPaletteGenerator'), category: t('categories.colorAndDesign'), icon: Palette, component: ColorPaletteGenerator, description: t('toolDescriptions.colorPaletteGenerator') },
+  { id: 'color-format', name: t('tools.colorFormatConverter'), category: t('categories.colorAndDesign'), icon: Palette, component: ColorFormatConverter, description: t('toolDescriptions.colorFormatConverter') },
+  { id: 'color-contrast', name: t('tools.colorContrastChecker'), category: t('categories.colorAndDesign'), icon: Eye, component: ColorContrastChecker, description: t('toolDescriptions.colorContrastChecker') },
+  { id: 'gradient-generator', name: t('tools.gradientGenerator'), category: t('categories.colorAndDesign'), icon: Palette, component: GradientGenerator, description: t('toolDescriptions.gradientGenerator') },
+  { id: 'color-blindness', name: t('tools.colorBlindnessSimulator'), category: t('categories.colorAndDesign'), icon: Eye, component: ColorBlindnessSimulator, description: t('toolDescriptions.colorBlindnessSimulator') },
+  { id: 'image-color-extractor', name: t('tools.imageColorExtractor'), category: t('categories.colorAndDesign'), icon: Camera, component: ImageColorExtractor, description: t('toolDescriptions.imageColorExtractor') },
+  { id: 'css-box-shadow', name: t('tools.cssBoxShadowGenerator'), category: t('categories.colorAndDesign'), icon: Layers, component: CSSBoxShadowGenerator, description: t('toolDescriptions.cssBoxShadowGenerator') },
+  { id: 'border-radius', name: t('tools.borderRadiusGenerator'), category: t('categories.colorAndDesign'), icon: Square, component: BorderRadiusGenerator, description: t('toolDescriptions.borderRadiusGenerator') },
+  { id: 'css-gradient', name: t('tools.cssGradient'), category: t('categories.colorAndDesign'), icon: Palette, component: ColorPicker, description: t('toolDescriptions.cssGradient') },
+  { id: 'color-scheme', name: t('tools.colorScheme'), category: t('categories.colorAndDesign'), icon: Palette, component: ColorPicker, description: t('toolDescriptions.colorScheme') },
+  { id: 'hex-rgb', name: t('tools.hexRgb'), category: t('categories.colorAndDesign'), icon: Palette, component: ColorPicker, description: t('toolDescriptions.hexRgb') },
+  { id: 'color-mixer', name: t('tools.colorMixer'), category: t('categories.colorAndDesign'), icon: Palette, component: ColorPicker, description: t('toolDescriptions.colorMixer') },
+  { id: 'css-filter', name: t('tools.cssFilter'), category: t('categories.colorAndDesign'), icon: Palette, component: ColorPicker, description: t('toolDescriptions.cssFilter') },
+  { id: 'material-design', name: t('tools.materialDesign'), category: t('categories.colorAndDesign'), icon: Palette, component: ColorPicker, description: t('toolDescriptions.materialDesign') },
+  { id: 'css-animation', name: t('tools.cssAnimation'), category: t('categories.colorAndDesign'), icon: Play, component: ColorPicker, description: t('toolDescriptions.cssAnimation') },
+  { id: 'css-transform', name: t('tools.cssTransform'), category: t('categories.colorAndDesign'), icon: Move, component: ColorPicker, description: t('toolDescriptions.cssTransform') },
+  { id: 'font-pair', name: t('tools.fontPair'), category: t('categories.colorAndDesign'), icon: Type, component: ColorPicker, description: t('toolDescriptions.fontPair') },
+  { id: 'icon-generator', name: t('tools.iconGenerator'), category: t('categories.colorAndDesign'), icon: Star, component: ColorPicker, description: t('toolDescriptions.iconGenerator') },
+  { id: 'logo-color-analyzer', name: t('tools.logoColorAnalyzer'), category: t('categories.colorAndDesign'), icon: Eye, component: ColorPicker, description: t('toolDescriptions.logoColorAnalyzer') },
 
   // PRODUCTIVITY TOOLS (20 tools)
-  { id: 'pomodoro', name: 'Pomodoro Timer', category: 'Productivity', icon: Clock, component: PomodoroTimer, description: '25-minute focus sessions with breaks' },
-  { id: 'todo-list', name: 'To-Do List Manager', category: 'Productivity', icon: CheckSquare, component: ToDoListManager, description: 'Create, organize, and track tasks with priorities and categories' },
-  { id: 'date-calculator', name: 'Date Calculator', category: 'Productivity', icon: Calendar, component: TimeConverter, description: 'Calculate date differences and add/subtract time periods' },
-  { id: 'age-calculator', name: 'Age Calculator', category: 'Productivity', icon: Users, component: TimeConverter, description: 'Calculate exact age and time until next birthday' },
-  { id: 'calendar-generator', name: 'Calendar Generator', category: 'Productivity', icon: Calendar, component: TimeConverter, description: 'Generate custom calendars and schedules' },
-  { id: 'habit-tracker', name: 'Habit Tracker', category: 'Productivity', icon: Target, component: ToDoListManager, description: 'Track daily habits and build positive routines' },
-  { id: 'meeting-time-finder', name: 'Meeting Time Finder', category: 'Productivity', icon: Clock, component: TimeConverter, description: 'Find optimal meeting times across different time zones' },
-  { id: 'goal-tracker', name: 'Goal Tracker', category: 'Productivity', icon: Target, component: ToDoListManager, description: 'Set, track, and achieve personal and professional goals' },
-  { id: 'time-tracker', name: 'Time Tracker', category: 'Productivity', icon: Clock, component: Timer, description: 'Track time spent on different activities and projects' },
-  { id: 'expense-tracker', name: 'Expense Tracker', category: 'Productivity', icon: DollarSign, component: Calculator, description: 'Track expenses and manage personal finances' },
-  { id: 'note-taking', name: 'Note Taking App', category: 'Productivity', icon: FileText, component: TextCleaner, description: 'Create, organize, and search through notes' },
-  { id: 'reminder-system', name: 'Reminder System', category: 'Productivity', icon: Bell, component: Timer, description: 'Set and manage reminders for important tasks' },
-  { id: 'project-timeline', name: 'Project Timeline Calculator', category: 'Productivity', icon: Calendar, component: TimeConverter, description: 'Calculate project timelines and milestones' },
-  { id: 'work-hours', name: 'Work Hours Calculator', category: 'Productivity', icon: Clock, component: Calculator, description: 'Calculate work hours, overtime, and pay rates' },
-  { id: 'break-reminder', name: 'Break Reminder', category: 'Productivity', icon: Coffee, component: Timer, description: 'Set reminders for regular breaks during work' },
-  { id: 'focus-timer', name: 'Focus Timer', category: 'Productivity', icon: Target, component: Timer, description: 'Customizable focus sessions with progress tracking' },
-  { id: 'daily-planner', name: 'Daily Planner', category: 'Productivity', icon: Calendar, component: ToDoListManager, description: 'Plan and organize daily activities and tasks' },
-  { id: 'weekly-schedule', name: 'Weekly Schedule Maker', category: 'Productivity', icon: Calendar, component: ToDoListManager, description: 'Create and manage weekly schedules' },
-  { id: 'monthly-goals', name: 'Monthly Goal Setter', category: 'Productivity', icon: Target, component: ToDoListManager, description: 'Set and track monthly goals and objectives' },
-  { id: 'priority-matrix', name: 'Priority Matrix Tool', category: 'Productivity', icon: Target, component: ToDoListManager, description: 'Organize tasks using Eisenhower priority matrix' },
+  { id: 'pomodoro', name: t('tools.pomodoroTimer'), category: t('categories.productivity'), icon: Clock, component: PomodoroTimer, description: t('toolDescriptions.pomodoroTimer') },
+  { id: 'todo-list', name: t('tools.toDoListManager'), category: t('categories.productivity'), icon: CheckSquare, component: ToDoListManager, description: t('toolDescriptions.toDoListManager') },
+  { id: 'date-calculator', name: t('tools.dateCalculator'), category: t('categories.productivity'), icon: Calendar, component: TimeConverter, description: t('toolDescriptions.dateCalculator') },
+  { id: 'age-calculator', name: t('tools.ageCalculator'), category: t('categories.productivity'), icon: Users, component: TimeConverter, description: t('toolDescriptions.ageCalculator') },
+  { id: 'calendar-generator', name: t('tools.calendarGenerator'), category: t('categories.productivity'), icon: Calendar, component: TimeConverter, description: t('toolDescriptions.calendarGenerator') },
+  { id: 'habit-tracker', name: t('tools.habitTracker'), category: t('categories.productivity'), icon: Target, component: ToDoListManager, description: t('toolDescriptions.habitTracker') },
+  { id: 'meeting-time-finder', name: t('tools.meetingTimeFinder'), category: t('categories.productivity'), icon: Clock, component: TimeConverter, description: t('toolDescriptions.meetingTimeFinder') },
+  { id: 'goal-tracker', name: t('tools.goalTracker'), category: t('categories.productivity'), icon: Target, component: ToDoListManager, description: t('toolDescriptions.goalTracker') },
+  { id: 'time-tracker', name: t('tools.timeTracker'), category: t('categories.productivity'), icon: Clock, component: Timer, description: t('toolDescriptions.timeTracker') },
+  { id: 'expense-tracker', name: t('tools.expenseTracker'), category: t('categories.productivity'), icon: DollarSign, component: Calculator, description: t('toolDescriptions.expenseTracker') },
+  { id: 'note-taking', name: t('tools.noteTaking'), category: t('categories.productivity'), icon: FileText, component: TextCleaner, description: t('toolDescriptions.noteTaking') },
+  { id: 'reminder-system', name: t('tools.reminderSystem'), category: t('categories.productivity'), icon: Bell, component: Timer, description: t('toolDescriptions.reminderSystem') },
+  { id: 'project-timeline', name: t('tools.projectTimeline'), category: t('categories.productivity'), icon: Calendar, component: TimeConverter, description: t('toolDescriptions.projectTimeline') },
+  { id: 'work-hours', name: t('tools.workHours'), category: t('categories.productivity'), icon: Clock, component: Calculator, description: t('toolDescriptions.workHours') },
+  { id: 'break-reminder', name: t('tools.breakReminder'), category: t('categories.productivity'), icon: Coffee, component: Timer, description: t('toolDescriptions.breakReminder') },
+  { id: 'focus-timer', name: t('tools.focusTimer'), category: t('categories.productivity'), icon: Target, component: Timer, description: t('toolDescriptions.focusTimer') },
+  { id: 'daily-planner', name: t('tools.dailyPlanner'), category: t('categories.productivity'), icon: Calendar, component: ToDoListManager, description: t('toolDescriptions.dailyPlanner') },
+  { id: 'weekly-schedule', name: t('tools.weeklySchedule'), category: t('categories.productivity'), icon: Calendar, component: ToDoListManager, description: t('toolDescriptions.weeklySchedule') },
+  { id: 'monthly-goals', name: t('tools.monthlyGoals'), category: t('categories.productivity'), icon: Target, component: ToDoListManager, description: t('toolDescriptions.monthlyGoals') },
+  { id: 'priority-matrix', name: t('tools.priorityMatrix'), category: t('categories.productivity'), icon: Target, component: ToDoListManager, description: t('toolDescriptions.priorityMatrix') },
 
   // FILE TOOLS (20 tools)
-  { id: 'qr-gen', name: 'QR Code Generator', category: 'File', icon: QrCode, component: QRCodeGenerator, description: 'Generate QR codes from text or URLs' },
-  { id: 'image-compressor', name: 'Image Compressor', category: 'File', icon: Image, component: FileImage, description: 'Compress images while maintaining quality' },
-  { id: 'image-format-converter', name: 'Image Format Converter', category: 'File', icon: Image, component: FileImage, description: 'Convert images between different formats (JPG, PNG, WebP, etc.)' },
-  { id: 'qr-reader', name: 'QR Code Reader', category: 'File', icon: QrCode, component: FileImage, description: 'Read and decode QR codes from images' },
-  { id: 'barcode-generator', name: 'Barcode Generator', category: 'File', icon: BarChart, component: FileImage, description: 'Generate various barcode types (Code 128, EAN, UPC, etc.)' },
-  { id: 'image-resizer', name: 'Image Resizer', category: 'File', icon: Image, component: FileImage, description: 'Resize images to specific dimensions while maintaining aspect ratio' },
-  { id: 'pdf-to-image', name: 'PDF to Image Converter', category: 'File', icon: FileText, component: FileImage, description: 'Convert PDF pages to image formats' },
-  { id: 'image-to-base64', name: 'Image to Base64 Converter', category: 'File', icon: Image, component: FileImage, description: 'Convert images to Base64 strings for web use' },
-  { id: 'file-hash', name: 'File Hash Calculator', category: 'File', icon: Hash, component: HashGenerator, description: 'Calculate file hashes for integrity verification' },
-  { id: 'image-cropper', name: 'Image Cropper', category: 'File', icon: Scissors, component: FileImage, description: 'Crop images to specific dimensions and areas' },
-  { id: 'watermark-generator', name: 'Watermark Generator', category: 'File', icon: Image, component: FileImage, description: 'Add watermarks to images with custom text and positioning' },
-  { id: 'pdf-merger', name: 'PDF Merger', category: 'File', icon: FileText, component: FileImage, description: 'Merge multiple PDF files into one document' },
-  { id: 'pdf-splitter', name: 'PDF Splitter', category: 'File', icon: FileText, component: FileImage, description: 'Split PDF files into separate documents' },
-  { id: 'image-optimizer', name: 'Image Optimizer', category: 'File', icon: Image, component: FileImage, description: 'Optimize images for web use with quality settings' },
-  { id: 'file-size-calculator', name: 'File Size Calculator', category: 'File', icon: HardDrive, component: Calculator, description: 'Calculate file sizes and storage requirements' },
-  { id: 'duplicate-file-finder', name: 'Duplicate File Finder', category: 'File', icon: Search, component: FileImage, description: 'Find and identify duplicate files' },
-  { id: 'file-renamer', name: 'File Renamer', category: 'File', icon: Edit3, component: FileImage, description: 'Batch rename files with patterns and rules' },
-  { id: 'image-editor', name: 'Image Editor', category: 'File', icon: Image, component: FileImage, description: 'Basic image editing with filters and adjustments' },
-  { id: 'pdf-password-remover', name: 'PDF Password Remover', category: 'File', icon: Lock, component: FileImage, description: 'Remove passwords from PDF files' },
-  { id: 'file-converter-hub', name: 'File Converter Hub', category: 'File', icon: RefreshCw, component: FileImage, description: 'Convert files between various formats' },
+  { id: 'qr-gen', name: t('tools.qrCodeGenerator'), category: t('categories.fileTools'), icon: QrCode, component: QRCodeGenerator, description: t('toolDescriptions.qrCodeGenerator') },
+  { id: 'image-compressor', name: t('tools.imageCompressor'), category: t('categories.fileTools'), icon: Image, component: FileImage, description: t('toolDescriptions.imageCompressor') },
+  { id: 'image-format-converter', name: t('tools.imageFormatConverter'), category: t('categories.fileTools'), icon: Image, component: FileImage, description: t('toolDescriptions.imageFormatConverter') },
+  { id: 'qr-reader', name: t('tools.qrReader'), category: t('categories.fileTools'), icon: QrCode, component: FileImage, description: t('toolDescriptions.qrReader') },
+  { id: 'barcode-generator', name: t('tools.barcodeGenerator'), category: t('categories.fileTools'), icon: BarChart, component: FileImage, description: t('toolDescriptions.barcodeGenerator') },
+  { id: 'image-resizer', name: t('tools.imageResizer'), category: t('categories.fileTools'), icon: Image, component: FileImage, description: t('toolDescriptions.imageResizer') },
+  { id: 'pdf-to-image', name: t('tools.pdfToImage'), category: t('categories.fileTools'), icon: FileText, component: FileImage, description: t('toolDescriptions.pdfToImage') },
+  { id: 'image-to-base64', name: t('tools.imageToBase64'), category: t('categories.fileTools'), icon: Image, component: FileImage, description: t('toolDescriptions.imageToBase64') },
+  { id: 'file-hash', name: t('tools.fileHash'), category: t('categories.fileTools'), icon: Hash, component: HashGenerator, description: t('toolDescriptions.fileHash') },
+  { id: 'image-cropper', name: t('tools.imageCropper'), category: t('categories.fileTools'), icon: Scissors, component: FileImage, description: t('toolDescriptions.imageCropper') },
+  { id: 'watermark-generator', name: t('tools.watermarkGenerator'), category: t('categories.fileTools'), icon: Image, component: FileImage, description: t('toolDescriptions.watermarkGenerator') },
+  { id: 'pdf-merger', name: t('tools.pdfMerger'), category: t('categories.fileTools'), icon: FileText, component: FileImage, description: t('toolDescriptions.pdfMerger') },
+  { id: 'pdf-splitter', name: t('tools.pdfSplitter'), category: t('categories.fileTools'), icon: FileText, component: FileImage, description: t('toolDescriptions.pdfSplitter') },
+  { id: 'image-optimizer', name: t('tools.imageOptimizer'), category: t('categories.fileTools'), icon: Image, component: FileImage, description: t('toolDescriptions.imageOptimizer') },
+  { id: 'file-size-calculator', name: t('tools.fileSizeCalculator'), category: t('categories.fileTools'), icon: HardDrive, component: Calculator, description: t('toolDescriptions.fileSizeCalculator') },
+  { id: 'duplicate-file-finder', name: t('tools.duplicateFileFinder'), category: t('categories.fileTools'), icon: Search, component: FileImage, description: t('toolDescriptions.duplicateFileFinder') },
+  { id: 'file-renamer', name: t('tools.fileRenamer'), category: t('categories.fileTools'), icon: Edit3, component: FileImage, description: t('toolDescriptions.fileRenamer') },
+  { id: 'image-editor', name: t('tools.imageEditor'), category: t('categories.fileTools'), icon: Image, component: FileImage, description: t('toolDescriptions.imageEditor') },
+  { id: 'pdf-password-remover', name: t('tools.pdfPasswordRemover'), category: t('categories.fileTools'), icon: Lock, component: FileImage, description: t('toolDescriptions.pdfPasswordRemover') },
+  { id: 'file-converter-hub', name: t('tools.fileConverterHub'), category: t('categories.fileTools'), icon: RefreshCw, component: FileImage, description: t('toolDescriptions.fileConverterHub') },
 
   // MISCELLANEOUS TOOLS (20 tools)
-  { id: 'random-generator', name: 'Random Generator', category: 'Miscellaneous', icon: Shuffle, component: RandomGenerator, description: 'Generate random numbers, passwords, names, colors, and more' },
-  { id: 'decision-maker', name: 'Decision Maker', category: 'Miscellaneous', icon: Brain, component: RandomGenerator, description: 'Make decisions with random selection and weighted options' },
-  { id: 'countdown-timer', name: 'Countdown Timer', category: 'Miscellaneous', icon: Timer, component: Timer, description: 'Set countdown timers for events and deadlines' },
-  { id: 'url-shortener', name: 'URL Shortener', category: 'Miscellaneous', icon: Link, component: FileText, description: 'Shorten long URLs for easier sharing' },
-  { id: 'website-speed-test', name: 'Website Speed Test', category: 'Miscellaneous', icon: Zap, component: Timer, description: 'Test website loading speed and performance' },
-  { id: 'ip-address-generator', name: 'IP Address Generator', category: 'Miscellaneous', icon: Globe, component: RandomGenerator, description: 'Generate random IP addresses for testing' },
-  { id: 'domain-name-generator', name: 'Domain Name Generator', category: 'Miscellaneous', icon: Globe, component: RandomGenerator, description: 'Generate creative domain name suggestions' },
-  { id: 'bmr-calculator', name: 'BMR Calculator', category: 'Miscellaneous', icon: Heart, component: Calculator, description: 'Calculate Basal Metabolic Rate for health planning' },
-  { id: 'calorie-calculator', name: 'Calorie Calculator', category: 'Miscellaneous', icon: Activity, component: Calculator, description: 'Calculate daily calorie needs and track intake' },
-  { id: 'water-intake', name: 'Water Intake Calculator', category: 'Miscellaneous', icon: Droplets, component: Calculator, description: 'Calculate recommended daily water intake' },
-  { id: 'sleep-calculator', name: 'Sleep Calculator', category: 'Miscellaneous', icon: Moon, component: Timer, description: 'Calculate optimal sleep cycles and wake-up times' },
-  { id: 'weather-converter', name: 'Weather Converter', category: 'Miscellaneous', icon: Cloud, component: UnitConverter, description: 'Convert between different weather units' },
-  { id: 'recipe-calculator', name: 'Recipe Calculator', category: 'Miscellaneous', icon: ChefHat, component: Calculator, description: 'Scale recipes and calculate ingredient amounts' },
-  { id: 'cooking-timer', name: 'Cooking Timer', category: 'Miscellaneous', icon: Timer, component: Timer, description: 'Set multiple timers for cooking and baking' },
-  { id: 'unit-price-comparator', name: 'Unit Price Comparator', category: 'Miscellaneous', icon: Calculator, component: Calculator, description: 'Compare unit prices to find the best deals' },
-  { id: 'discount-calculator', name: 'Discount Calculator', category: 'Miscellaneous', icon: Percent, component: Calculator, description: 'Calculate discounts, savings, and final prices' },
-  { id: 'grade-calculator', name: 'Grade Calculator', category: 'Miscellaneous', icon: GraduationCap, component: Calculator, description: 'Calculate grades, GPA, and academic performance' },
-  { id: 'gpa-calculator', name: 'GPA Calculator', category: 'Miscellaneous', icon: GraduationCap, component: Calculator, description: 'Calculate Grade Point Average for academic records' },
-  { id: 'lottery-generator', name: 'Lottery Number Generator', category: 'Miscellaneous', icon: Gift, component: RandomGenerator, description: 'Generate random lottery numbers' },
-  { id: 'password-strength-tester', name: 'Password Strength Tester', category: 'Miscellaneous', icon: Shield, component: PasswordStrengthChecker, description: 'Test password strength and security' },
+  { id: 'random-generator', name: t('tools.randomGenerator'), category: t('categories.miscellaneous'), icon: Shuffle, component: RandomGenerator, description: t('toolDescriptions.randomGenerator') },
+  { id: 'decision-maker', name: t('tools.decisionMaker'), category: t('categories.miscellaneous'), icon: Brain, component: RandomGenerator, description: t('toolDescriptions.decisionMaker') },
+  { id: 'countdown-timer', name: t('tools.countdownTimer'), category: t('categories.miscellaneous'), icon: Timer, component: Timer, description: t('toolDescriptions.countdownTimer') },
+  { id: 'url-shortener', name: t('tools.urlShortener'), category: t('categories.miscellaneous'), icon: Link, component: FileText, description: t('toolDescriptions.urlShortener') },
+  { id: 'website-speed-test', name: t('tools.websiteSpeedTest'), category: t('categories.miscellaneous'), icon: Zap, component: Timer, description: t('toolDescriptions.websiteSpeedTest') },
+  { id: 'ip-address-generator', name: t('tools.ipAddressGenerator'), category: t('categories.miscellaneous'), icon: Globe, component: RandomGenerator, description: t('toolDescriptions.ipAddressGenerator') },
+  { id: 'domain-name-generator', name: t('tools.domainNameGenerator'), category: t('categories.miscellaneous'), icon: Globe, component: RandomGenerator, description: t('toolDescriptions.domainNameGenerator') },
+  { id: 'bmr-calculator', name: t('tools.bmrCalculator'), category: t('categories.miscellaneous'), icon: Heart, component: Calculator, description: t('toolDescriptions.bmrCalculator') },
+  { id: 'calorie-calculator', name: t('tools.calorieCalculator'), category: t('categories.miscellaneous'), icon: Activity, component: Calculator, description: t('toolDescriptions.calorieCalculator') },
+  { id: 'water-intake', name: t('tools.waterIntake'), category: t('categories.miscellaneous'), icon: Droplets, component: Calculator, description: t('toolDescriptions.waterIntake') },
+  { id: 'sleep-calculator', name: t('tools.sleepCalculator'), category: t('categories.miscellaneous'), icon: Moon, component: Timer, description: t('toolDescriptions.sleepCalculator') },
+  { id: 'weather-converter', name: t('tools.weatherConverter'), category: t('categories.miscellaneous'), icon: Cloud, component: UnitConverter, description: t('toolDescriptions.weatherConverter') },
+  { id: 'recipe-calculator', name: t('tools.recipeCalculator'), category: t('categories.miscellaneous'), icon: ChefHat, component: Calculator, description: t('toolDescriptions.recipeCalculator') },
+  { id: 'cooking-timer', name: t('tools.cookingTimer'), category: t('categories.miscellaneous'), icon: Timer, component: Timer, description: t('toolDescriptions.cookingTimer') },
+  { id: 'unit-price-comparator', name: t('tools.unitPriceComparator'), category: t('categories.miscellaneous'), icon: Calculator, component: Calculator, description: t('toolDescriptions.unitPriceComparator') },
+  { id: 'discount-calculator', name: t('tools.discountCalculator'), category: t('categories.miscellaneous'), icon: Percent, component: Calculator, description: t('toolDescriptions.discountCalculator') },
+  { id: 'grade-calculator', name: t('tools.gradeCalculator'), category: t('categories.miscellaneous'), icon: GraduationCap, component: Calculator, description: t('toolDescriptions.gradeCalculator') },
+  { id: 'gpa-calculator', name: t('tools.gpaCalculator'), category: t('categories.miscellaneous'), icon: GraduationCap, component: Calculator, description: t('toolDescriptions.gpaCalculator') },
+  { id: 'lottery-generator', name: t('tools.lotteryGenerator'), category: t('categories.miscellaneous'), icon: Gift, component: RandomGenerator, description: t('toolDescriptions.lotteryGenerator') },
+  { id: 'password-strength-tester', name: t('tools.passwordStrengthTester'), category: t('categories.miscellaneous'), icon: Shield, component: PasswordStrengthChecker, description: t('toolDescriptions.passwordStrengthTester') },
   
   // ADDITIONAL TOOLS (5 new tools)
-  { id: 'qr-code-scanner', name: 'QR Code Scanner', category: 'File', icon: QrCode, component: FileImage, description: 'Scan QR codes using your device camera' },
-  { id: 'color-blindness-test', name: 'Color Blindness Test', category: 'Color & Design', icon: Eye, component: ColorBlindnessSimulator, description: 'Test your color vision with interactive tests' },
-  { id: 'text-to-morse', name: 'Text to Morse Code Converter', category: 'Text & Writing', icon: FileText, component: TextCleaner, description: 'Convert text to Morse code and vice versa' },
-  { id: 'emoji-picker', name: 'Emoji Picker & Generator', category: 'Text & Writing', icon: Star, component: TextCleaner, description: 'Browse and search emojis by category and keywords' },
-  { id: 'password-generator-advanced', name: 'Advanced Password Generator', category: 'Text & Writing', icon: Settings, component: PasswordGenerator, description: 'Generate complex passwords with custom character sets and patterns' }
+  { id: 'qr-code-scanner', name: t('tools.qrCodeScanner'), category: t('categories.fileTools'), icon: QrCode, component: FileImage, description: t('toolDescriptions.qrCodeScanner') },
+  { id: 'color-blindness-test', name: t('tools.colorBlindnessTest'), category: t('categories.colorAndDesign'), icon: Eye, component: ColorBlindnessSimulator, description: t('toolDescriptions.colorBlindnessTest') },
+  { id: 'text-to-morse', name: t('tools.textToMorse'), category: t('categories.textAndWriting'), icon: FileText, component: TextCleaner, description: t('toolDescriptions.textToMorse') },
+  { id: 'emoji-picker', name: t('tools.emojiPicker'), category: t('categories.textAndWriting'), icon: Star, component: TextCleaner, description: t('toolDescriptions.emojiPicker') },
+  { id: 'password-generator-advanced', name: t('tools.passwordGeneratorAdvanced'), category: t('categories.textAndWriting'), icon: Settings, component: PasswordGenerator, description: t('toolDescriptions.passwordGeneratorAdvanced') }
 ];
 
-// Enhanced categories with tool counts
-const categories = [
-  { name: 'Text & Writing', icon: FileText, color: 'text-primary', count: tools.filter(t => t.category === 'Text & Writing').length },
-  { name: 'Conversion', icon: Globe, color: 'text-secondary', count: tools.filter(t => t.category === 'Conversion').length },
-  { name: 'Financial/Calculator', icon: Calculator, color: 'text-green-600', count: tools.filter(t => t.category === 'Financial/Calculator').length },
-  { name: 'Color & Design', icon: Palette, color: 'text-accent', count: tools.filter(t => t.category === 'Color & Design').length },
-  { name: 'Productivity', icon: CheckSquare, color: 'text-blue-600', count: tools.filter(t => t.category === 'Productivity').length },
-  { name: 'File', icon: FileIcon, color: 'text-purple-600', count: tools.filter(t => t.category === 'File').length },
-  { name: 'Miscellaneous', icon: Shuffle, color: 'text-orange-600', count: tools.filter(t => t.category === 'Miscellaneous').length }
+// Enhanced categories function
+const getCategories = (tools: any[], t: any) => [
+  { name: t('categories.textAndWriting'), icon: FileText, color: 'text-primary', count: tools.filter(tool => tool.category === t('categories.textAndWriting')).length, translationKey: 'landing.categories.textWriting' },
+  { name: t('categories.conversion'), icon: Globe, color: 'text-secondary', count: tools.filter(tool => tool.category === t('categories.conversion')).length, translationKey: 'landing.categories.conversion' },
+  { name: t('categories.financialCalculator'), icon: Calculator, color: 'text-green-600', count: tools.filter(tool => tool.category === t('categories.financialCalculator')).length, translationKey: 'landing.categories.financial' },
+  { name: t('categories.colorAndDesign'), icon: Palette, color: 'text-accent', count: tools.filter(tool => tool.category === t('categories.colorAndDesign')).length, translationKey: 'landing.categories.colorDesign' },
+  { name: t('categories.productivity'), icon: CheckSquare, color: 'text-blue-600', count: tools.filter(tool => tool.category === t('categories.productivity')).length, translationKey: 'landing.categories.productivity' },
+  { name: t('categories.fileTools'), icon: FileIcon, color: 'text-purple-600', count: tools.filter(tool => tool.category === t('categories.fileTools')).length, translationKey: 'landing.categories.fileTools' },
+  { name: t('categories.miscellaneous'), icon: Shuffle, color: 'text-orange-600', count: tools.filter(tool => tool.category === t('categories.miscellaneous')).length, translationKey: 'landing.categories.miscellaneous' }
 ];
 
 const Index = () => {
@@ -252,6 +254,33 @@ const Index = () => {
     const saved = localStorage.getItem('rabwa-theme');
     return saved === 'dark';
   });
+  const { t, language } = useLanguage();
+  
+  // Get tools with translations
+  const tools = getTools(t);
+  
+  // Get categories with tool counts
+  const categories = getCategories(tools, t);
+
+  // Sync language with cookies on page load
+  useEffect(() => {
+    // Check cookies first, then localStorage backup
+    let savedLanguage = Cookies.get('rabwa-language');
+    
+    if (!savedLanguage) {
+      // Fallback to localStorage backup
+      savedLanguage = localStorage.getItem('rabwa-language-backup');
+    }
+    
+    if (savedLanguage && (savedLanguage === 'ar' || savedLanguage === 'en')) {
+      const lang = savedLanguage;
+      const dir = lang === 'ar' ? 'rtl' : 'ltr';
+      
+      document.documentElement.dir = dir;
+      document.documentElement.lang = lang;
+      document.body.style.direction = dir;
+    }
+  }, []);
 
 
 
@@ -402,11 +431,10 @@ const Index = () => {
             className="mb-8"
           >
             <h1 className="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
-              Professional Tools Collection
+              {t('landing.badge')}
             </h1>
             <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-              Discover our comprehensive collection of professional tools designed for developers, designers, and everyday users. 
-              Everything you need, all in one place.
+              {t('landing.subtitle')} {t('landing.toolsCount')} {t('landing.subtitleEnd')}
             </p>
           </motion.div>
 
@@ -419,15 +447,15 @@ const Index = () => {
           >
             <div className="bg-card/50 backdrop-blur-sm border border-border/30 rounded-xl p-4">
               <div className="text-2xl font-bold text-primary">{tools.length}+</div>
-              <div className="text-sm text-muted-foreground">Professional Tools</div>
+              <div className="text-sm text-muted-foreground">{t('common.tools')}</div>
             </div>
             <div className="bg-card/50 backdrop-blur-sm border border-border/30 rounded-xl p-4">
               <div className="text-2xl font-bold text-secondary">{categories.length}</div>
-              <div className="text-sm text-muted-foreground">Categories</div>
+              <div className="text-sm text-muted-foreground">{t('common.categories')}</div>
             </div>
             <div className="bg-card/50 backdrop-blur-sm border border-border/30 rounded-xl p-4">
               <div className="text-2xl font-bold text-accent">100%</div>
-              <div className="text-sm text-muted-foreground">Free to Use</div>
+              <div className="text-sm text-muted-foreground">{t('common.free')}</div>
             </div>
           </motion.div>
         </div>
@@ -445,13 +473,13 @@ const Index = () => {
                 {/* Search Input */}
                 <div className="flex-1">
                   <label className="block text-sm font-medium text-muted-foreground mb-2">
-                    Search Tools
+                    {t('common.search')} {t('common.tools')}
                   </label>
                   <div className="relative">
                     <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
                     <input
                       type="text"
-                      placeholder="Search by name, description, category, or keywords... (⌘K)"
+                      placeholder={t('common.search') + ' ' + t('common.tools').toLowerCase() + '...'}
                       value={searchTerm}
                       onChange={(e) => setSearchTerm(e.target.value)}
                       className="w-full pl-10 pr-4 py-3 bg-background/50 border border-border/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all duration-300"
@@ -566,12 +594,12 @@ const Index = () => {
               
               {selectedCategory !== 'all' && (
                 <div className="text-right">
-                  <div className="text-sm text-muted-foreground">Category Filter Active</div>
+                  <div className="text-sm text-muted-foreground">{t('common.categoryFilterActive')}</div>
                   <button
                     onClick={() => setSelectedCategory('all')}
                     className="text-primary hover:text-primary/80 text-sm font-medium"
                   >
-                    ← Show All Categories
+                    ← {t('common.showAll')} {t('common.categories')}
                   </button>
                 </div>
               )}
@@ -586,9 +614,9 @@ const Index = () => {
             >
               <div className="bg-card/30 backdrop-blur-sm border border-border/20 rounded-xl p-4">
                 <div className="flex items-center justify-between mb-4">
-                  <h3 className="text-lg font-semibold text-foreground">Browse by Category</h3>
+                  <h3 className="text-lg font-semibold text-foreground">{t('common.browseByCategory')}</h3>
                   <span className="text-sm text-muted-foreground">
-                    {tools.length} tools available
+                    {tools.length} {t('common.tools')} {t('common.available')}
                   </span>
                 </div>
                 
@@ -605,7 +633,7 @@ const Index = () => {
                     <div className="w-8 h-8 mx-auto mb-2 rounded-lg bg-gradient-to-br from-primary to-secondary flex items-center justify-center">
                       <Globe className="w-4 h-4 text-primary-foreground" />
                     </div>
-                    <div className="text-sm font-medium text-foreground">All Categories</div>
+                    <div className="text-sm font-medium text-foreground">{t('common.categories')}</div>
                     <div className="text-xs text-muted-foreground">{tools.length}+</div>
                     
                     {/* Active Indicator */}
@@ -640,7 +668,7 @@ const Index = () => {
                         <category.icon className="w-4 h-4" style={{ color: category.color }} />
                       </div>
                       <div className="text-sm font-medium text-foreground group-hover:text-primary transition-colors">
-                        {category.name}
+                        {t(category.translationKey)}
                       </div>
                       <div className="text-xs text-muted-foreground">{category.count}</div>
                       
@@ -693,11 +721,11 @@ const Index = () => {
                 className="text-center py-16 bg-card/30 backdrop-blur-sm border border-border/20 rounded-2xl"
               >
                 <Search className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
-                <h3 className="text-xl font-semibold mb-2">No tools found</h3>
+                <h3 className="text-xl font-semibold mb-2">{t('messages.noResults')}</h3>
                 <p className="text-muted-foreground mb-4">
                   {selectedCategory !== 'all' 
-                    ? `No tools found in "${selectedCategory}" category matching "${searchTerm}"`
-                    : `No tools found matching "${searchTerm}"`
+                    ? `${t('messages.noResults')} ${t('common.in')} "${t(categories.find(c => c.name === selectedCategory)?.translationKey || selectedCategory)}" ${t('common.category')} ${t('common.matching')} "${searchTerm}"`
+                    : `${t('messages.noResults')} ${t('common.matching')} "${searchTerm}"`
                   }
                 </p>
                 <div className="flex gap-2 justify-center">
@@ -706,7 +734,7 @@ const Index = () => {
                       onClick={() => setSearchTerm('')}
                       className="px-4 py-2 bg-muted hover:bg-muted/80 rounded-lg transition-colors"
                     >
-                      Clear Search
+                      {t('common.clear')}
                     </button>
                   )}
                   {selectedCategory !== 'all' && (
@@ -714,7 +742,7 @@ const Index = () => {
                       onClick={() => setSelectedCategory('all')}
                       className="px-4 py-2 bg-primary text-primary-foreground hover:bg-primary/90 rounded-lg transition-colors"
                     >
-                      Show All Categories
+                      {t('common.showAll')} {t('common.categories')}
                     </button>
                   )}
                 </div>

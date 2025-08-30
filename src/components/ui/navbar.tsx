@@ -3,6 +3,8 @@ import { motion, useScroll } from 'framer-motion';
 import { Wrench, Menu, X } from 'lucide-react';
 import { Button } from './button';
 import { ThemeToggle } from './theme-toggle';
+import { LanguageToggle } from './language-toggle';
+import { useLanguage } from '@/hooks/use-language';
 
 interface NavbarProps {
   currentPage?: 'home' | 'tools' | 'features' | 'about';
@@ -12,12 +14,13 @@ export const Navbar: React.FC<NavbarProps> = ({ currentPage = 'home' }) => {
   const [isHovering, setIsHovering] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { scrollYProgress } = useScroll();
+  const { t } = useLanguage();
 
   const navigationItems = [
-    { name: 'Home', href: '/', page: 'home' },
-    { name: 'Features', href: '/features', page: 'features' },
-    { name: 'Tools', href: '/tools', page: 'tools' },
-    { name: 'About', href: '/#about', page: 'about' }
+    { name: t('nav.home'), href: '/', page: 'home' },
+    { name: t('nav.features'), href: '/features', page: 'features' },
+    { name: t('nav.tools'), href: '/tools', page: 'tools' },
+    { name: t('nav.about'), href: '/#about', page: 'about' }
   ];
 
   return (
@@ -51,15 +54,15 @@ export const Navbar: React.FC<NavbarProps> = ({ currentPage = 'home' }) => {
             </div>
             <div className="hidden sm:block">
               <h1 className="text-2xl sm:text-3xl font-black bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
-                RABWA Tools
+                {t('landing.title')}
               </h1>
               <p className="text-xs sm:text-sm font-semibold text-muted-foreground bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-                Professional Tools Collection
+                {t('landing.badge')}
               </p>
             </div>
             <div className="sm:hidden">
               <h1 className="text-lg font-black bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
-                RABWA Tools
+                {t('landing.title')}
               </h1>
             </div>
           </div>
@@ -92,6 +95,9 @@ export const Navbar: React.FC<NavbarProps> = ({ currentPage = 'home' }) => {
 
           {/* Right Side Controls */}
           <div className="flex items-center gap-2 sm:gap-4">
+            {/* Language Toggle */}
+            <LanguageToggle />
+            
             {/* Theme Toggle */}
             <ThemeToggle />
             
@@ -110,6 +116,12 @@ export const Navbar: React.FC<NavbarProps> = ({ currentPage = 'home' }) => {
         {mobileMenuOpen && (
           <div className="lg:hidden mt-4 pt-4 border-t border-border/30">
             <div className="bg-card rounded-lg shadow-lg p-4 space-y-2">
+              {/* Language Toggle in Mobile Menu */}
+              <div className="flex justify-center py-2">
+                <LanguageToggle />
+              </div>
+              
+              {/* Navigation Items */}
               {navigationItems.map((item) => (
                 <a
                   key={item.name}

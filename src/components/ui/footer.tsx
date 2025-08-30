@@ -14,56 +14,59 @@ import {
   Users,
   Star
 } from 'lucide-react';
+import { useLanguage } from '@/hooks/use-language';
+import { LanguageToggle } from './language-toggle';
 
 export const Footer = () => {
   const currentYear = new Date().getFullYear();
+  const { t } = useLanguage();
 
   const footerSections = [
     {
-      title: "Product",
+      title: t('common.tools'),
       links: [
-        { name: "All Tools", href: "/tools" },
-        { name: "Categories", href: "/#categories" },
-        { name: "Features", href: "/features" },
+        { name: t('common.tools'), href: "/tools" },
+        { name: t('common.categories'), href: "/#categories" },
+        { name: t('nav.features'), href: "/features" },
         { name: "Pricing", href: "/#pricing" },
         { name: "Updates", href: "/#updates" }
       ]
     },
     {
-      title: "Company",
+      title: t('nav.about'),
       links: [
-        { name: "About Us", href: "/#about" },
+        { name: t('nav.about'), href: "/#about" },
         { name: "Careers", href: "/#careers" },
         { name: "Press", href: "/#press" },
         { name: "Partners", href: "/#partners" },
-        { name: "Contact", href: "/#contact" }
+        { name: t('common.contact'), href: "/#contact" }
       ]
     },
     {
-      title: "Resources",
+      title: t('common.help'),
       links: [
         { name: "Documentation", href: "/docs" },
         { name: "API Reference", href: "/api" },
         { name: "Tutorials", href: "/tutorials" },
         { name: "Blog", href: "/blog" },
-        { name: "Support", href: "/support" }
+        { name: t('common.support'), href: "/support" }
       ]
     },
     {
-      title: "Legal",
+      title: t('common.legal'),
       links: [
-        { name: "Privacy Policy", href: "/privacy" },
-        { name: "Terms of Service", href: "/terms" },
-        { name: "Cookie Policy", href: "/cookies" },
+        { name: t('common.privacy'), href: "/privacy" },
+        { name: t('common.terms'), href: "/terms" },
+        { name: t('common.cookies'), href: "/cookies" },
         { name: "GDPR", href: "/gdpr" },
-        { name: "Security", href: "/security" }
+        { name: t('common.security'), href: "/security" }
       ]
     }
   ];
 
   const features = [
-    { icon: Shield, text: "Privacy First", color: "text-blue-500" },
-    { icon: Zap, text: "Lightning Fast", color: "text-yellow-500" },
+    { icon: Shield, text: t('landing.features.privacyFirst'), color: "text-blue-500" },
+    { icon: Zap, text: t('landing.features.lightningFast'), color: "text-yellow-500" },
     { icon: Users, text: "Community Driven", color: "text-green-500" },
     { icon: Star, text: "Premium Quality", color: "text-purple-500" }
   ];
@@ -139,17 +142,16 @@ export const Footer = () => {
                 </div>
                 <div>
                   <h3 className="text-2xl font-black bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
-                    RABWA Tools
+                    {t('landing.title')}
                   </h3>
                   <p className="text-sm text-muted-foreground">
-                    Professional Tools Collection
+                    {t('landing.badge')}
                   </p>
                 </div>
               </div>
               
               <p className="text-muted-foreground leading-relaxed mb-6 max-w-md">
-                Your ultimate toolkit with professional tools for developers, designers, and everyday users. 
-                Built with cutting-edge technology and user experience in mind.
+                {t('landing.subtitle')} {t('landing.toolsCount')} {t('landing.subtitleEnd')} {t('landing.whyChooseSubtitle')}
               </p>
 
               {/* Feature Pills */}
@@ -219,7 +221,19 @@ export const Footer = () => {
               viewport={{ once: true }}
               className="flex items-center gap-2 text-muted-foreground text-sm"
             >
-              <span>© {currentYear} <a href="https://www.rabwatech.com" target="_blank" rel="noopener noreferrer" className="text-primary hover:text-primary/80 transition-colors duration-300">Rabwatech</a>. All rights reserved.</span>
+              <span>© {currentYear} <a href="https://www.rabwatech.com" target="_blank" rel="noopener noreferrer" className="text-primary hover:text-primary/80 transition-colors duration-300">Rabwatech</a>. {t('common.allRightsReserved')}</span>
+            </motion.div>
+            
+            {/* Language Toggle in Footer */}
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6 }}
+              viewport={{ once: true }}
+              className="flex items-center gap-4"
+            >
+              <span className="text-sm text-muted-foreground">{t('common.language')}:</span>
+              <LanguageToggle />
             </motion.div>
           </div>
         </div>

@@ -10,62 +10,85 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Badge } from '@/components/ui/badge';
 import { Navbar } from '@/components/ui/navbar';
 import { Footer } from '@/components/ui/footer';
+import { useLanguage } from '@/hooks/use-language';
+import Cookies from 'js-cookie';
 
 const Features = () => {
   const [isHovering, setIsHovering] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll();
+  const { t, language } = useLanguage();
+
+  // Sync language with cookies on page load
+  useEffect(() => {
+    // Check cookies first, then localStorage backup
+    let savedLanguage = Cookies.get('rabwa-language');
+    
+    if (!savedLanguage) {
+      // Fallback to localStorage backup
+      savedLanguage = localStorage.getItem('rabwa-language-backup');
+    }
+    
+    if (savedLanguage && (savedLanguage === 'ar' || savedLanguage === 'en')) {
+      const lang = savedLanguage;
+      const dir = lang === 'ar' ? 'rtl' : 'ltr';
+      
+      document.documentElement.dir = dir;
+      document.documentElement.lang = lang;
+      document.body.style.direction = dir;
+    }
+  }, []);
 
   const features = [
     {
       icon: Lock,
-      title: "Privacy First",
-      description: "Your data never leaves your browser. All processing happens locally, ensuring complete privacy and security.",
+      title: t('landing.features.privacyFirst'),
+      description: t('landing.features.privacyFirstDesc'),
       color: "#4A638D",
       benefits: ["No data collection", "Local processing", "End-to-end encryption", "GDPR compliant"]
     },
     {
       icon: Zap,
-      title: "Lightning Fast",
-      description: "Instant processing with zero delays. Optimized algorithms ensure tools respond in milliseconds.",
+      title: t('landing.features.lightningFast'),
+      description: t('landing.features.lightningFastDesc'),
       color: "#1ABC9C",
       benefits: ["Instant results", "Optimized algorithms", "No server delays", "Real-time processing"]
     },
     {
       icon: Smartphone,
-      title: "Universal Access",
-      description: "Works seamlessly on any device, anywhere. Responsive design adapts to all screen sizes.",
+      title: t('landing.features.universalAccess'),
+      description: t('landing.features.universalAccessDesc'),
       color: "#CBA79D",
       benefits: ["Mobile optimized", "Cross-platform", "Offline capable", "Touch friendly"]
     },
     {
       icon: CheckCircle,
-      title: "No Registration",
-      description: "Start using immediately without any sign-up process. No accounts, no passwords, no hassle.",
+      title: t('landing.features.noRegistration'),
+      description: t('landing.features.noRegistrationDesc'),
       color: "#D691A4",
       benefits: ["Instant access", "No accounts needed", "No email required", "Zero friction"]
     },
     {
       icon: Moon,
-      title: "Dark/Light Mode",
-      description: "Beautiful themes that adapt to your preference. Switch between modes for optimal viewing experience.",
+      title: t('landing.features.darkLightMode'),
+      description: t('landing.features.darkLightModeDesc'),
       color: "#2C3E50",
       benefits: ["Auto-detection", "Custom themes", "Eye comfort", "Modern design"]
     },
     {
       icon: Wifi,
-      title: "Offline Ready",
-      description: "Core functionality works without internet connection. Perfect for travel or low-connectivity areas.",
+      title: t('landing.features.offlineReady'),
+      description: t('landing.features.offlineReadyDesc'),
       color: "#4A638D",
       benefits: ["Offline tools", "Progressive web app", "Service workers", "Local storage"]
     }
   ];
 
   const stats = [
-    { label: 'Tools Available', value: '145+', icon: Rocket, color: '#4A638D' },
-    { label: 'Daily Users', value: '50K+', icon: Users, color: '#1ABC9C' },
-    { label: 'Countries', value: '180+', icon: Globe, color: '#CBA79D' },
-    { label: 'Uptime', value: '99.9%', icon: CheckCircle, color: '#D691A4' }
+    { label: t('landing.stats.tools'), value: '145+', icon: Rocket, color: '#4A638D' },
+    { label: t('landing.stats.dailyUsers'), value: '50K+', icon: Users, color: '#1ABC9C' },
+    { label: t('landing.stats.countries'), value: '180+', icon: Globe, color: '#CBA79D' },
+    { label: t('landing.stats.uptime'), value: '99.9%', icon: CheckCircle, color: '#D691A4' }
   ];
 
   const technologies = [
@@ -110,7 +133,7 @@ const Features = () => {
             className="inline-flex items-center gap-3 px-8 py-4 bg-card/20 backdrop-blur-xl border border-border/30 rounded-full text-primary font-semibold mb-8 shadow-2xl"
           >
             <Sparkles className="w-6 h-6 text-secondary" />
-            Why Choose RABWA Tools?
+            {t('landing.whyChoose')}
           </motion.div>
 
           {/* RABWA Logo */}
@@ -136,7 +159,7 @@ const Features = () => {
             transition={{ duration: 1, delay: 0.4 }}
             className="text-6xl md:text-8xl font-black mb-8 bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent leading-tight"
           >
-            Built for Excellence
+            {t('landing.title')}
           </motion.h1>
 
           {/* Subtitle */}
@@ -146,8 +169,7 @@ const Features = () => {
             transition={{ duration: 0.8, delay: 0.6 }}
             className="text-2xl md:text-3xl text-foreground mb-12 font-medium max-w-4xl mx-auto leading-relaxed"
           >
-            Experience the power of cutting-edge technology combined with thoughtful design. 
-            Every feature is crafted to make your workflow faster, safer, and more enjoyable.
+            {t('landing.subtitle')} {t('landing.toolsCount')} {t('landing.subtitleEnd')} {t('landing.whyChooseSubtitle')}
           </motion.p>
 
           {/* CTA Button */}
@@ -159,7 +181,7 @@ const Features = () => {
             <a href="/tools">
               <Button className="text-xl px-10 py-6 bg-gradient-to-r from-primary to-secondary hover:from-secondary hover:to-primary text-primary-foreground border-0 shadow-2xl hover:shadow-primary/25 transition-all duration-300 group rounded-full">
                 <Rocket className="w-6 h-6 mr-3 group-hover:rotate-12 transition-transform" />
-                Explore All Tools
+                {t('landing.exploreTools')}
                 <ArrowRight className="w-6 h-6 ml-3 group-hover:translate-x-2 transition-transform" />
               </Button>
             </a>
@@ -178,10 +200,10 @@ const Features = () => {
             viewport={{ once: true }}
           >
             <h2 className="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-              Core Features
+              {t('landing.features.title')}
             </h2>
             <p className="text-xl text-foreground max-w-3xl mx-auto">
-              Discover what makes RABWA Tools the ultimate choice for professionals and enthusiasts
+              {t('landing.whyChooseSubtitle')}
             </p>
           </motion.div>
 
@@ -243,10 +265,10 @@ const Features = () => {
             viewport={{ once: true }}
           >
             <h2 className="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-              Trusted by Millions
+              {t('landing.trustIndicators.users')}
             </h2>
             <p className="text-xl text-foreground max-w-3xl mx-auto">
-              Join a global community of satisfied users who trust RABWA Tools
+              {t('landing.readyToStartSubtitle')} {t('landing.usersCount')} {t('landing.whoTrust')}
             </p>
           </motion.div>
 
@@ -284,10 +306,10 @@ const Features = () => {
             viewport={{ once: true }}
           >
             <h2 className="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-              Built with Modern Tech
+              {t('landing.whyChoose')}
             </h2>
             <p className="text-xl text-foreground max-w-3xl mx-auto">
-              Leveraging the latest technologies for optimal performance and developer experience
+              {t('landing.whyChooseSubtitle')}
             </p>
           </motion.div>
 
@@ -332,10 +354,10 @@ const Features = () => {
             viewport={{ once: true }}
           >
             <h2 className="text-5xl md:text-6xl font-bold mb-8 bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-              Ready to Experience Excellence?
+              {t('landing.readyToStart')}
             </h2>
             <p className="text-2xl text-foreground mb-12 leading-relaxed">
-              Join thousands of users who have already discovered the power of RABWA Tools
+              {t('landing.readyToStartSubtitle')} {t('landing.usersCount')} {t('landing.whoTrust')}
             </p>
             
             <div className="flex flex-col sm:flex-row gap-6 justify-center">
@@ -346,7 +368,7 @@ const Features = () => {
               >
                 <Button className="text-xl px-12 py-8 bg-gradient-to-r from-primary to-secondary hover:from-secondary hover:to-primary text-primary-foreground border-0 shadow-2xl hover:shadow-primary/25 transition-all duration-300 group rounded-full">
                   <Rocket className="w-7 h-7 mr-3 group-hover:rotate-12 transition-transform" />
-                  Start Using Tools
+                  {t('landing.startUsingTools')}
                   <ArrowRight className="w-7 h-7 ml-3 group-hover:translate-x-2 transition-transform" />
                 </Button>
               </motion.a>
@@ -358,7 +380,7 @@ const Features = () => {
               >
                 <Button variant="outline" className="text-xl px-12 py-8 border-2 border-accent text-foreground hover:bg-accent hover:text-accent-foreground shadow-xl hover:shadow-accent/25 transition-all duration-300 rounded-full">
                   <Heart className="w-7 h-7 mr-3" />
-                  Learn More
+                  {t('common.learn')}
                 </Button>
               </motion.a>
             </div>
