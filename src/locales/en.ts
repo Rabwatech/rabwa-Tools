@@ -150,7 +150,21 @@ export const en = {
     learn: 'Learn More',
     categoryFilterActive: 'Category Filter Active',
     browseByCategory: 'Browse by Category',
-    available: 'available'
+    available: 'available',
+    
+    // Footer specific translations
+    pricing: 'Pricing',
+    updates: 'Updates',
+    careers: 'Careers',
+    press: 'Press',
+    partners: 'Partners',
+    documentation: 'Documentation',
+    apiReference: 'API Reference',
+    tutorials: 'Tutorials',
+    blog: 'Blog',
+    gdpr: 'GDPR',
+    communityDriven: 'Community Driven',
+    premiumQuality: 'Premium Quality'
   },
 
   // Tools

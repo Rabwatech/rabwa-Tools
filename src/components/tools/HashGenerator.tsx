@@ -37,8 +37,8 @@ export const HashGenerator = () => {
   const generateHash = async () => {
     if (!inputText.trim()) {
       toast({
-        title: "No text to hash",
-        description: "Please enter some text first",
+        title: "لا يوجد نص للتجزئة",
+        description: "يرجى إدخال بعض النص أولاً",
         variant: "destructive",
       });
       return;
@@ -58,13 +58,13 @@ export const HashGenerator = () => {
       setHashResults(prev => [newResult, ...prev]);
       
       toast({
-        title: "Hash generated",
-        description: `${options.algorithm.toUpperCase()} hash created successfully`,
+        title: "تم إنشاء التجزئة",
+        description: `تم إنشاء تجزئة ${options.algorithm.toUpperCase()} بنجاح`,
       });
     } catch (error) {
       toast({
-        title: "Hash generation failed",
-        description: error instanceof Error ? error.message : "Failed to generate hash",
+        title: "فشل في إنشاء التجزئة",
+        description: error instanceof Error ? error.message : "فشل في إنشاء التجزئة",
         variant: "destructive",
       });
     }
@@ -146,13 +146,13 @@ export const HashGenerator = () => {
     try {
       await navigator.clipboard.writeText(text);
       toast({
-        title: "Copied!",
-        description: "Hash copied to clipboard",
+        title: "تم النسخ!",
+        description: "تم نسخ التجزئة إلى الحافظة",
       });
     } catch (err) {
       toast({
-        title: "Error",
-        description: "Failed to copy hash",
+        title: "خطأ",
+        description: "فشل في نسخ التجزئة",
         variant: "destructive",
       });
     }
@@ -161,17 +161,17 @@ export const HashGenerator = () => {
   const downloadResults = () => {
     if (hashResults.length === 0) return;
     
-    let content = 'Hash Generation Results\n';
+    let content = 'نتائج إنشاء التجزئة\n';
     content += '='.repeat(50) + '\n\n';
     
     hashResults.forEach((result, index) => {
-      content += `Hash #${index + 1}\n`;
-      content += `Algorithm: ${result.algorithm}\n`;
-      content += `Hash: ${result.hash}\n`;
+      content += `التجزئة رقم ${index + 1}\n`;
+      content += `الخوارزمية: ${result.algorithm}\n`;
+      content += `التجزئة: ${result.hash}\n`;
       if (options.includeOriginal) {
-        content += `Original Text: ${result.originalText}\n`;
+        content += `النص الأصلي: ${result.originalText}\n`;
       }
-      content += `Timestamp: ${new Date(result.timestamp).toLocaleString()}\n`;
+      content += `الطابع الزمني: ${new Date(result.timestamp).toLocaleString()}\n`;
       content += '-'.repeat(30) + '\n\n';
     });
     
@@ -186,8 +186,8 @@ export const HashGenerator = () => {
     URL.revokeObjectURL(url);
     
     toast({
-      title: "Downloaded!",
-      description: "Hash results saved to file",
+              title: "تم التحميل!",
+        description: "تم حفظ نتائج التجزئة في الملف",
     });
   };
 
@@ -230,14 +230,14 @@ export const HashGenerator = () => {
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Settings className="w-5 h-5" />
-            Hash Options
+            خيارات التجزئة
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-6">
           {/* Algorithm and Format Selection */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-3">
-              <Label className="text-sm font-medium">Hash Algorithm</Label>
+              <Label className="text-sm font-medium">خوارزمية التجزئة</Label>
               <div className="grid grid-cols-2 gap-2">
                 {(['md5', 'sha1', 'sha256', 'sha512'] as const).map((algo) => (
                   <div key={algo} className="flex items-center gap-2">
@@ -258,7 +258,7 @@ export const HashGenerator = () => {
             </div>
 
             <div className="space-y-3">
-              <Label className="text-sm font-medium">Output Format</Label>
+              <Label className="text-sm font-medium">تنسيق الإخراج</Label>
               <div className="space-y-2">
                 {(['hex', 'base64', 'binary'] as const).map((format) => (
                   <div key={format} className="flex items-center gap-2">
@@ -282,7 +282,7 @@ export const HashGenerator = () => {
           {/* Additional Options */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-3">
-              <Label className="text-sm font-medium">Display Options</Label>
+              <Label className="text-sm font-medium">خيارات العرض</Label>
               <div className="space-y-2">
                 <div className="flex items-center gap-2">
                   <input
@@ -293,7 +293,7 @@ export const HashGenerator = () => {
                     className="w-4 h-4 text-primary"
                   />
                   <Label htmlFor="include-original" className="text-sm">
-                    Include original text
+                    تضمين النص الأصلي
                   </Label>
                 </div>
                 <div className="flex items-center gap-2">
@@ -305,14 +305,14 @@ export const HashGenerator = () => {
                     className="w-4 h-4 text-primary"
                   />
                   <Label htmlFor="show-comparison" className="text-sm">
-                    Show hash comparison
+                    عرض مقارنة التجزئة
                   </Label>
                 </div>
               </div>
             </div>
 
             <div className="space-y-3">
-              <Label className="text-sm font-medium">Processing Options</Label>
+              <Label className="text-sm font-medium">خيارات المعالجة</Label>
               <div className="space-y-2">
                 <div className="flex items-center gap-2">
                   <input
@@ -323,7 +323,7 @@ export const HashGenerator = () => {
                     className="w-4 h-4 text-primary"
                   />
                   <Label htmlFor="case-sensitive" className="text-sm">
-                    Case sensitive
+                    حساس لحالة الأحرف
                   </Label>
                 </div>
               </div>
@@ -335,12 +335,12 @@ export const HashGenerator = () => {
       {/* Input Text */}
       <div className="space-y-4">
         <div className="space-y-2">
-          <Label htmlFor="input-text">Text to Hash</Label>
+          <Label htmlFor="input-text">النص للتجزئة</Label>
           <Textarea
             id="input-text"
             value={inputText}
             onChange={(e) => setInputText(e.target.value)}
-            placeholder="Enter text to generate hash..."
+            placeholder="أدخل النص لإنشاء التجزئة..."
             className="min-h-[150px]"
           />
         </div>
@@ -348,11 +348,11 @@ export const HashGenerator = () => {
         <div className="flex gap-2">
           <Button onClick={generateHash} disabled={!inputText.trim()} className="flex-1">
             <Hash className="w-4 h-4 mr-2" />
-            Generate {options.algorithm.toUpperCase()} Hash
+            إنشاء تجزئة {options.algorithm.toUpperCase()}
           </Button>
           <Button variant="outline" onClick={resetAll}>
             <RotateCcw className="w-4 h-4 mr-2" />
-            Reset All
+            إعادة تعيين الكل
           </Button>
         </div>
       </div>
@@ -361,14 +361,14 @@ export const HashGenerator = () => {
       {hashResults.length > 0 && (
         <div className="space-y-4">
           <div className="flex items-center justify-between">
-            <Label className="text-lg font-medium">Generated Hashes</Label>
+            <Label className="text-lg font-medium">التجزئات المنشأة</Label>
             <div className="flex gap-2">
               <Button variant="outline" onClick={downloadResults} size="sm">
                 <Download className="w-4 h-4 mr-2" />
-                Download All
+                تحميل الكل
               </Button>
               <Button variant="outline" onClick={clearResults} size="sm">
-                Clear Results
+                مسح النتائج
               </Button>
             </div>
           </div>
@@ -394,7 +394,7 @@ export const HashGenerator = () => {
                     
                     {options.includeOriginal && (
                       <div className="text-sm">
-                        <span className="font-medium">Original:</span>
+                        <span className="font-medium">الأصلي:</span>
                         <span className="ml-2 text-muted-foreground">{result.originalText}</span>
                       </div>
                     )}
@@ -406,7 +406,7 @@ export const HashGenerator = () => {
                         onClick={() => copyToClipboard(result.hash)}
                       >
                         <Copy className="w-4 h-4 mr-2" />
-                        Copy Hash
+                        نسخ التجزئة
                       </Button>
                       <Button
                         variant="outline"
@@ -414,7 +414,7 @@ export const HashGenerator = () => {
                         onClick={() => copyToClipboard(result.originalText)}
                       >
                         <Copy className="w-4 h-4 mr-2" />
-                        Copy Text
+                        نسخ النص
                       </Button>
                     </div>
                   </div>
@@ -429,21 +429,21 @@ export const HashGenerator = () => {
       {stats && (
         <Card>
           <CardHeader>
-            <CardTitle>Hash Statistics</CardTitle>
+            <CardTitle>إحصائيات التجزئة</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
               <div className="text-center">
                 <div className="text-2xl font-bold text-primary">{stats.totalHashes}</div>
-                <div className="text-muted-foreground">Total Hashes</div>
+                <div className="text-muted-foreground">إجمالي التجزئات</div>
               </div>
               <div className="text-center">
                 <div className="text-2xl font-bold text-secondary">{stats.algorithms.length}</div>
-                <div className="text-muted-foreground">Algorithms Used</div>
+                <div className="text-muted-foreground">الخوارزميات المستخدمة</div>
               </div>
               <div className="text-center">
                 <div className="text-2xl font-bold text-accent">{stats.averageLength}</div>
-                <div className="text-muted-foreground">Avg Hash Length</div>
+                <div className="text-muted-foreground">متوسط طول التجزئة</div>
               </div>
             </div>
           </CardContent>
@@ -454,17 +454,17 @@ export const HashGenerator = () => {
       {options.showComparison && hashResults.length > 1 && (
         <Card>
           <CardHeader>
-            <CardTitle>Hash Comparison</CardTitle>
+            <CardTitle>مقارنة التجزئة</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
                 <thead>
                   <tr className="border-b">
-                    <th className="text-left p-2">Algorithm</th>
-                    <th className="text-left p-2">Hash</th>
-                    <th className="text-left p-2">Length</th>
-                    <th className="text-left p-2">Format</th>
+                    <th className="text-left p-2">الخوارزمية</th>
+                    <th className="text-left p-2">التجزئة</th>
+                    <th className="text-left p-2">الطول</th>
+                    <th className="text-left p-2">التنسيق</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -488,16 +488,16 @@ export const HashGenerator = () => {
       {/* Information */}
       <Card>
         <CardHeader>
-          <CardTitle>About Hash Functions</CardTitle>
+                      <CardTitle>حول دوال التجزئة</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="space-y-3 text-sm text-muted-foreground">
             <p>
-              Hash functions are mathematical functions that convert input data of arbitrary size to a fixed-size string of characters.
+              دوال التجزئة هي دوال رياضية تحول بيانات الإدخال من حجم عشوائي إلى سلسلة من الأحرف بحجم ثابت.
             </p>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
               <div>
-                <h4 className="font-medium text-sm mb-2">Hash Types:</h4>
+                <h4 className="font-medium text-sm mb-2">أنواع التجزئة:</h4>
                 <ul className="space-y-1 text-xs">
                   <li>• <strong>MD5:</strong> 128-bit hash (not secure)</li>
                   <li>• <strong>SHA-1:</strong> 160-bit hash (not secure)</li>
@@ -506,12 +506,12 @@ export const HashGenerator = () => {
                 </ul>
               </div>
               <div>
-                <h4 className="font-medium text-sm mb-2">Use Cases:</h4>
+                <h4 className="font-medium text-sm mb-2">حالات الاستخدام:</h4>
                 <ul className="space-y-1 text-xs">
-                  <li>• Password verification</li>
-                  <li>• File integrity checks</li>
-                  <li>• Digital signatures</li>
-                  <li>• Data deduplication</li>
+                  <li>• التحقق من كلمات المرور</li>
+                  <li>• فحص سلامة الملفات</li>
+                  <li>• التوقيعات الرقمية</li>
+                  <li>• إزالة تكرار البيانات</li>
                 </ul>
               </div>
             </div>
@@ -522,16 +522,16 @@ export const HashGenerator = () => {
       {/* Tips */}
       <Card>
         <CardHeader>
-          <CardTitle>Security Tips</CardTitle>
+                      <CardTitle>نصائح الأمان</CardTitle>
         </CardHeader>
         <CardContent>
           <ul className="space-y-2 text-sm text-muted-foreground">
-            <li>• <strong>MD5 and SHA-1 are cryptographically broken</strong> - avoid for security purposes</li>
-            <li>• <strong>SHA-256 and SHA-512 are secure</strong> for most applications</li>
-            <li>• Always use salt with password hashing</li>
-            <li>• Hash functions are one-way - they cannot be reversed</li>
-            <li>• Use for data integrity, not encryption</li>
-            <li>• Consider using specialized password hashing algorithms like bcrypt for passwords</li>
+            <li>• <strong>MD5 و SHA-1 مكسوران تشفيرياً</strong> - تجنب استخدامهما للأغراض الأمنية</li>
+            <li>• <strong>SHA-256 و SHA-512 آمنان</strong> لمعظم التطبيقات</li>
+            <li>• استخدم دائماً الملح مع تجزئة كلمات المرور</li>
+            <li>• دوال التجزئة أحادية الاتجاه - لا يمكن عكسها</li>
+            <li>• استخدمها لسلامة البيانات، وليس للتشفير</li>
+            <li>• فكر في استخدام خوارزميات تجزئة كلمات المرور المتخصصة مثل bcrypt</li>
           </ul>
         </CardContent>
       </Card>

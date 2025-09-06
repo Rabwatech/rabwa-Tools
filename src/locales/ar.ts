@@ -150,7 +150,21 @@ export const ar = {
     learn: 'تعلم المزيد',
     categoryFilterActive: 'فلتر الفئة نشط',
     browseByCategory: 'تصفح حسب الفئة',
-    available: 'متاح'
+    available: 'متاح',
+    
+    // Footer specific translations
+    pricing: 'الأسعار',
+    updates: 'التحديثات',
+    careers: 'الوظائف',
+    press: 'المركز الإعلامي',
+    partners: 'الشركاء',
+    documentation: 'الوثائق',
+    apiReference: 'مرجع API',
+    tutorials: 'الدروس التعليمية',
+    blog: 'المدونة',
+    gdpr: 'GDPR',
+    communityDriven: 'مدفوع بالمجتمع',
+    premiumQuality: 'جودة عالية'
   },
 
   // Tools

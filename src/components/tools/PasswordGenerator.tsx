@@ -49,40 +49,40 @@ export const PasswordGenerator = () => {
     
     if (pwd.length >= 12) score += 25;
     else if (pwd.length >= 8) score += 15;
-    else feedback.push('Use at least 8 characters');
+    else feedback.push('استخدم 8 أحرف على الأقل');
     
     if (/[a-z]/.test(pwd)) score += 15;
-    else feedback.push('Add lowercase letters');
+    else feedback.push('أضف أحرف صغيرة');
     
     if (/[A-Z]/.test(pwd)) score += 15;
-    else feedback.push('Add uppercase letters');
+    else feedback.push('أضف أحرف كبيرة');
     
     if (/[0-9]/.test(pwd)) score += 15;
-    else feedback.push('Add numbers');
+    else feedback.push('أضف أرقام');
     
     if (/[^a-zA-Z0-9]/.test(pwd)) score += 20;
-    else feedback.push('Add special characters');
+    else feedback.push('أضف رموز خاصة');
     
     if (pwd.length >= 16) score += 10;
     
-    let strength = 'Very Weak';
+    let strength = 'ضعيف جداً';
     let color = 'text-destructive';
     let icon = XCircle;
     
     if (score >= 80) {
-      strength = 'Very Strong';
+      strength = 'قوي جداً';
       color = 'text-success';
       icon = CheckCircle;
     } else if (score >= 60) {
-      strength = 'Strong';
+      strength = 'قوي';
       color = 'text-success';
       icon = CheckCircle;
     } else if (score >= 40) {
-      strength = 'Moderate';
+      strength = 'متوسط';
       color = 'text-warning';
       icon = AlertCircle;
     } else if (score >= 20) {
-      strength = 'Weak';
+      strength = 'ضعيف';
       color = 'text-destructive';
       icon = XCircle;
     }
@@ -102,7 +102,7 @@ export const PasswordGenerator = () => {
       <div className="space-y-4">
         <div>
           <label className="block text-sm font-medium text-foreground mb-2">
-            Length: {options.length}
+            الطول: {options.length}
           </label>
           <input
             type="range"
@@ -122,7 +122,7 @@ export const PasswordGenerator = () => {
               onChange={(e) => setOptions(prev => ({ ...prev, includeUppercase: e.target.checked }))}
               className="w-4 h-4 text-primary bg-background border-2 border-input-border rounded focus:ring-ring"
             />
-            <span className="text-sm text-foreground">Uppercase (A-Z)</span>
+            <span className="text-sm text-foreground">أحرف كبيرة (A-Z)</span>
           </label>
 
           <label className="flex items-center space-x-3 cursor-pointer">
@@ -132,7 +132,7 @@ export const PasswordGenerator = () => {
               onChange={(e) => setOptions(prev => ({ ...prev, includeLowercase: e.target.checked }))}
               className="w-4 h-4 text-primary bg-background border-2 border-input-border rounded focus:ring-ring"
             />
-            <span className="text-sm text-foreground">Lowercase (a-z)</span>
+            <span className="text-sm text-foreground">أحرف صغيرة (a-z)</span>
           </label>
 
           <label className="flex items-center space-x-3 cursor-pointer">
@@ -142,7 +142,7 @@ export const PasswordGenerator = () => {
               onChange={(e) => setOptions(prev => ({ ...prev, includeNumbers: e.target.checked }))}
               className="w-4 h-4 text-primary bg-background border-2 border-input-border rounded focus:ring-ring"
             />
-            <span className="text-sm text-foreground">Numbers (0-9)</span>
+            <span className="text-sm text-foreground">أرقام (0-9)</span>
           </label>
 
           <label className="flex items-center space-x-3 cursor-pointer">
@@ -152,7 +152,7 @@ export const PasswordGenerator = () => {
               onChange={(e) => setOptions(prev => ({ ...prev, includeSymbols: e.target.checked }))}
               className="w-4 h-4 text-primary bg-background border-2 border-input-border rounded focus:ring-ring"
             />
-            <span className="text-sm text-foreground">Symbols (!@#$%^&*)</span>
+            <span className="text-sm text-foreground">رموز (!@#$%^&*)</span>
           </label>
 
           <label className="flex items-center space-x-3 cursor-pointer md:col-span-2">
@@ -162,7 +162,7 @@ export const PasswordGenerator = () => {
               onChange={(e) => setOptions(prev => ({ ...prev, excludeSimilar: e.target.checked }))}
               className="w-4 h-4 text-primary bg-background border-2 border-input-border rounded focus:ring-ring"
             />
-            <span className="text-sm text-foreground">Exclude similar characters (i, l, 1, L, o, 0, O)</span>
+            <span className="text-sm text-foreground">استبعاد الأحرف المتشابهة (i, l, 1, L, o, 0, O)</span>
           </label>
         </div>
       </div>
@@ -173,7 +173,7 @@ export const PasswordGenerator = () => {
         className="btn-primary w-full flex items-center justify-center gap-2"
       >
         <RefreshCw className="w-4 h-4" />
-        Generate Password
+        إنشاء كلمة مرور
       </button>
 
       {/* Generated Password */}
@@ -181,11 +181,11 @@ export const PasswordGenerator = () => {
         <div className="space-y-4">
           <div className="bg-muted rounded-lg p-4">
             <div className="flex items-center justify-between mb-2">
-              <label className="text-sm font-medium text-foreground">Generated Password</label>
+              <label className="text-sm font-medium text-foreground">كلمة المرور المنشأة</label>
               <button
                 onClick={copyToClipboard}
                 className="p-1 rounded hover:bg-background transition-colors"
-                title="Copy to clipboard"
+                title="نسخ إلى الحافظة"
               >
                 <Copy className="w-4 h-4 text-muted-foreground" />
               </button>
@@ -200,7 +200,7 @@ export const PasswordGenerator = () => {
             <div className="bg-muted/50 rounded-lg p-4">
               <div className="flex items-center gap-3 mb-3">
                 <Shield className="w-5 h-5 text-primary" />
-                <span className="font-medium text-foreground">Password Strength</span>
+                <span className="font-medium text-foreground">قوة كلمة المرور</span>
               </div>
               
               <div className="flex items-center gap-3 mb-3">
@@ -220,7 +220,7 @@ export const PasswordGenerator = () => {
               
               {strength.feedback.length > 0 && (
                 <div className="text-sm text-muted-foreground">
-                  <p className="font-medium mb-1">Suggestions:</p>
+                  <p className="font-medium mb-1">اقتراحات:</p>
                   <ul className="list-disc list-inside space-y-1">
                     {strength.feedback.map((item, index) => (
                       <li key={index}>{item}</li>

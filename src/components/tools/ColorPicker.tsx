@@ -115,7 +115,7 @@ export const ColorPicker = () => {
           <div className="space-y-3">
             <div>
               <label className="block text-sm font-medium text-foreground mb-2">
-                Pick a Color
+                اختر لون
               </label>
               <input
                 type="color"
@@ -130,7 +130,7 @@ export const ColorPicker = () => {
               className="btn-secondary flex items-center gap-2"
             >
               <RefreshCw className="w-4 h-4" />
-              Random
+              عشوائي
             </button>
           </div>
         </div>
@@ -145,7 +145,7 @@ export const ColorPicker = () => {
               <button
                 onClick={() => copyToClipboard(colorValues.hex, 'HEX')}
                 className="p-1 rounded hover:bg-background transition-colors"
-                title="Copy HEX value"
+                title="نسخ قيمة HEX"
               >
                 <Copy className="w-4 h-4 text-muted-foreground" />
               </button>
@@ -162,7 +162,7 @@ export const ColorPicker = () => {
               <button
                 onClick={() => copyToClipboard(`rgb(${colorValues.rgb.r}, ${colorValues.rgb.g}, ${colorValues.rgb.b})`, 'RGB')}
                 className="p-1 rounded hover:bg-background transition-colors"
-                title="Copy RGB value"
+                title="نسخ قيمة RGB"
               >
                 <Copy className="w-4 h-4 text-muted-foreground" />
               </button>
@@ -179,7 +179,7 @@ export const ColorPicker = () => {
               <button
                 onClick={() => copyToClipboard(`hsl(${colorValues.hsl.h}, ${colorValues.hsl.s}%, ${colorValues.hsl.l}%)`, 'HSL')}
                 className="p-1 rounded hover:bg-background transition-colors"
-                title="Copy HSL value"
+                title="نسخ قيمة HSL"
               >
                 <Copy className="w-4 h-4 text-muted-foreground" />
               </button>
@@ -196,7 +196,7 @@ export const ColorPicker = () => {
               <button
                 onClick={() => copyToClipboard(`cmyk(${colorValues.cmyk.c}%, ${colorValues.cmyk.m}%, ${colorValues.cmyk.y}%, ${colorValues.cmyk.k}%)`, 'CMYK')}
                 className="p-1 rounded hover:bg-background transition-colors"
-                title="Copy CMYK value"
+                title="نسخ قيمة CMYK"
               >
                 <Copy className="w-4 h-4 text-muted-foreground" />
               </button>
@@ -211,7 +211,7 @@ export const ColorPicker = () => {
       {/* Manual Hex Input */}
       <div>
         <label className="block text-sm font-medium text-foreground mb-2">
-          Or enter a HEX color
+          أو أدخل لون HEX
         </label>
         <div className="flex gap-2">
           <input
@@ -230,7 +230,7 @@ export const ColorPicker = () => {
             onClick={() => updateColorValues(color)}
             className="btn-primary"
           >
-            Apply
+            تطبيق
           </button>
         </div>
       </div>
@@ -239,15 +239,15 @@ export const ColorPicker = () => {
       <div className="bg-muted/50 rounded-lg p-4">
         <h4 className="font-medium text-foreground mb-3 flex items-center gap-2">
           <Palette className="w-4 h-4" />
-          Color Harmony
+          تناسق الألوان
         </h4>
         <div className="grid grid-cols-5 gap-2">
           {colorValues && [
-            { name: 'Original', color: color },
-            { name: 'Lighter', color: `hsl(${colorValues.hsl.h}, ${colorValues.hsl.s}%, ${Math.min(colorValues.hsl.l + 20, 100)}%)` },
-            { name: 'Darker', color: `hsl(${colorValues.hsl.h}, ${colorValues.hsl.s}%, ${Math.max(colorValues.hsl.l - 20, 0)}%)` },
-            { name: 'Complement', color: `hsl(${(colorValues.hsl.h + 180) % 360}, ${colorValues.hsl.s}%, ${colorValues.hsl.l}%)` },
-            { name: 'Triad', color: `hsl(${(colorValues.hsl.h + 120) % 360}, ${colorValues.hsl.s}%, ${colorValues.hsl.l}%)` },
+            { name: 'أصلي', color: color },
+            { name: 'أفتح', color: `hsl(${colorValues.hsl.h}, ${colorValues.hsl.s}%, ${Math.min(colorValues.hsl.l + 20, 100)}%)` },
+            { name: 'أغمق', color: `hsl(${colorValues.hsl.h}, ${colorValues.hsl.s}%, ${Math.max(colorValues.hsl.l - 20, 0)}%)` },
+            { name: 'مكمل', color: `hsl(${(colorValues.hsl.h + 180) % 360}, ${colorValues.hsl.s}%, ${colorValues.hsl.l}%)` },
+            { name: 'ثلاثي', color: `hsl(${(colorValues.hsl.h + 120) % 360}, ${colorValues.hsl.s}%, ${colorValues.hsl.l}%)` },
           ].map((item) => (
             <div key={item.name} className="text-center">
               <div
@@ -257,7 +257,7 @@ export const ColorPicker = () => {
                   setColor(item.color);
                   updateColorValues(item.color);
                 }}
-                title={`Click to use ${item.name.toLowerCase()}`}
+                title={`انقر لاستخدام ${item.name}`}
               ></div>
               <span className="text-xs text-muted-foreground mt-1 block">{item.name}</span>
             </div>

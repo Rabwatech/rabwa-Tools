@@ -28,27 +28,27 @@ export const Footer = () => {
         { name: t('common.tools'), href: "/tools" },
         { name: t('common.categories'), href: "/#categories" },
         { name: t('nav.features'), href: "/features" },
-        { name: "Pricing", href: "/#pricing" },
-        { name: "Updates", href: "/#updates" }
+        { name: t('common.pricing'), href: "/#pricing" },
+        { name: t('common.updates'), href: "/#updates" }
       ]
     },
     {
       title: t('nav.about'),
       links: [
         { name: t('nav.about'), href: "/#about" },
-        { name: "Careers", href: "/#careers" },
-        { name: "Press", href: "/#press" },
-        { name: "Partners", href: "/#partners" },
+        { name: t('common.careers'), href: "/#careers" },
+        { name: t('common.press'), href: "/#press" },
+        { name: t('common.partners'), href: "/#partners" },
         { name: t('common.contact'), href: "/#contact" }
       ]
     },
     {
       title: t('common.help'),
       links: [
-        { name: "Documentation", href: "/docs" },
-        { name: "API Reference", href: "/api" },
-        { name: "Tutorials", href: "/tutorials" },
-        { name: "Blog", href: "/blog" },
+        { name: t('common.documentation'), href: "/docs" },
+        { name: t('common.apiReference'), href: "/api" },
+        { name: t('common.tutorials'), href: "/tutorials" },
+        { name: t('common.blog'), href: "/blog" },
         { name: t('common.support'), href: "/support" }
       ]
     },
@@ -58,7 +58,7 @@ export const Footer = () => {
         { name: t('common.privacy'), href: "/privacy" },
         { name: t('common.terms'), href: "/terms" },
         { name: t('common.cookies'), href: "/cookies" },
-        { name: "GDPR", href: "/gdpr" },
+        { name: t('common.gdpr'), href: "/gdpr" },
         { name: t('common.security'), href: "/security" }
       ]
     }
@@ -67,8 +67,8 @@ export const Footer = () => {
   const features = [
     { icon: Shield, text: t('landing.features.privacyFirst'), color: "text-blue-500" },
     { icon: Zap, text: t('landing.features.lightningFast'), color: "text-yellow-500" },
-    { icon: Users, text: "Community Driven", color: "text-green-500" },
-    { icon: Star, text: "Premium Quality", color: "text-purple-500" }
+    { icon: Users, text: t('common.communityDriven'), color: "text-green-500" },
+    { icon: Star, text: t('common.premiumQuality'), color: "text-purple-500" }
   ];
 
   return (

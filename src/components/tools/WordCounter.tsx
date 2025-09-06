@@ -23,13 +23,13 @@ export const WordCounter = () => {
   }, [text]);
 
   const copyToClipboard = () => {
-    const statsText = `Text Statistics:
-Words: ${stats.words}
-Characters: ${stats.characters}
-Characters (no spaces): ${stats.charactersNoSpaces}
-Paragraphs: ${stats.paragraphs}
-Sentences: ${stats.sentences}
-Reading time: ${stats.readingTime} min`;
+    const statsText = `إحصائيات النص:
+الكلمات: ${stats.words}
+الأحرف: ${stats.characters}
+الأحرف (بدون مسافات): ${stats.charactersNoSpaces}
+الفقرات: ${stats.paragraphs}
+الجمل: ${stats.sentences}
+وقت القراءة: ${stats.readingTime} دقيقة`;
 
     navigator.clipboard.writeText(statsText);
   };
@@ -38,13 +38,13 @@ Reading time: ${stats.readingTime} min`;
     <div className="space-y-6">
       <div>
         <label htmlFor="text-input" className="block text-sm font-medium text-foreground mb-2">
-          Enter your text
+          أدخل نصك
         </label>
         <textarea
           id="text-input"
           value={text}
           onChange={(e) => setText(e.target.value)}
-          placeholder="Type or paste your text here..."
+          placeholder="اكتب أو الصق نصك هنا..."
           className="tool-input h-48 resize-y"
         />
       </div>
@@ -52,32 +52,32 @@ Reading time: ${stats.readingTime} min`;
       <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
         <div className="bg-muted rounded-lg p-4 text-center">
           <div className="text-2xl font-bold text-primary">{stats.words}</div>
-          <div className="text-sm text-muted-foreground">Words</div>
+          <div className="text-sm text-muted-foreground">الكلمات</div>
         </div>
         
         <div className="bg-muted rounded-lg p-4 text-center">
           <div className="text-2xl font-bold text-secondary">{stats.characters}</div>
-          <div className="text-sm text-muted-foreground">Characters</div>
+          <div className="text-sm text-muted-foreground">الأحرف</div>
         </div>
         
         <div className="bg-muted rounded-lg p-4 text-center">
           <div className="text-2xl font-bold text-accent">{stats.charactersNoSpaces}</div>
-          <div className="text-sm text-muted-foreground">Chars (no spaces)</div>
+          <div className="text-sm text-muted-foreground">الأحرف (بدون مسافات)</div>
         </div>
         
         <div className="bg-muted rounded-lg p-4 text-center">
           <div className="text-2xl font-bold text-highlight">{stats.paragraphs}</div>
-          <div className="text-sm text-muted-foreground">Paragraphs</div>
+          <div className="text-sm text-muted-foreground">الفقرات</div>
         </div>
         
         <div className="bg-muted rounded-lg p-4 text-center">
           <div className="text-2xl font-bold text-primary">{stats.sentences}</div>
-          <div className="text-sm text-muted-foreground">Sentences</div>
+          <div className="text-sm text-muted-foreground">الجمل</div>
         </div>
         
         <div className="bg-muted rounded-lg p-4 text-center">
           <div className="text-2xl font-bold text-secondary">{stats.readingTime}</div>
-          <div className="text-sm text-muted-foreground">Min to read</div>
+          <div className="text-sm text-muted-foreground">دقائق للقراءة</div>
         </div>
       </div>
 
@@ -87,14 +87,14 @@ Reading time: ${stats.readingTime} min`;
           className="btn-primary flex items-center gap-2"
         >
           <Copy className="w-4 h-4" />
-          Copy Stats
+          نسخ الإحصائيات
         </button>
         
         <button
           onClick={() => setText('')}
           className="btn-secondary"
         >
-          Clear Text
+          مسح النص
         </button>
       </div>
 
@@ -102,14 +102,14 @@ Reading time: ${stats.readingTime} min`;
         <div className="bg-muted/50 rounded-lg p-4">
           <h4 className="font-medium text-foreground mb-2 flex items-center gap-2">
             <FileText className="w-4 h-4" />
-            Text Analysis
+            تحليل النص
           </h4>
           <div className="text-sm text-muted-foreground space-y-1">
-            <p>Average words per sentence: {stats.sentences > 0 ? Math.round(stats.words / stats.sentences) : 0}</p>
-            <p>Average characters per word: {stats.words > 0 ? Math.round(stats.charactersNoSpaces / stats.words) : 0}</p>
-            <p>Reading difficulty: {stats.words > 0 && stats.sentences > 0 ? 
-              (stats.words / stats.sentences > 20 ? 'Complex' : 
-               stats.words / stats.sentences > 15 ? 'Moderate' : 'Simple') : 'N/A'}</p>
+            <p>متوسط الكلمات في الجملة: {stats.sentences > 0 ? Math.round(stats.words / stats.sentences) : 0}</p>
+            <p>متوسط الأحرف في الكلمة: {stats.words > 0 ? Math.round(stats.charactersNoSpaces / stats.words) : 0}</p>
+            <p>صعوبة القراءة: {stats.words > 0 && stats.sentences > 0 ? 
+              (stats.words / stats.sentences > 20 ? 'معقد' : 
+               stats.words / stats.sentences > 15 ? 'متوسط' : 'بسيط') : 'غير متوفر'}</p>
           </div>
         </div>
       )}

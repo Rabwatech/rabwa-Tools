@@ -41,35 +41,35 @@ export const BMICalculator = () => {
     let healthRisk: string;
 
     if (bmi < 18.5) {
-      category = 'Underweight';
-      description = 'Below normal weight';
+      category = 'نقص الوزن';
+      description = 'أقل من الوزن الطبيعي';
       color = 'text-warning';
-      healthRisk = 'Malnutrition risk, weak immune system';
+      healthRisk = 'خطر سوء التغذية، ضعف الجهاز المناعي';
     } else if (bmi < 25) {
-      category = 'Normal weight';
-      description = 'Healthy weight range';
+      category = 'الوزن الطبيعي';
+      description = 'نطاق الوزن الصحي';
       color = 'text-success';
-      healthRisk = 'Low risk of weight-related health problems';
+      healthRisk = 'خطر منخفض من المشاكل الصحية المتعلقة بالوزن';
     } else if (bmi < 30) {
-      category = 'Overweight';
-      description = 'Above normal weight';
+      category = 'زيادة الوزن';
+      description = 'أعلى من الوزن الطبيعي';
       color = 'text-warning';
-      healthRisk = 'Increased risk of heart disease, diabetes';
+      healthRisk = 'زيادة خطر الإصابة بأمراض القلب والسكري';
     } else if (bmi < 35) {
-      category = 'Obesity Class I';
-      description = 'Moderately obese';
+      category = 'السمنة من الدرجة الأولى';
+      description = 'سمنة معتدلة';
       color = 'text-destructive';
-      healthRisk = 'High risk of health complications';
+      healthRisk = 'خطر عالي من المضاعفات الصحية';
     } else if (bmi < 40) {
-      category = 'Obesity Class II';
-      description = 'Severely obese';
+      category = 'السمنة من الدرجة الثانية';
+      description = 'سمنة شديدة';
       color = 'text-destructive';
-      healthRisk = 'Very high risk of health complications';
+      healthRisk = 'خطر عالي جداً من المضاعفات الصحية';
     } else {
-      category = 'Obesity Class III';
-      description = 'Very severely obese';
+      category = 'السمنة من الدرجة الثالثة';
+      description = 'سمنة شديدة جداً';
       color = 'text-destructive';
-      healthRisk = 'Extremely high risk of health complications';
+      healthRisk = 'خطر عالي للغاية من المضاعفات الصحية';
     }
 
     setResult({
@@ -106,7 +106,7 @@ export const BMICalculator = () => {
                 : 'text-muted-foreground hover:text-foreground'
             }`}
           >
-            Metric
+            متري
           </button>
           <button
             onClick={() => setUnit('imperial')}
@@ -116,7 +116,7 @@ export const BMICalculator = () => {
                 : 'text-muted-foreground hover:text-foreground'
             }`}
           >
-            Imperial
+            إمبراطوري
           </button>
         </div>
       </div>
@@ -125,7 +125,7 @@ export const BMICalculator = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
           <label className="block text-sm font-medium text-foreground mb-2">
-            Weight {unit === 'metric' ? '(kg)' : '(lbs)'}
+            الوزن {unit === 'metric' ? '(كجم)' : '(باوند)'}
           </label>
           <input
             type="number"
@@ -140,7 +140,7 @@ export const BMICalculator = () => {
 
         <div>
           <label className="block text-sm font-medium text-foreground mb-2">
-            Height {unit === 'metric' ? '(cm)' : '(inches)'}
+            الطول {unit === 'metric' ? '(سم)' : '(بوصة)'}
           </label>
           <input
             type="number"
@@ -160,7 +160,7 @@ export const BMICalculator = () => {
         className="btn-primary w-full flex items-center justify-center gap-2"
       >
         <Calculator className="w-4 h-4" />
-        Calculate BMI
+        احسب مؤشر كتلة الجسم
       </button>
 
       {/* Result */}
@@ -182,7 +182,7 @@ export const BMICalculator = () => {
 
           {/* BMI Scale */}
           <div className="bg-muted/50 rounded-lg p-4">
-            <h4 className="font-medium text-foreground mb-3">BMI Scale</h4>
+            <h4 className="font-medium text-foreground mb-3">مقياس مؤشر كتلة الجسم</h4>
             <div className="relative">
               <div className="h-3 bg-gradient-to-r from-warning via-success via-warning to-destructive rounded-full"></div>
               <div 
@@ -200,19 +200,19 @@ export const BMICalculator = () => {
             <div className="grid grid-cols-4 gap-2 mt-4 text-xs">
               <div className="text-center">
                 <div className="w-3 h-3 bg-warning rounded-full mx-auto mb-1"></div>
-                <span className="text-muted-foreground">Underweight</span>
+                <span className="text-muted-foreground">نقص الوزن</span>
               </div>
               <div className="text-center">
                 <div className="w-3 h-3 bg-success rounded-full mx-auto mb-1"></div>
-                <span className="text-muted-foreground">Normal</span>
+                <span className="text-muted-foreground">طبيعي</span>
               </div>
               <div className="text-center">
                 <div className="w-3 h-3 bg-warning rounded-full mx-auto mb-1"></div>
-                <span className="text-muted-foreground">Overweight</span>
+                <span className="text-muted-foreground">زيادة الوزن</span>
               </div>
               <div className="text-center">
                 <div className="w-3 h-3 bg-destructive rounded-full mx-auto mb-1"></div>
-                <span className="text-muted-foreground">Obese</span>
+                <span className="text-muted-foreground">سمنة</span>
               </div>
             </div>
           </div>
@@ -221,18 +221,18 @@ export const BMICalculator = () => {
           <div className="bg-muted/50 rounded-lg p-4">
             <h4 className="font-medium text-foreground mb-3 flex items-center gap-2">
               <Activity className="w-4 h-4" />
-              Health Risk Assessment
+              تقييم المخاطر الصحية
             </h4>
             <p className="text-sm text-muted-foreground mb-3">
               {result.healthRisk}
             </p>
             <div className="text-xs text-muted-foreground">
               <p className="mb-2">
-                <strong>Note:</strong> BMI is a screening tool and not a diagnostic measure. 
-                It doesn't account for muscle mass, bone density, or fat distribution.
+                <strong>ملاحظة:</strong> مؤشر كتلة الجسم هو أداة فحص وليس مقياس تشخيصي. 
+                لا يأخذ في الاعتبار كتلة العضلات أو كثافة العظام أو توزيع الدهون.
               </p>
               <p>
-                Consult with a healthcare provider for a comprehensive health assessment.
+                استشر مقدم الرعاية الصحية للحصول على تقييم صحي شامل.
               </p>
             </div>
           </div>
@@ -243,24 +243,24 @@ export const BMICalculator = () => {
       <div className="bg-muted/50 rounded-lg p-4">
         <h4 className="font-medium text-foreground mb-3 flex items-center gap-2">
           <User className="w-4 h-4" />
-          BMI Categories
+          فئات مؤشر كتلة الجسم
         </h4>
         <div className="space-y-2 text-sm">
           <div className="flex justify-between">
-            <span className="text-muted-foreground">Underweight:</span>
-            <span className="font-medium text-foreground">Less than 18.5</span>
+            <span className="text-muted-foreground">نقص الوزن:</span>
+            <span className="font-medium text-foreground">أقل من 18.5</span>
           </div>
           <div className="flex justify-between">
-            <span className="text-muted-foreground">Normal weight:</span>
+            <span className="text-muted-foreground">الوزن الطبيعي:</span>
             <span className="font-medium text-foreground">18.5 - 24.9</span>
           </div>
           <div className="flex justify-between">
-            <span className="text-muted-foreground">Overweight:</span>
+            <span className="text-muted-foreground">زيادة الوزن:</span>
             <span className="font-medium text-foreground">25.0 - 29.9</span>
           </div>
           <div className="flex justify-between">
-            <span className="text-muted-foreground">Obesity:</span>
-            <span className="font-medium text-foreground">30.0 and above</span>
+            <span className="text-muted-foreground">السمنة:</span>
+            <span className="font-medium text-foreground">30.0 وما فوق</span>
           </div>
         </div>
       </div>

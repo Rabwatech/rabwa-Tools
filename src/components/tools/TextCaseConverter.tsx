@@ -28,27 +28,27 @@ export const TextCaseConverter = () => {
   };
 
   const convertions = [
-    { name: 'UPPERCASE', key: 'uppercase', description: 'ALL LETTERS CAPITALIZED' },
-    { name: 'lowercase', key: 'lowercase', description: 'all letters small' },
-    { name: 'Title Case', key: 'titleCase', description: 'First Letter Of Each Word Capitalized' },
-    { name: 'camelCase', key: 'camelCase', description: 'firstWordLowercaseRestCapitalized' },
-    { name: 'PascalCase', key: 'pascalCase', description: 'FirstLetterOfEachWordCapitalized' },
-    { name: 'snake_case', key: 'snakeCase', description: 'words_separated_by_underscores' },
-    { name: 'kebab-case', key: 'kebabCase', description: 'words-separated-by-hyphens' },
-    { name: 'CONSTANT_CASE', key: 'constantCase', description: 'WORDS_SEPARATED_BY_UNDERSCORES' },
+    { name: 'UPPERCASE', key: 'uppercase', description: 'جميع الأحرف كبيرة' },
+    { name: 'lowercase', key: 'lowercase', description: 'جميع الأحرف صغيرة' },
+    { name: 'Title Case', key: 'titleCase', description: 'الحرف الأول من كل كلمة كبير' },
+    { name: 'camelCase', key: 'camelCase', description: 'الكلمة الأولى صغيرة والباقي كبير' },
+    { name: 'PascalCase', key: 'pascalCase', description: 'الحرف الأول من كل كلمة كبير' },
+    { name: 'snake_case', key: 'snakeCase', description: 'كلمات مفصولة بشرطات سفلية' },
+    { name: 'kebab-case', key: 'kebabCase', description: 'كلمات مفصولة بشرطات' },
+    { name: 'CONSTANT_CASE', key: 'constantCase', description: 'كلمات مفصولة بشرطات سفلية' },
   ];
 
   return (
     <div className="space-y-6">
       <div>
         <label htmlFor="text-input" className="block text-sm font-medium text-foreground mb-2">
-          Enter text to convert
+          أدخل النص للتحويل
         </label>
         <textarea
           id="text-input"
           value={text}
           onChange={(e) => setText(e.target.value)}
-          placeholder="Type your text here..."
+          placeholder="اكتب نصك هنا..."
           className="tool-input h-32"
         />
       </div>
@@ -64,7 +64,7 @@ export const TextCaseConverter = () => {
               <button
                 onClick={() => copyToClipboard(conversions[conversion.key as keyof typeof conversions], conversion.name)}
                 className="p-2 rounded-lg hover:bg-background transition-colors"
-                title="Copy to clipboard"
+                title="نسخ إلى الحافظة"
               >
                 <Copy className="w-4 h-4 text-muted-foreground" />
               </button>
@@ -82,7 +82,7 @@ export const TextCaseConverter = () => {
           className="btn-secondary flex items-center gap-2"
         >
           <RefreshCw className="w-4 h-4" />
-          Clear Text
+          مسح النص
         </button>
       </div>
 
@@ -90,25 +90,25 @@ export const TextCaseConverter = () => {
         <div className="bg-muted/50 rounded-lg p-4">
           <h4 className="font-medium text-foreground mb-2 flex items-center gap-2">
             <Type className="w-4 h-4" />
-            Text Statistics
+            إحصائيات النص
           </h4>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
             <div>
-              <span className="text-muted-foreground">Characters:</span>
+              <span className="text-muted-foreground">الأحرف:</span>
               <span className="ml-2 font-medium text-foreground">{text.length}</span>
             </div>
             <div>
-              <span className="text-muted-foreground">Words:</span>
+              <span className="text-muted-foreground">الكلمات:</span>
               <span className="ml-2 font-medium text-foreground">
                 {text.trim() ? text.trim().split(/\s+/).length : 0}
               </span>
             </div>
             <div>
-              <span className="text-muted-foreground">Lines:</span>
+              <span className="text-muted-foreground">الأسطر:</span>
               <span className="ml-2 font-medium text-foreground">{text.split('\n').length}</span>
             </div>
             <div>
-              <span className="text-muted-foreground">Sentences:</span>
+              <span className="text-muted-foreground">الجمل:</span>
               <span className="ml-2 font-medium text-foreground">
                 {text.trim() ? text.split(/[.!?]+/).filter(s => s.trim()).length : 0}
               </span>

@@ -56,12 +56,12 @@ export const QRCodeGenerator = () => {
   };
 
   const qrTypes = [
-    { value: 'text', label: 'Plain Text', icon: MessageSquare, placeholder: 'Enter any text' },
-    { value: 'url', label: 'Website URL', icon: Link, placeholder: 'Enter website URL' },
-    { value: 'email', label: 'Email Address', icon: Mail, placeholder: 'Enter email address' },
-    { value: 'Phone', label: 'Phone Number', icon: MessageSquare, placeholder: 'Enter phone number' },
-    { value: 'sms', label: 'SMS Number', icon: MessageSquare, placeholder: 'Enter SMS number' },
-    { value: 'wifi', label: 'WiFi Network', icon: Wifi, placeholder: 'Network Name, Password' },
+    { value: 'text', label: 'نص عادي', icon: MessageSquare, placeholder: 'أدخل أي نص' },
+    { value: 'url', label: 'رابط الموقع', icon: Link, placeholder: 'أدخل رابط الموقع' },
+    { value: 'email', label: 'عنوان البريد الإلكتروني', icon: Mail, placeholder: 'أدخل عنوان البريد الإلكتروني' },
+    { value: 'Phone', label: 'رقم الهاتف', icon: MessageSquare, placeholder: 'أدخل رقم الهاتف' },
+    { value: 'sms', label: 'رقم الرسائل النصية', icon: MessageSquare, placeholder: 'أدخل رقم الرسائل النصية' },
+    { value: 'wifi', label: 'شبكة WiFi', icon: Wifi, placeholder: 'اسم الشبكة، كلمة المرور' },
   ];
 
   const currentType = qrTypes.find(type => type.value === qrType);
@@ -71,7 +71,7 @@ export const QRCodeGenerator = () => {
       {/* QR Type Selection */}
       <div>
         <label className="block text-sm font-medium text-foreground mb-2">
-          QR Code Type
+          نوع رمز QR
         </label>
         <select
           value={qrType}
@@ -89,7 +89,7 @@ export const QRCodeGenerator = () => {
       {/* Input Field */}
       <div>
         <label className="block text-sm font-medium text-foreground mb-2">
-          {currentType?.label} Content
+          محتوى {currentType?.label}
         </label>
         <textarea
           value={text}
@@ -99,7 +99,7 @@ export const QRCodeGenerator = () => {
         />
         {qrType === 'wifi' && (
           <p className="text-xs text-muted-foreground mt-1">
-            Format: Network Name, Password (separated by comma)
+            التنسيق: اسم الشبكة، كلمة المرور (مفصولة بفاصلة)
           </p>
         )}
       </div>
@@ -107,7 +107,7 @@ export const QRCodeGenerator = () => {
       {/* Size Control */}
       <div>
         <label className="block text-sm font-medium text-foreground mb-2">
-          QR Code Size: {size}x{size}px
+          حجم رمز QR: {size}x{size} بكسل
         </label>
         <input
           type="range"
@@ -127,20 +127,20 @@ export const QRCodeGenerator = () => {
         className="btn-primary w-full flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
       >
         <QrCode className="w-4 h-4" />
-        Generate QR Code
+        إنشاء رمز QR
       </button>
 
       {/* Generated QR Code */}
       {qrData && (
         <div className="space-y-4">
           <div className="bg-card border border-border rounded-xl p-6">
-            <h3 className="font-medium text-foreground mb-4 text-center">Generated QR Code</h3>
+            <h3 className="font-medium text-foreground mb-4 text-center">رمز QR المنشأ</h3>
             
             <div className="flex justify-center mb-4">
               <div className="bg-white p-4 rounded-lg border">
                 <img
                   src={getQRCodeURL(qrData)}
-                  alt="Generated QR Code"
+                  alt="رمز QR المنشأ"
                   className="block"
                   style={{ width: size, height: size }}
                 />
@@ -153,7 +153,7 @@ export const QRCodeGenerator = () => {
                 className="btn-primary flex items-center gap-2"
               >
                 <Download className="w-4 h-4" />
-                Download
+                تحميل
               </button>
               
               <button
@@ -161,14 +161,14 @@ export const QRCodeGenerator = () => {
                 className="btn-secondary flex items-center gap-2"
               >
                 <Copy className="w-4 h-4" />
-                Copy Data
+                نسخ البيانات
               </button>
             </div>
           </div>
 
           {/* QR Data Display */}
           <div className="bg-muted/50 rounded-lg p-4">
-            <h4 className="font-medium text-foreground mb-2">QR Code Data</h4>
+            <h4 className="font-medium text-foreground mb-2">بيانات رمز QR</h4>
             <div className="bg-background rounded p-3 border border-input-border font-mono text-sm break-all">
               {qrData}
             </div>
@@ -178,33 +178,33 @@ export const QRCodeGenerator = () => {
 
       {/* Usage Examples */}
       <div className="bg-muted/50 rounded-lg p-4">
-        <h4 className="font-medium text-foreground mb-3">Usage Examples</h4>
+        <h4 className="font-medium text-foreground mb-3">أمثلة للاستخدام</h4>
         <div className="space-y-3 text-sm">
-          <div>
-            <strong className="text-foreground">Website URL:</strong>
-            <span className="text-muted-foreground ml-2">https://example.com</span>
-          </div>
-          <div>
-            <strong className="text-foreground">Email:</strong>
-            <span className="text-muted-foreground ml-2">contact@example.com</span>
-          </div>
-          <div>
-            <strong className="text-foreground">Phone:</strong>
-            <span className="text-muted-foreground ml-2">+1234567890</span>
-          </div>
-          <div>
-            <strong className="text-foreground">WiFi:</strong>
-            <span className="text-muted-foreground ml-2">MyNetwork, MyPassword123</span>
-          </div>
-          <div>
-            <strong className="text-foreground">Plain Text:</strong>
-            <span className="text-muted-foreground ml-2">Any text you want to encode</span>
-          </div>
+                      <div>
+              <strong className="text-foreground">رابط الموقع:</strong>
+              <span className="text-muted-foreground ml-2">https://example.com</span>
+            </div>
+            <div>
+              <strong className="text-foreground">البريد الإلكتروني:</strong>
+              <span className="text-muted-foreground ml-2">contact@example.com</span>
+            </div>
+            <div>
+              <strong className="text-foreground">الهاتف:</strong>
+              <span className="text-muted-foreground ml-2">+1234567890</span>
+            </div>
+            <div>
+              <strong className="text-foreground">WiFi:</strong>
+              <span className="text-muted-foreground ml-2">MyNetwork, MyPassword123</span>
+            </div>
+            <div>
+              <strong className="text-foreground">نص عادي:</strong>
+              <span className="text-muted-foreground ml-2">أي نص تريد ترميزه</span>
+            </div>
         </div>
       </div>
 
       <div className="text-xs text-muted-foreground text-center">
-        QR codes are generated using a secure third-party service. No data is stored or logged.
+        يتم إنشاء رموز QR باستخدام خدمة خارجية آمنة. لا يتم تخزين أو تسجيل أي بيانات.
       </div>
     </div>
   );
